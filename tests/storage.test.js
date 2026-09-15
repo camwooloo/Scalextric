@@ -68,3 +68,26 @@ test("track import rejects non-finite or unbounded coordinates", () => {
     false,
   );
 });
+
+test("adding presets preserves the selected custom circuit in old saves", () => {
+  const p = normalize({
+    version: 1,
+    owned: ["porsche"],
+    lastTrack: 3,
+    tracks: [
+      {
+        name: "My track",
+        points: [
+          [0, 0],
+          [8, 0],
+          [8, 8],
+          [0, 8],
+        ],
+      },
+    ],
+  });
+  assert.equal(p.lastTrack, p.presetCount);
+  assert.equal(p.tracks[0].name, "My track");
+  const again = normalize({ ...p, version: 1 });
+  assert.equal(again.lastTrack, p.lastTrack);
+});

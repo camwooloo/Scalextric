@@ -2483,3 +2483,55 @@ input[type="range"] {
   color: inherit;
   padding: 0;
 }
+.car-art {
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
+.car-stage .car-art {
+  height: 160px;
+  transform: scale(1.2);
+}
+.garage-feature .car-art {
+  transform: scale(1.3);
+}
+.car-card .car-bg-number {
+  opacity: 0.55;
+}
+.legal-note a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.setup-preview .preview-caption {
+  background: linear-gradient(0deg, #14201fdd, transparent);
+  margin: -28px;
+  padding: 45px 28px 28px;
+  border-radius: 0 0 7px 7px;
+}
+.preset-card h3 {
+  white-space: normal;
+}
+.car-card h2 {
+  min-height: 2.4em;
+}
+.car-stage {
+  overflow: hidden;
+}
+.hero #scene-mount {
+  inset: -6% -7% -2% 21%;
+}
+@media (max-width: 760px) {
+  .hero #scene-mount {
+    inset: -20% -25% 0 -15%;
+  }
+}
+@media (max-width: 540px) {
+  .hero #scene-mount {
+    inset: -27% -32% 0 -32%;
+  }
+  .car-stage .car-art {
+    height: 110px;
+  }
+  .car-card h2 {
+    min-height: 32px;
+  }
+}

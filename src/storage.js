@@ -1,4 +1,4 @@
-import { cars } from "./data.js";
+import { cars, presets } from "./data.js";
 const KEY = "slot-club:v1";
 const defaults = {
   owned: ["porsche"],
@@ -8,6 +8,7 @@ const defaults = {
   races: 0,
   settings: { quality: "auto", sound: true },
   lastTrack: 0,
+  presetCount: presets.length,
   racePrefs: { mode: "slot", type: "race", laps: 3 },
 };
 export function validTrack(t) {
@@ -18,6 +19,10 @@ export function validTrack(t) {
     Array.isArray(t.points) &&
     t.points.length >= 4 &&
     t.points.length <= 40 &&
+    (!t.heights ||
+      (Array.isArray(t.heights) &&
+        t.heights.length === t.points.length &&
+        t.heights.every((v) => Number.isFinite(v) && v >= 0 && v <= 5))) &&
     t.points.every(
       (p) =>
         Array.isArray(p) &&
@@ -45,8 +50,13 @@ export function normalize(raw) {
     tracks,
     records,
     races: Number.isInteger(raw.races) && raw.races >= 0 ? raw.races : 0,
+    presetCount: presets.length,
     lastTrack:
-      Number.isInteger(raw.lastTrack) && raw.lastTrack >= 0 ? raw.lastTrack : 0,
+      Number.isInteger(raw.lastTrack) && raw.lastTrack >= 0
+        ? raw.lastTrack >= (raw.presetCount || 3)
+          ? raw.lastTrack + presets.length - (raw.presetCount || 3)
+          : raw.lastTrack
+        : 0,
     settings: {
       quality: ["auto", "high", "low"].includes(raw.settings?.quality)
         ? raw.settings.quality

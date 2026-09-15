@@ -1,72 +1,120 @@
-# Slot Club · Scalextric
+<div align="center">
 
-A complete local-first, single-player browser slot-car game built with Three.js and Vite. Warm motorsport menus surround a live miniature circuit. No account, backend, paid assets, or API keys required.
+# SLOT CLUB
+### Small cars. Big racing.
 
-## Run
+A miniature motorsport playground. Build a circuit, collect your favourite cars, and find the limit of the slot.
 
-Requires Node.js 22.12+.
+**[PLAY IN YOUR BROWSER ↗](https://scalextric-chi.vercel.app/)**
 
-```sh
-npm install
-npm run dev
-```
+[![Play Slot Club](https://img.shields.io/badge/PLAY-SLOT_CLUB-ee623b?style=for-the-badge)](https://scalextric-chi.vercel.app/)
+![Three.js](https://img.shields.io/badge/3D-THREE.JS-293b31?style=for-the-badge)
+![Circuits](https://img.shields.io/badge/CIRCUITS-09-718561?style=for-the-badge)
+![Collection](https://img.shields.io/badge/CARS-ALL_FREE-ee623b?style=for-the-badge)
 
-Open http://localhost:5173. To play on a phone connected to the same Wi-Fi, use the Network URL printed by Vite. Your Mac must be awake and the dev server running.
+<br>
 
-```sh
-npm run build       # production files in dist/
-npm run preview     # preview the production build
-npm test            # physics and storage unit tests
-npm run test:e2e    # browser interaction tests
-```
+[![The Slot Club paddock](docs/screenshots/paddock.png)](https://scalextric-chi.vercel.app/)
 
-Install the test browser once with `npx playwright install chromium`.
+</div>
 
-## Play
+## The feeling of a real slot-car set
 
-- **Classic slot:** a camera follows your car from above; squeeze the virtual controller and release before bends.
-- **Driver view:** chase, cockpit, and bumper cameras; the car remains constrained to its slot, as in a real slot-car set.
-- **Grand Prix:** race an AI opponent over 3, 5, or 10 laps.
-- **Time trial:** finish the selected laps and save your fastest lap.
-- **Free run:** unlimited practice.
-- Cars lose their slot when lateral force exceeds their grip. They leave along the tangent, tumble, and must be re-slotted. Braking and coasting help avoid crashes.
+The guide slot keeps you on the racing line. Your job is to judge the throttle.
 
-| Control | Keyboard | Touch |
-| --- | --- | --- |
-| Accelerate | W / ↑ / Space | Hold orange trigger |
-| Precise throttle | On-screen slider | On-screen slider |
-| Brake | S / ↓ | Hold Brake |
-| Change camera | C | Camera button |
-| Re-slot after crash | R | Reset button |
-| Pause | Esc / P | Pause button |
+Accelerate down the straights, ease off through the corners, and watch the grip meter as the car approaches its limit. Brief spikes in cornering force give you room to recover. Sustained overspeed sends the car out of its slot, with a tumble and a quick re-slot to get you racing again.
 
-The race pauses when the browser loses focus or becomes hidden.
+The circuit sits on a miniature tabletop, complete with moulded track sections, twin slots, metallic power rails, textured asphalt, borders, crash barriers, pit garages, tyre stacks, trees, signs, bridge supports, and lighting rigs.
 
-## Track studio
+<table>
+<tr>
+<td width="50%"><img src="docs/screenshots/racing.png" alt="Detailed Porsche on the club circuit in chase-camera mode"><br><strong>Get closer to the racing.</strong><br>Chase, cockpit, bumper, and classic tabletop cameras.</td>
+<td width="50%"><img src="docs/screenshots/night.png" alt="Floodlit night racing"><br><strong>Stay for the night session.</strong><br>Floodlit track surfaces and an after-dark atmosphere.</td>
+</tr>
+</table>
 
-Three ready-to-race presets: Club Circuit, Classic Oval, and the elevated Crossover. Drag control handles on the top-down editor; insert straight, curved, or chicane sections, toggle borders, and add a raised bridge. Undo, name, save, and test your circuit. Tracks form a continuous closed spline through the handles, with visible modular seams, twin guide slots, metal rails, kerbs, and bridge supports. The editor is a creative spline builder, not a dimensionally accurate catalogue of physical Scalextric parts. Keep unrelated sections apart except for the raised crossing.
+## A garage worth coming back to
 
-## Garage
+Six detailed, downloadable 3D car models replace the original block-shaped cars. Each has its own silhouette, bodywork, wheels, glass, materials, and handling characteristics. The garage thumbnails are rendered from the same models used on the track.
 
-Six free original, stylised car models inspired by Porsche 911 GT3, Ford Mustang, McLaren 720S, Mini Cooper S, Aston Martin Vantage, and BMW M3 E30. Cars differ in maximum speed, acceleration, and grip. Collect and select them in the car shop.
+**Porsche 911 GT3 RS · Ford Mustang Mach 1 · McLaren P1 GTR · Mini Cooper S · Aston Martin DB11 · BMW M4 Competition**
 
-## Saves and a future backend
+Every car is free to collect. No checkout. No account required.
 
-`src/storage.js` owns the versioned storage boundary (`slot-club:v1` in localStorage). Cars, selected car, custom tracks, last circuit, best laps, race count, and preferences persist in the same browser and origin. Settings includes JSON export/import for backup and transfer. Clearing site data removes local saves. The storage functions can later be replaced by an authenticated database adapter; rendering and physics do not access the storage mechanism directly.
+![The car collection](docs/screenshots/garage.png)
 
-## Rendering and mobile
+## Nine starting lines. Your own next.
 
-Responsive layouts include a mobile bottom navigation bar, a touch track editor, touch throttle/brake, safe-area spacing, and portrait/landscape race HUDs. Static track geometry is batched by material, pixel ratio is capped, and adaptive quality disables shadows and lowers resolution on smaller/slower devices. Rendering is skipped for hidden scenes and background tabs. HUD updates are throttled. Fonts and all game assets are bundled locally.
+| Circuit | Character |
+| :--- | :--- |
+| **The Club Circuit** | The all-rounder: fast straights and technical corners |
+| **The Classic Oval** | A simple circuit for finding your rhythm |
+| **The Crossover** | An elevated crossing and two demanding loops |
+| **The Coastal Sprint** | Open straights and generous sweeping bends |
+| **The Grand Prix** | A pit straight, stadium loop, and technical infield |
+| **The Alpine Pass** | Elevation changes and a forest hairpin |
+| **The Endurance Ring** | A fast outer loop with an infield challenge |
+| **The Night Session** | Floodlit racing after dark |
+| **The Club Hairpins** | Short straights and tight return bends |
 
-Tested with automated desktop and emulated mobile Chromium. Real-device Safari/Android performance depends on hardware and should be verified before a public launch; no universal frame-rate guarantee is implied.
+### Your track. Your rules.
 
-## Structure
+Track Studio lets you shape a closed circuit, insert straight, curved, and chicane sections, add borders and a bridge, undo changes, and save the result to your collection. The editor uses a continuous spline through editable control points; it is a creative circuit builder rather than an exact physical-parts catalogue.
 
-- `src/main.js` — menus, editor interactions, race state, controls, audio, HUD
-- `src/scene.js` — Three.js track, cars, scenery, lighting, camera rigs, static batching
-- `src/data.js` — cars, circuit presets, pure handling functions
-- `src/storage.js` — versioned local saves
-- `src/style.css` — responsive interface and animations
-- `tests/` — physics and end-to-end regression tests
+![Track Studio](docs/screenshots/studio.png)
 
-Independent fan project, not affiliated with Scalextric, Hornby, or vehicle manufacturers. Original procedural models and illustrations; no official logos or proprietary model assets are included. Reference: https://uk.scalextric.com/ .
+## Race your way
+
+| Experience | What’s on the grid |
+| :--- | :--- |
+| **Classic slot** | A following tabletop camera and a virtual throttle controller |
+| **Driver view** | Chase, cockpit, and bumper perspectives |
+| **Grand Prix** | An AI rival over 3, 5, or 10 laps |
+| **Time trial** | A personal best waiting to be beaten |
+| **Free run** | Unlimited laps to learn the track |
+
+## Built for a quick race
+
+- **Desktop and mobile:** responsive menus, touch controls, and a touch-friendly track editor.
+- **Your collection stays with you:** cars, custom circuits, personal bests, and preferences save in browser storage.
+- **Backups included:** export and import your save from Settings.
+- **Detail with a budget:** compressed models, smaller mobile variants, shared model caching, batched scenery, and adaptive graphics quality.
+- **Pause when life happens:** the race pauses when you leave the tab.
+
+Saves are local to the browser and site address. Cloud accounts and database storage are planned for a later stage.
+
+---
+
+<details>
+<summary><strong>Meet the model artists · attribution and licences</strong></summary>
+
+<br>
+
+These are detailed community-made representations of real cars, not manufacturer CAD files. The garage names match the actual assets used.
+
+| Model | Artist | Licence |
+| :--- | :--- | :--- |
+| [2023 Porsche 911 GT3 RS 2.7 Carrera Tribute](https://sketchfab.com/3d-models/2023-porsche-911-gt3-rs-27-carrera-tribute-992-f17a982d5d8a4d97baef4b00b51a4e9a) | Ddiaz Design | [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) |
+| [1969 Ford Mustang Mach-1 428 Cobra Jet](https://sketchfab.com/3d-models/1969-ford-mustang-mach-1-428-cobra-jet-679cdf81b9854759860b0afe9d1e4012) | Ddiaz Design | [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) |
+| [McLaren P1 GTR](https://sketchfab.com/3d-models/free-mclaren-p1-gtr-d805bec04cf5407fa7c036c20c726d39) | Desiccated_Lemon | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| [Mini Cooper S](https://sketchfab.com/3d-models/mini-cooper-s-2baca439d2494e02b99596014b49ebd3) | GT Cars | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| [2017 Aston Martin DB11](https://sketchfab.com/3d-models/2017-aston-martin-db11-52l-twin-turbo-v12-936854ba7dde46f09a47d355d433808c) | Hari31 | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| [BMW M4 Competition M Package](https://sketchfab.com/3d-models/bmw-m4-competition-m-package-5c0a2dafb1ad408d9fc9eeef9aee531b) | SRT Performance | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+
+Models were simplified, merged, texture-resized, compressed, oriented, and scaled for browser use. Optimised models and their renders retain their respective asset licences. Porsche and Ford derivatives are non-commercial and share-alike. These asset licences do not relicense the game code or unrelated content.
+
+[Full in-game credits](https://scalextric-chi.vercel.app/credits.html) · [Machine-readable credits](public/models/credits.json)
+
+</details>
+
+<br>
+
+<div align="center">
+
+**Built for the love of the race.**
+
+[Enter the paddock ↗](https://scalextric-chi.vercel.app/)
+
+<sub>Independent fan project. Not affiliated with Scalextric, Hornby, or vehicle manufacturers.</sub>
+
+</div>

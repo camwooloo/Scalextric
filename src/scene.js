@@ -1,104 +1,7 @@
 import * as THREE from "three";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
-export function makeCar(spec) {
-  const g = new THREE.Group();
-  const paint = new THREE.MeshPhysicalMaterial({
-    color: spec.color,
-    metalness: 0.55,
-    roughness: 0.25,
-    clearcoat: 1,
-  });
-  const dark = new THREE.MeshStandardMaterial({
-    color: 0x10171a,
-    roughness: 0.3,
-    metalness: 0.5,
-  });
-  function box(w, h, d, x, y, z, m) {
-    let o = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), m);
-    o.position.set(x, y, z);
-    o.castShadow = true;
-    g.add(o);
-    return o;
-  }
-  const mini = spec.id === "mini",
-    muscle = spec.id === "ford";
-  box(1.02, 0.25, mini ? 1.7 : 2.1, 0, 0.32, 0, paint);
-  box(0.93, 0.2, 1.8, 0, 0.49, 0, paint);
-  let cabin = box(
-    0.77,
-    mini ? 0.47 : 0.34,
-    mini ? 1.02 : 0.86,
-    0,
-    0.73,
-    mini ? -0.08 : -0.12,
-    dark,
-  );
-  cabin.rotation.x = -0.08;
-  box(0.74, 0.07, 0.66, 0, mini ? 1 : 0.92, -0.18, paint);
-  box(
-    0.18,
-    0.012,
-    0.64,
-    0,
-    mini ? 1.04 : 0.963,
-    -0.18,
-    new THREE.MeshStandardMaterial({ color: 0xf6f0df }),
-  );
-  box(
-    0.18,
-    0.015,
-    0.64,
-    0,
-    0.61,
-    0.62,
-    new THREE.MeshStandardMaterial({ color: 0xf6f0df }),
-  );
-  if (!mini) {
-    box(1.15, 0.07, 0.23, 0, 0.8, -0.91, dark);
-    for (let x of [-0.4, 0.4]) box(0.045, 0.23, 0.04, x, 0.67, -0.91, dark);
-  }
-  for (let x of [-0.53, 0.53])
-    for (let z of [-0.64, 0.64]) {
-      let wheel = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.25, 0.25, 0.17, 16),
-        dark,
-      );
-      wheel.rotation.z = Math.PI / 2;
-      wheel.position.set(x, 0.28, z);
-      g.add(wheel);
-      let rim = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.14, 0.14, 0.175, 8),
-        new THREE.MeshStandardMaterial({
-          color: 0xb9bdba,
-          metalness: 0.9,
-          roughness: 0.2,
-        }),
-      );
-      rim.rotation.z = Math.PI / 2;
-      rim.position.copy(wheel.position);
-      g.add(rim);
-    }
-  const lights = new THREE.MeshStandardMaterial({
-    color: 0xfff3cd,
-    emissive: 0xffedb6,
-    emissiveIntensity: 2,
-  });
-  for (let x of [-0.33, 0.33]) {
-    box(0.22, 0.085, 0.035, x, 0.5, mini ? 0.86 : 1.055, lights);
-    box(
-      0.22,
-      0.06,
-      0.035,
-      x,
-      0.49,
-      -1.055,
-      new THREE.MeshStandardMaterial({ color: 0xfe3022, emissive: 0xff2211 }),
-    );
-  }
-  if (muscle) box(0.65, 0.045, 0.3, 0, 0.63, 0.5, dark);
-  return g;
-}
+import { loadCar, releaseCar } from "./car-models";
 export class World {
   constructor(el) {
     this.el = el;
@@ -121,7 +24,8 @@ export class World {
       0.04,
     ).texture;
     pmrem.dispose();
-    this.scene.add(new THREE.HemisphereLight(0xdbe8ea, 0x34443c, 1.3));
+    this.hemi = new THREE.HemisphereLight(0xdbe8ea, 0x34443c, 1.3);
+    this.scene.add(this.hemi);
     let sun = new THREE.DirectionalLight(0xffefdb, 3);
     sun.position.set(-15, 35, 15);
     sun.castShadow = true;
@@ -133,6 +37,7 @@ export class World {
       bottom: -30,
     });
     sun.shadow.bias = -0.0004;
+    this.sun = sun;
     this.scene.add(sun);
     this.track = new THREE.Group();
     this.scene.add(this.track);
@@ -173,22 +78,43 @@ export class World {
     }
     let pts = config.points.map(
       (p, i) =>
-        new THREE.Vector3(p[0], config.bridge && i === 2 ? 3.5 : 0, p[1]),
+        new THREE.Vector3(
+          p[0],
+          config.bridge ? (config.heights?.[i] ?? (i === 2 ? 3.5 : 0)) : 0,
+          p[1],
+        ),
     );
     this.curve = new THREE.CatmullRomCurve3(pts, true, "centripetal");
     this.length = this.curve.getLength();
-    this.box(39, 0.7, 24, 0, -0.7, 0, 0x566455);
-    this.box(39.4, 0.35, 24.4, 0, -1.2, 0, 0x172320);
+    this.setDiorama(config);
+    this.box(
+      42,
+      0.7,
+      26,
+      0,
+      -0.7,
+      0,
+      config.theme === "coast"
+        ? 0xc2b997
+        : config.theme === "alpine"
+          ? 0x405443
+          : 0x465741,
+    );
+    this.box(42.4, 0.35, 26.4, 0, -1.2, 0, 0x172320);
     const n = 700;
+    const asphalt = this.makeTexture("asphalt");
     const ribbon = (a, b, height, color, parity = null) => {
       let vs = [],
+        uv = [],
         ix = [];
       for (let i = 0; i <= n; i++) {
         let p = this.curve.getPointAt(i / n),
           t = this.curve.getTangentAt(i / n),
           normal = new THREE.Vector3(-t.z, 0, t.x).normalize();
-        for (let off of [a, b])
+        for (let off of [a, b]) {
           vs.push(p.x + normal.x * off, p.y + height, p.z + normal.z * off);
+          uv.push(((i / n) * this.length) / 3, (off - a) / (b - a));
+        }
         if (
           i < n &&
           (parity === null ||
@@ -200,6 +126,7 @@ export class World {
       }
       let geom = new THREE.BufferGeometry();
       geom.setAttribute("position", new THREE.Float32BufferAttribute(vs, 3));
+      geom.setAttribute("uv", new THREE.Float32BufferAttribute(uv, 2));
       geom.setIndex(ix);
       geom.computeVertexNormals();
       let mesh = new THREE.Mesh(
@@ -210,6 +137,15 @@ export class World {
           side: THREE.DoubleSide,
         }),
       );
+      if (color === 0x363b3c) {
+        mesh.material.map = asphalt;
+        mesh.material.bumpMap = asphalt;
+        mesh.material.bumpScale = 0.012;
+      }
+      if (color === 0x9a9f9b) {
+        mesh.material.metalness = 0.85;
+        mesh.material.roughness = 0.23;
+      }
       mesh.receiveShadow = true;
       this.track.add(mesh);
     };
@@ -279,6 +215,10 @@ export class World {
     );
     sign.position.set(0, 2.5, 0.12);
     gate.add(sign);
+    const backSign = sign.clone();
+    backSign.position.z = -0.12;
+    backSign.rotation.y = Math.PI;
+    gate.add(backSign);
     // Miniature trees and trackside architecture.
     for (let i = 0; i < 48; i++) {
       let x = Math.sin(i * 93.7) * 18,
@@ -291,7 +231,7 @@ export class World {
           break;
         }
       }
-      if (close) continue;
+      if (close || z < -8.8 || z > 9.3) continue;
       let h = 1.1 + (i % 4) * 0.25;
       this.box(0.1, h, 0.1, x, h / 2 - 0.2, z, 0x705d47);
       let tree = new THREE.Mesh(
@@ -310,8 +250,8 @@ export class World {
       for (let j = 0; j < 5; j++)
         this.box(0.35, 0.2, 0.4, 2 + i * 3 + j * 0.45, 0.47, 9.6, 0xec6a3c);
     }
-    this.box(4, 0.65, 2, -8, 0, -10, 0xe5dfcd);
-    this.box(4.3, 0.12, 2.3, -8, 0.4, -10, 0x24302e);
+
+    this.addDetails(config);
     // Batch static meshes by material to keep mobile draw calls low.
     this.track.updateMatrixWorld(true);
     const batches = new Map(),
@@ -344,16 +284,271 @@ export class World {
       geometries.forEach((g) => g.dispose());
     }
   }
+  makeTexture(kind) {
+    const canvas = document.createElement("canvas");
+    canvas.width = canvas.height = 256;
+    const ctx = canvas.getContext("2d");
+    let seed = 4281;
+    const random = () => {
+      seed = (seed * 1664525 + 1013904223) >>> 0;
+      return seed / 4294967296;
+    };
+    if (kind === "wood") {
+      ctx.fillStyle = "#665041";
+      ctx.fillRect(0, 0, 256, 256);
+      for (let j = 0; j < 1000; j++) {
+        ctx.strokeStyle = `rgba(${random() > 0.5 ? "205,171,125" : "27,20,16"},${random() * 0.15})`;
+        ctx.beginPath();
+        let y = random() * 256;
+        ctx.moveTo(0, y);
+        ctx.bezierCurveTo(60, y + random() * 5, 180, y - random() * 5, 256, y);
+        ctx.stroke();
+      }
+    } else {
+      const data = ctx.createImageData(256, 256);
+      for (let j = 0; j < data.data.length; j += 4) {
+        let v = 135 + random() * 55;
+        data.data[j] = v;
+        data.data[j + 1] = v;
+        data.data[j + 2] = v;
+        data.data[j + 3] = 255;
+      }
+      ctx.putImageData(data, 0, 0);
+    }
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+    texture.colorSpace = THREE.SRGBColorSpace;
+    texture.anisotropy = Math.min(
+      4,
+      this.renderer.capabilities.getMaxAnisotropy(),
+    );
+    return texture;
+  }
+  setDiorama(config) {
+    this.night = config.theme === "night";
+    this.scene.background.set(this.night ? "#101923" : "#202c29");
+    this.scene.fog.color.copy(this.scene.background);
+    this.sun.color.set(this.night ? 0x9dbbff : 0xffefd8);
+    this.sun.intensity = this.night ? 0.35 : 3.2;
+    this.hemi.intensity = this.night ? 0.18 : 1.3;
+    this.scene.environmentIntensity = this.night ? 0.25 : 0.8;
+    const desk = this.box(46, 0.55, 30, 0, -1.75, 0, 0x99775c);
+    desk.material.map = this.makeTexture("wood");
+    desk.material.roughness = 0.42;
+    for (const x of [-18, 18])
+      for (const z of [-11, 11]) this.box(0.55, 4, 0.55, x, -4, z, 0x262b29);
+    const floor = this.box(180, 0.25, 180, 0, -6.15, 0, 0x1e2926);
+    floor.castShadow = false;
+  }
+  label(
+    text,
+    x,
+    y,
+    z,
+    width = 3,
+    rotation = 0,
+    bg = "#e8e4d6",
+    color = "#26372f",
+  ) {
+    const canvas = document.createElement("canvas");
+    canvas.width = 512;
+    canvas.height = 128;
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, 512, 128);
+    ctx.fillStyle = color;
+    ctx.textAlign = "center";
+    ctx.font = "italic 900 55px Arial";
+    ctx.fillText(text, 256, 83);
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.colorSpace = THREE.SRGBColorSpace;
+    const panel = new THREE.Mesh(
+      new THREE.PlaneGeometry(width, width / 4),
+      new THREE.MeshStandardMaterial({
+        map: texture,
+        side: THREE.DoubleSide,
+        roughness: 0.6,
+      }),
+    );
+    panel.position.set(x, y, z);
+    panel.rotation.y = rotation;
+    panel.material.side = THREE.FrontSide;
+    this.track.add(panel);
+    const back = panel.clone();
+    back.rotation.y += Math.PI;
+    back.position.x -= Math.sin(rotation) * 0.012;
+    back.position.z -= Math.cos(rotation) * 0.012;
+    this.track.add(back);
+  }
+  addDetails(config) {
+    // Moulded crash barriers and clip-in stanchions follow the slot-car circuit.
+    if (config.borders !== false) {
+      for (const side of [-1, 1]) {
+        const railPoints = [];
+        for (let j = 0; j <= 180; j++) {
+          const p = this.curve.getPointAt(j / 180),
+            t = this.curve.getTangentAt(j / 180);
+          p.x -= t.z * side * 1.64;
+          p.z += t.x * side * 1.64;
+          p.y += 0.46;
+          railPoints.push(p);
+        }
+        const rail = new THREE.Mesh(
+          new THREE.TubeGeometry(
+            new THREE.CatmullRomCurve3(railPoints),
+            360,
+            0.035,
+            5,
+            false,
+          ),
+          new THREE.MeshStandardMaterial({
+            color: 0xd6d7cb,
+            metalness: 0.5,
+            roughness: 0.35,
+          }),
+        );
+        this.track.add(rail);
+        for (let j = 0; j < this.length / 2; j++) {
+          const { p, t } = this.pose(j / (this.length / 2), side * 1.64);
+          let post = this.box(0.07, 0.42, 0.09, p.x, p.y + 0.22, p.z, 0xbabfb6);
+          post.rotation.y = Math.atan2(t.x, t.z);
+        }
+      }
+    }
+    const road = this.curve.getSpacedPoints(140);
+    const clear = (x, z, r) =>
+      road.every((p) => Math.hypot(x - p.x, z - p.z) > r);
+    // Tall lighting rigs, visible lights at night, and floodlit pit buildings.
+    for (const [x, z] of [
+      [-19, -11],
+      [19, -11],
+      [-19, 11],
+      [19, 11],
+    ]) {
+      this.box(0.15, 5, 0.15, x, 2.2, z, 0x4b5553);
+      this.box(1.1, 0.2, 0.45, x, 4.8, z, 0x29312f);
+      for (const dx of [-0.32, 0, 0.32]) {
+        const lamp = this.box(0.25, 0.12, 0.28, x + dx, 4.7, z, 0xf3ead2);
+        lamp.material.emissive.set(0xffe1ad);
+        lamp.material.emissiveIntensity = this.night ? 4 : 0.7;
+      }
+      if (this.night) {
+        let light = new THREE.PointLight(0xf8dab0, 300, 32, 2);
+        light.position.set(x, 4.4, z);
+        this.track.add(light);
+      }
+    }
+    const garages = [
+      [-10, -11.5],
+      [-5, -11.5],
+      [0, -11.5],
+    ];
+    for (const [x, z] of garages) {
+      if (!clear(x, z, 2.5)) continue;
+      this.box(4, 1.35, 1.8, x, 0.35, z, 0xe0e0d5);
+      this.box(4.2, 0.14, 2, x, 1.1, z, 0x283735);
+      for (let j = 0; j < 3; j++) {
+        this.box(
+          0.95,
+          0.8,
+          0.035,
+          x - 1.25 + j * 1.25,
+          0.3,
+          z + 0.92,
+          0x222e2e,
+        );
+        this.box(
+          0.9,
+          0.09,
+          0.05,
+          x - 1.25 + j * 1.25,
+          0.77,
+          z + 0.94,
+          0xff7c3a,
+        );
+      }
+      this.label("PIT LANE", x, 0.95, z + 0.95, 2.6, 0, "#253733", "#efede1");
+      this.box(3.7, 0.16, 1.5, x, 1.32, z, 0x9ba994);
+    }
+    // Trackside billboards and marshal huts in clear areas.
+    for (const [x, z, text] of [
+      [-11, 10, "SLOT CLUB"],
+      [10, -11, "1:32 RACING"],
+      [8, 11, "FULL THROTTLE"],
+    ]) {
+      if (!clear(x, z, 1.5)) continue;
+      this.label(text, x, 1, z, 3.5, Math.PI, "#e8643b", "#fff3df");
+      for (const dx of [-1.4, 1.4])
+        this.box(0.06, 1.4, 0.06, x + dx, 0.3, z, 0x5b6259);
+    }
+    // Tree canopies, rocks and small tyre stacks add miniature scale cues.
+    for (let j = 0; j < 45; j++) {
+      const x = Math.sin(j * 93.7) * 19,
+        z = Math.cos(j * 41.3) * 11;
+      if (!clear(x, z, 2.6) || z < -8.8 || z > 9.3) continue;
+      for (let k = 0; k < 3; k++) {
+        const leaves = new THREE.Mesh(
+          new THREE.IcosahedronGeometry(0.45 + k * 0.12, 1),
+          new THREE.MeshStandardMaterial({
+            color:
+              config.theme === "coast"
+                ? 0x68744b
+                : [0x415b37, 0x536b42, 0x3e5434][j % 3],
+            roughness: 1,
+          }),
+        );
+        leaves.position.set(x + (k - 1) * 0.22, 1.5 + k * 0.28, z);
+        leaves.castShadow = true;
+        this.track.add(leaves);
+      }
+    }
+    for (let j = 0; j < 14; j++) {
+      const u = j / 14,
+        { p, t } = this.pose(u, 2.1);
+      if (p.y > 0.2) continue;
+      for (let k = 0; k < 3; k++) {
+        const tyre = new THREE.Mesh(
+          new THREE.TorusGeometry(0.17, 0.065, 6, 12),
+          new THREE.MeshStandardMaterial({
+            color: j % 3 ? 0x202726 : 0xdddfcf,
+            roughness: 0.92,
+          }),
+        );
+        tyre.rotation.x = Math.PI / 2;
+        tyre.position.set(p.x, p.y + 0.1 + k * 0.11, p.z);
+        this.track.add(tyre);
+      }
+    }
+    // Bridge beams follow the raised road, with regularly spaced supports.
+    for (let j = 0; j < 70; j++) {
+      const p = this.curve.getPointAt(j / 70);
+      if (p.y > 0.7) {
+        this.box(0.16, p.y, 0.16, p.x, p.y / 2 - 0.15, p.z, 0x778276);
+        this.box(2.7, 0.12, 0.18, p.x, p.y - 0.12, p.z, 0xa3aa9a).rotation.y =
+          Math.atan2(
+            this.curve.getTangentAt(j / 70).x,
+            this.curve.getTangentAt(j / 70).z,
+          );
+      }
+    }
+  }
+
   setCars(spec, opponent) {
-    this.vehicles.forEach((v) => {
-      this.scene.remove(v);
-      v.traverse((o) => {
-        o.geometry?.dispose();
-        o.material?.dispose();
-      });
+    const token = Symbol();
+    this.carToken = token;
+    this.carReady = Promise.all([
+      loadCar({ ...spec, lowDetail: this.lowDetail }),
+      loadCar({ ...opponent, lowDetail: this.lowDetail }),
+    ]).then((vehicles) => {
+      if (this.carToken !== token) return;
+      this.vehicles.forEach(releaseCar);
+      this.vehicles = vehicles;
+      this.vehicles.forEach((v) => this.scene.add(v));
     });
-    this.vehicles = [makeCar(spec), makeCar(opponent)];
-    this.vehicles.forEach((v) => this.scene.add(v));
+    this.carReady.catch((error) =>
+      console.error("Car model could not load", error),
+    );
+    return this.carReady;
   }
   pose(u, lane) {
     u = ((u % 1) + 1) % 1;
@@ -367,14 +562,19 @@ export class World {
       let { p, t } = this.pose(i ? state.ai : state.progress, i ? 0.6 : -0.6);
       v.position.copy(p);
       v.rotation.set(0, Math.atan2(t.x, t.z), 0);
+      v.rotateX(-Math.asin(t.y));
+      v.visible =
+        i === 0
+          ? !(state.racing && state.cam === "Bumper")
+          : !state.racing || state.opponent;
       if (i === 0 && state.off > 0) {
         v.position.addScaledVector(state.fly, Math.min(state.off * 5, 6));
         v.position.y += Math.max(
           0,
           Math.sin(Math.min(state.off / 1.5, 1) * Math.PI) * 2,
         );
-        v.rotation.y += state.off * 5;
-        v.rotation.z = state.off * 2;
+        v.rotation.y += Math.min(state.off, 1.5) * 5;
+        v.rotation.z = Math.min(state.off, 1.5) * 2;
       }
     });
     let target = new THREE.Vector3(),
@@ -384,16 +584,21 @@ export class World {
       target.copy(p).addScaledVector(t, 3);
       if (state.cam === "Bumper") {
         pos.copy(p).addScaledVector(t, 1.15);
-        pos.y += 0.55;
-        target.y += 0.5;
+        pos.y += 0.23;
+        target.y += 0.23;
       } else if (state.cam === "Cockpit") {
-        pos.copy(p).addScaledVector(t, 0.15);
-        pos.y += 1.03;
-        target.y += 0.95;
+        const height = this.vehicles[0]?.userData.height || 0.7;
+        pos
+          .copy(p)
+          .addScaledVector(t, 0.02)
+          .add(new THREE.Vector3(-t.z, 0, t.x).multiplyScalar(0.14));
+        pos.y += 0.085 + height * 0.9;
+        target.y = pos.y - 0.22;
       } else if (state.cam === "Chase") {
-        pos.copy(p).addScaledVector(t, -5);
-        pos.y += 3;
-        target.y += 0.6;
+        pos.copy(p).addScaledVector(t, -6.5);
+        pos.y += 4.2;
+        target.copy(p).addScaledVector(t, 1.4);
+        target.y += 0.5;
       } else {
         pos.copy(p).add(new THREE.Vector3(12, 17, 14));
         target.copy(p);
@@ -403,7 +608,27 @@ export class World {
       pos.set(29 * Math.cos(a), 29, 35 + Math.sin(a) * 7);
       target.set(0, 0, 0);
     }
-    this.camera.position.lerp(pos, 1 - Math.exp(-dt * (state.racing ? 6 : 2)));
+    const desiredFov =
+      state.racing && ["Cockpit", "Bumper"].includes(state.cam)
+        ? 65
+        : state.racing && state.cam === "Chase"
+          ? 45
+          : 39;
+    if (this.camera.fov !== desiredFov) {
+      this.camera.fov = desiredFov;
+      this.camera.updateProjectionMatrix();
+    }
+    if (
+      state.racing &&
+      (this.lastCam !== state.cam || ["Cockpit", "Bumper"].includes(state.cam))
+    )
+      this.camera.position.copy(pos);
+    else
+      this.camera.position.lerp(
+        pos,
+        1 - Math.exp(-dt * (state.racing ? 6 : 2)),
+      );
+    this.lastCam = state.racing ? state.cam : null;
     this.camera.lookAt(target);
     this.renderer.render(this.scene, this.camera);
   }

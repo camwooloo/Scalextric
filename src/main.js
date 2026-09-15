@@ -80,6 +80,7 @@ const icons = {
   Warehouse,
   Zap,
 };
+import { sampleCurvature, stepGrip, resetHandling } from "./handling";
 import { World } from "./scene";
 import { presets, cars, stepSpeed, cornerLoad } from "./data";
 import { load, save, normalize, validTrack } from "./storage";
@@ -108,6 +109,8 @@ let state = {
   speed: 0,
   aiSpeed: 0,
   off: 0,
+  slip: 0,
+  recovery: 0,
   fly: new THREE.Vector3(),
   cam: "Tabletop",
   time: 0,
@@ -159,7 +162,7 @@ function trackSvg(config, cls = "") {
   return `<svg class="track-map ${cls}" viewBox="0 0 170 100" fill="none"><path d="${d}" stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" opacity=".15"/><path d="${d}" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><circle cx="${pts[0][0] * 4 + 85}" cy="${pts[0][1] * 4 + 49}" r="3.5" fill="#ed643c"/></svg>`;
 }
 function carArt(c) {
-  return `<svg viewBox="0 0 300 130" class="car-art" aria-label="${escape(c.name)} illustration"><ellipse cx="153" cy="106" rx="112" ry="9" fill="#000" opacity=".13"/><path d="M37 77 L60 65 L97 58 L126 32 L184 32 L219 61 L261 72 L272 91 L259 101 L42 101 L28 92Z" fill="${c.color}"/><path d="M108 57 L132 37 L179 37 L204 59Z" fill="#263638"/><path d="M155 36 L153 61" stroke="${c.color}" stroke-width="5"/><path d="M40 78 L75 74 M230 73 L258 80" stroke="#fff4c6" stroke-width="5"/><path d="M84 67 L218 67" stroke="#fff" opacity=".5"/><path d="M236 59 L266 58 L266 64 L239 65" fill="#25332f"/><circle cx="82" cy="94" r="20" fill="#192321"/><circle cx="82" cy="94" r="11" fill="#a4aaa4"/><circle cx="82" cy="94" r="5" fill="#263632"/><circle cx="225" cy="94" r="20" fill="#192321"/><circle cx="225" cy="94" r="11" fill="#a4aaa4"/><circle cx="225" cy="94" r="5" fill="#263632"/><text x="152" y="88" fill="#fff" font-size="20" font-weight="900" font-family="Arial" text-anchor="middle">${c.number}</text></svg>`;
+  return `<img class="car-art" src="/images/cars/${c.id}.webp" alt="${escape(c.name)} — in-game 3D model" loading="lazy">`;
 }
 $("#app").innerHTML =
   `<aside class="sidebar"><a href="#home" class="brand" aria-label="Slot Club home"><span class="brand-mark">s<span>c</span></span><span>SLOT<br>CLUB<span class="brand-dot">®</span></span></a><div class="sidebar-section">THE PADDOCK</div><nav>${[
@@ -180,6 +183,9 @@ const sceneEl = document.createElement("div");
 sceneEl.id = "scene";
 try {
   world = new World(sceneEl);
+  world.lowDetail =
+    profile.settings.quality === "low" ||
+    (profile.settings.quality === "auto" && innerWidth < 800);
   world.build(track());
   world.setCars(car(), cars[4]);
 } catch (err) {
@@ -235,7 +241,7 @@ function collection(shop) {
     .filter((c) => shop || profile.owned.includes(c.id))
     .map(
       (c) =>
-        `<article class="car-card"><div class="car-card-top"><span class="tiny">${c.type}</span><span class="tiny">${c.year}</span></div><div class="car-stage" style="--car-color:${c.color}"><span class="car-bg-number">${c.number}</span>${carArt(c)}</div><h2>${c.name}</h2><p class="tiny muted">REAL-CAR INSPIRED • 1:32 SCALE</p><div class="car-stats">${[
+        `<article class="car-card"><div class="car-card-top"><span class="tiny">${c.type}</span><span class="tiny">${c.year}</span></div><div class="car-stage" style="--car-color:${c.color}"><span class="car-bg-number">${c.number}</span>${carArt(c)}</div><h2>${c.name}</h2><p class="tiny muted">DETAILED 3D MODEL • 1:32 SCALE</p><div class="car-stats">${[
           ["SPEED", c.speed / 26],
           ["GRIP", c.grip / 29],
           ["ACCEL.", c.accel / 12],
@@ -250,13 +256,13 @@ function collection(shop) {
     )
     .join(
       "",
-    )}</div><p class="legal-note">Original stylised models inspired by real cars. This independent project is not affiliated with Scalextric or the vehicle manufacturers.</p>`;
+    )}</div><p class="legal-note">Detailed community-made car models. <a href="/credits.html" target="_blank" rel="noopener">Model artists & licences ↗</a> · Independent fan project.</p>`;
 }
 function tracksPage() {
   return `${heading("FROM THE CLUB. FROM YOUR IMAGINATION.", "A world of <em>possibilities.</em>", "Choose a preset or race a circuit you built yourself.", `<button class="orange-btn" data-page="builder">${i("Plus")} Build a track</button>`)}<div class="tracks-grid">${allTracks()
     .map(
       (t, j) =>
-        `<article class="large-track"><div>${trackSvg(t)}</div><span class="eyebrow">${j < 3 ? "CLUB ORIGINAL" : "YOUR CREATION"}</span><h2>${escape(t.name)}</h2><p>${escape(t.description || "Your custom club circuit.")}</p><button class="outline-btn wide" data-track-race="${j}">Race this circuit ${i("ArrowRight")}</button></article>`,
+        `<article class="large-track"><div>${trackSvg(t)}</div><span class="eyebrow">${j < presets.length ? "CLUB ORIGINAL" : "YOUR CREATION"}</span><h2>${escape(t.name)}</h2><p>${escape(t.description || "Your custom club circuit.")}</p><button class="outline-btn wide" data-track-race="${j}">Race this circuit ${i("ArrowRight")}</button></article>`,
     )
     .join("")}</div>`;
 }
@@ -361,7 +367,7 @@ function render() {
   $("#scene-mount")?.append(sceneEl);
   iconify();
   if (page === "builder") drawEditor();
-  if (world) {
+  if (world && world.vehicles[1]) {
     world.vehicles[1].visible = !(page === "playing" && raceType !== "race");
     world.resize();
   }
@@ -415,7 +421,30 @@ function startAudio() {
 function stopAudio() {
   if (gain) gain.gain.setTargetAtTime(0, audioContext.currentTime, 0.08);
 }
-function start() {
+async function start() {
+  if (state.starting) return;
+  state.starting = true;
+  const startButton = document.querySelector('[data-action="start"]');
+  if (startButton) {
+    startButton.disabled = true;
+    startButton.textContent = "Loading your car…";
+  }
+  startAudio();
+  try {
+    await world?.carReady;
+  } catch {
+    state.starting = false;
+    if (startButton) {
+      startButton.disabled = false;
+      startButton.textContent = "Retry starting grid";
+    }
+    toast(
+      "Car download failed. Check your connection and select the car again.",
+    );
+    return;
+  }
+  state.starting = false;
+  if (page !== "race" && page !== "playing") return;
   profile.racePrefs = { mode, type: raceType, laps: lapTarget };
   persist();
   if (!world) {
@@ -425,11 +454,14 @@ function start() {
   state = {
     ...state,
     racing: true,
+    opponent: raceType === "race",
     progress: 0,
     ai: 0,
     speed: 0,
     aiSpeed: 0,
     off: 0,
+    slip: 0,
+    recovery: 1.2,
     time: 0,
     lapTime: 0,
     best: Infinity,
@@ -448,13 +480,17 @@ function start() {
   startAudio();
 }
 function resetCar() {
-  if (state.off) {
-    state.off = 0;
-    state.speed = 0;
-    held = false;
-    manualThrottle = 0;
-    if ($("#throttle")) $("#throttle").value = 0;
+  if (!state.racing || state.finished) return;
+  resetHandling(state);
+  held = false;
+  brake = false;
+  manualThrottle = 0;
+  if ($("#throttle")) $("#throttle").value = 0;
+  if ($("#race-message")) {
+    $("#race-message").innerHTML = "";
+    $("#race-message").dataset.mode = "";
   }
+  world?.draw(state, 0, 0);
 }
 function modal(title, body, buttons) {
   $("#modal-root").innerHTML =
@@ -510,6 +546,7 @@ function pushHistory() {
       points: editor.points,
       bridge: editor.bridge,
       borders: editor.borders,
+      heights: editor.heights,
     }),
   );
   if (editor.history.length > 40) editor.history.shift();
@@ -533,6 +570,8 @@ function saveTrack(test = false) {
     points: structuredClone(editor.points),
     bridge: editor.bridge,
     borders: editor.borders,
+    theme: editor.theme,
+    heights: editor.heights,
     description: "Designed in your track studio. Ready for the starting grid.",
     difficulty: "Custom",
     id: editor.id || crypto.randomUUID(),
@@ -617,6 +656,14 @@ document.addEventListener("click", (e) => {
         (a[0] + b[0]) / 2 - (dz / len) * off,
         (a[1] + b[1]) / 2 + (dx / len) * off,
       ]);
+      if (editor.heights)
+        editor.heights.splice(
+          j + 1,
+          0,
+          ((editor.heights[j] || 0) +
+            (editor.heights[(j + 1) % editor.heights.length] || 0)) /
+            2,
+        );
       editor.selected = j + 1;
     }
     drawEditor();
@@ -667,6 +714,7 @@ document.addEventListener("click", (e) => {
       else {
         pushHistory();
         editor.points.splice(editor.selected, 1);
+        editor.heights?.splice(editor.selected, 1);
         editor.selected = 0;
         drawEditor();
       }
@@ -812,7 +860,7 @@ function release() {
 document.addEventListener("pointerup", release);
 document.addEventListener("pointercancel", release);
 document.addEventListener("keydown", (e) => {
-  if (/INPUT|SELECT|TEXTAREA/.test(e.target.tagName)) return;
+  if (e.target.matches("input:not([type=range]),select,textarea")) return;
   if (!state.racing) return;
   let key = e.key.toLowerCase();
   if ([" ", "arrowup", "arrowdown"].includes(key)) e.preventDefault();
@@ -828,8 +876,8 @@ document.addEventListener("keydown", (e) => {
     document.querySelector('[data-action="camera"]')?.click();
 });
 document.addEventListener("keyup", (e) => {
-  if (["w", "ArrowUp", " "].includes(e.key)) held = false;
-  if (["s", "ArrowDown"].includes(e.key)) brake = false;
+  if (["w", "arrowup", " "].includes(e.key.toLowerCase())) held = false;
+  if (["s", "arrowdown"].includes(e.key.toLowerCase())) brake = false;
 });
 window.addEventListener("blur", () => {
   release();
@@ -849,6 +897,9 @@ function applyQuality() {
     profile.settings.quality === "low" ||
     (profile.settings.quality === "auto" &&
       (innerWidth < 800 || navigator.hardwareConcurrency <= 4));
+  const detailChanged = world.lowDetail !== low;
+  world.lowDetail = low;
+  if (detailChanged) world.setCars(car(), cars[car().id === "aston" ? 0 : 4]);
   world.renderer.setPixelRatio(low ? 1 : Math.min(devicePixelRatio, 1.75));
   world.renderer.shadowMap.enabled = !low;
   world.scene.traverse((o) => {
@@ -861,13 +912,7 @@ let last = performance.now(),
   hudTime = 0,
   frameAverage = 16,
   qualityReduced = false;
-function frame(now) {
-  raf = requestAnimationFrame(frame);
-  let elapsed = now - last;
-  let dt = Math.min(elapsed / 1000, 0.1);
-  last = now;
-  time += dt;
-  if (document.hidden || !sceneEl.isConnected || !world) return;
+function advanceSimulation(dt) {
   if (state.racing && !paused && !state.finished) {
     if (state.countdown > 0) state.countdown -= dt;
     else {
@@ -880,14 +925,19 @@ function frame(now) {
       } else {
         state.speed = stepSpeed(state.speed, throttle, brake, dt, car());
         let u = state.progress % 1;
-        let a = world.curve.getTangentAt(u),
-          b = world.curve.getTangentAt((u + 0.003) % 1);
-        let curvature = a.angleTo(b) / (0.003 * world.length);
+        const curvature = sampleCurvature(world.curve, world.length, u);
         state.load = cornerLoad(state.speed, curvature, car().grip);
-        if (state.load > 1.2 && state.speed > 7) {
+        state.recovery = Math.max(0, state.recovery - dt);
+        state.slip =
+          state.recovery > 0 ? 0 : stepGrip(state.load, state.slip, dt);
+        if (state.slip > 0.22 && state.speed > 8) {
           state.off = 0.01;
-          state.fly.copy(a);
+          state.fly.copy(world.curve.getTangentAt(u));
           state.crashes++;
+          held = false;
+          brake = false;
+          manualThrottle = 0;
+          $("#throttle").value = 0;
         } else {
           let prev = Math.floor(state.progress);
           state.progress += (state.speed * dt) / world.length;
@@ -939,6 +989,17 @@ function frame(now) {
     state.progress += dt * 0.032;
     state.ai = state.progress + 0.08;
   }
+}
+function frame(now) {
+  raf = requestAnimationFrame(frame);
+  let elapsed = now - last;
+  let dt = Math.min(elapsed / 1000, 0.5);
+  last = now;
+  time += dt;
+  if (document.hidden || !sceneEl.isConnected || !world) return;
+  // Fixed physics steps keep grip/recovery consistent even on slower frames.
+  for (let remaining = dt; remaining > 1e-6; remaining -= 1 / 60)
+    advanceSimulation(Math.min(remaining, 1 / 60));
   if (state.racing && now - hudTime > 70) {
     hudTime = now;
     const mapPos = world.curve.getPointAt(state.progress % 1);
@@ -961,12 +1022,24 @@ function frame(now) {
     $("#load-fill").style.background = state.load > 0.8 ? "#ff5e36" : "#b3d298";
     $("#grip-label").textContent =
       state.load > 0.8 ? "EASE OFF · LIMIT APPROACHING" : "GRIP AVAILABLE";
-    $("#race-message").innerHTML =
+    const messageMode =
       state.countdown > 0
-        ? `<div class="countdown">${Math.ceil(state.countdown)}</div><span>GET READY</span>`
+        ? String(Math.ceil(state.countdown))
         : state.off
-          ? `<div class="off-label">OFF THE SLOT!</div><button data-action="reset">${i("RotateCcw")} Re-slot car <kbd>R</kbd></button>`
+          ? "off"
           : "";
+    // Keep the re-slot button mounted throughout pointerdown -> pointerup.
+    const message = $("#race-message");
+    if (message.dataset.mode !== messageMode) {
+      message.dataset.mode = messageMode;
+      message.innerHTML =
+        state.countdown > 0
+          ? `<div class="countdown">${Math.ceil(state.countdown)}</div><span>GET READY</span>`
+          : state.off
+            ? `<div class="off-label">OFF THE SLOT!</div><button data-action="reset">${i("RotateCcw")} Re-slot car <kbd>R</kbd></button>`
+            : "";
+      iconify();
+    }
   }
   if (!paused) world.draw(state, dt, time);
   frameAverage = frameAverage * 0.98 + elapsed * 0.02;
@@ -977,6 +1050,10 @@ function frame(now) {
     frameAverage > 30
   ) {
     world.renderer.setPixelRatio(1);
+    if (!world.lowDetail) {
+      world.lowDetail = true;
+      world.setCars(car(), cars[car().id === "aston" ? 0 : 4]);
+    }
     world.renderer.shadowMap.enabled = false;
     world.resize();
     qualityReduced = true;

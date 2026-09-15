@@ -47,13 +47,23 @@ test("race deslots, reset, cameras and pause work", async ({ page }) => {
   await page.locator('[data-race-type="practice"]').click();
   await page.locator('[data-mode="driver"]').click();
   await page.locator('[data-action="start"]').click();
+  await expect(page.locator("#race-stage")).toBeVisible();
   await expect(page.locator(".countdown")).toHaveCount(0, { timeout: 20000 });
   await page.keyboard.down("w");
   await expect(page.locator(".off-label")).toBeVisible({ timeout: 25000 });
   await page.keyboard.up("w");
-  await page.keyboard.press("r");
+  await page
+    .locator('#race-message [data-action="reset"]')
+    .click({ delay: 500 });
   await expect(page.locator(".off-label")).toHaveCount(0);
   await expect(page.locator("#speed")).toHaveText("0");
+  await page.locator("#throttle").fill("40");
+  await page.waitForTimeout(2200);
+  await expect(page.locator(".off-label")).toHaveCount(0);
+  await expect
+    .poll(async () => Number(await page.locator("#speed").textContent()))
+    .toBeGreaterThan(0);
+  await page.locator("#throttle").fill("0");
   await page.keyboard.press("c");
   await expect(page.locator("#camera-label")).toHaveText("Cockpit");
   await page.keyboard.press("c");
@@ -75,6 +85,7 @@ test("time trial finishes and saves a best lap", async ({ page }) => {
   await page.locator("#track-select").selectOption("1");
   await page.locator('[data-race-type="time"]').click();
   await page.locator('[data-action="start"]').click();
+  await expect(page.locator("#race-stage")).toBeVisible();
   await expect(page.locator(".countdown")).toHaveCount(0, { timeout: 20000 });
   await page.locator("#throttle").fill("30");
   await expect(page.locator(".modal h2")).toHaveText("That’s a wrap.", {
@@ -107,6 +118,7 @@ test("phone layouts fit and touch trigger drives", async ({ browser }) => {
   }
   await page.locator('[data-race-type="practice"]').tap();
   await page.locator('[data-action="start"]').tap();
+  await expect(page.locator("#race-stage")).toBeVisible();
   await expect(page.locator(".countdown")).toHaveCount(0, { timeout: 25000 });
   const client = await context.newCDPSession(page);
   const bounds = await page.locator("#trigger").boundingBox();
