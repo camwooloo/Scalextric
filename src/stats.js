@@ -7,6 +7,12 @@ const fields = [
   "cleanLaps",
   "crashes",
   "reslots",
+  "jumps",
+  "landings",
+  "loops",
+  "collisions",
+  "pitStops",
+  "pitSeconds",
   "seconds",
   "distance",
   "throttleSeconds",
@@ -78,6 +84,7 @@ export function circuitKey(track) {
     track.points,
     track.heights,
     !!track.bridge,
+    ...(track.features?.length ? [track.features] : []),
   ]))
     hash = Math.imul(hash ^ char.charCodeAt(0), 16777619);
   return "circuit-" + (hash >>> 0).toString(36);

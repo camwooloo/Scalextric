@@ -13,6 +13,8 @@ export const ratingLabels = {
   grip: "Cornering",
   braking: "Braking",
   stability: "Stability",
+  jump: "Jump control",
+  downforce: "Downforce",
 };
 export function rateCar(car) {
   const name = (car.name + " " + car.id).toLowerCase();
@@ -45,10 +47,10 @@ export function rateCar(car) {
   const t = tiers[tier],
     offsets =
       kind === "Corner specialist"
-        ? [0.28, 0.58, 1, 0.82, 1]
+        ? [0.28, 0.58, 1, 0.82, 1, 1, 0.5]
         : kind === "Straight-line pace"
-          ? [1, 0.87, 0.3, 0.46, 0.36]
-          : [0.7, 0.66, 0.8, 0.75, 0.82];
+          ? [1, 0.87, 0.3, 0.46, 0.36, 0.35, 0.7]
+          : [0.7, 0.66, 0.8, 0.75, 0.82, 0.7, 0.9];
   let hash = 0;
   for (const ch of car.id) hash = (hash * 31 + ch.charCodeAt(0)) >>> 0;
   const ratings = Object.fromEntries(
@@ -75,6 +77,8 @@ export function rateCar(car) {
     grip: 18 + ratings.grip * 0.22,
     braking: 16 + ratings.braking * 0.2,
     stability: 0.17 + ratings.stability * 0.001,
+    jump: ratings.jump,
+    downforce: ratings.downforce,
   };
 }
 export function purchaseCar(profile, car) {

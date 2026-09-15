@@ -60,7 +60,7 @@ test("race deslots, reset, cameras and pause work", async ({ page }) => {
   await expect(page.locator(".off-label")).toBeVisible({ timeout: 25000 });
   await page.keyboard.up("w");
   await page
-    .locator('#race-message [data-action="reset"]')
+    .locator('.race-camera [data-action="reset"]')
     .click({ delay: 500 });
   await expect(page.locator(".off-label")).toHaveCount(0);
   await expect(page.locator("#speed")).toHaveText("0");
@@ -212,7 +212,7 @@ test("priced catalogue pages and a newly sourced car reach the grid", async ({
   await page.locator('nav [data-page="shop"]').click();
   await expect(
     page.locator(".car-card").first().getByRole("meter"),
-  ).toHaveCount(5);
+  ).toHaveCount(7);
   await page.locator('[data-garage-step="1"]').click();
   await expect(page.locator(".garage-pagination")).toContainText("PAGE 2 / 6");
   await page
@@ -235,4 +235,96 @@ test("priced catalogue pages and a newly sourced car reach the grid", async ({
     .toBeGreaterThan(0);
   await page.locator('[data-action="pause"]').click();
   expect(errors).toEqual([]);
+});
+
+test("stunt library, new ratings and edited pieces survive reload", async ({
+  page,
+}) => {
+  const errors = [];
+  page.on("pageerror", (e) => errors.push(e.message));
+  await page.goto("/");
+  await page.locator('nav [data-page="garage"]').click();
+  await expect(page.getByRole("meter", { name: "Jump control" })).toHaveCount(
+    1,
+  );
+  await expect(page.getByRole("meter", { name: "Downforce" })).toHaveCount(1);
+  await page.locator('nav [data-page="builder"]').click();
+  await page.locator("#editor-preset").selectOption("1");
+  await page.locator('[data-piece="loop"]').click();
+  await expect(page.locator(".stunt-list")).toContainText("Vertical loop");
+  await page.locator('[data-action="undo"]').click();
+  await expect(page.locator(".stunt-list>div")).toHaveCount(0);
+  await page.locator('[data-piece="jump"]').click();
+  await page.locator("#track-name").fill("Air test circuit");
+  await page.locator('[data-action="save-track"]').click();
+  await expect(page.locator("#toast")).toContainText("saved");
+  await page.reload();
+  await page.locator('nav [data-page="race"]').click();
+  await expect(page.locator(".stunt-briefing")).toContainText("Jump ramp");
+  const profile = await page.evaluate(() =>
+    JSON.parse(localStorage.getItem("slot-club:v1")),
+  );
+  expect(profile.tracks.at(-1).features[0].type).toBe("jump");
+  expect(errors).toEqual([]);
+});
+
+test("a stalled loop repairs automatically and pausing freezes the repair clock", async ({
+  page,
+}) => {
+  const errors = [];
+  page.on("pageerror", (e) => errors.push(e.message));
+  await page.goto("/");
+  await page.locator('nav [data-page="race"]').click();
+  await page.locator("#track-select").selectOption("11");
+  await page.locator('[data-race-type="practice"]').click();
+  await page.locator('[data-action="start"]').click();
+  await expect(page.locator("#race-stage")).toBeVisible({ timeout: 30000 });
+  await expect(page.locator(".countdown")).toHaveCount(0, { timeout: 20000 });
+  await page.locator("#throttle").fill("25");
+  await expect(page.locator(".repair-reason")).toHaveText("Lost loop grip", {
+    timeout: 30000,
+  });
+  await page.locator('.race-camera [data-action="reset"]').click();
+  await expect(page.locator(".off-label")).toBeVisible();
+  await page.keyboard.press("p");
+  const timer = await page.locator("#repair-clock").textContent();
+  await page.waitForTimeout(400);
+  await expect(page.locator("#repair-clock")).toHaveText(timer);
+  await page.locator('.modal [data-action="pause"]').click();
+  await expect(page.locator(".off-label")).toHaveCount(0, { timeout: 8000 });
+  await expect(page.locator("#speed")).toHaveText("0");
+  await page.locator('[data-action="pause"]').click();
+  await page.locator('.modal [data-page="race"]').click();
+  const stats = await page.evaluate(
+    () => JSON.parse(localStorage.getItem("slot-club:v1")).stats,
+  );
+  expect(stats.crashes).toBe(1);
+  expect(stats.pitStops).toBe(1);
+  expect(stats.reslots).toBe(1);
+  expect(stats.pitSeconds).toBeGreaterThan(3);
+  expect(errors).toEqual([]);
+});
+
+test("mobile pit break stops the car, preserves race time and returns control", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+  await page.locator('nav [data-page="race"]').click();
+  await page.locator('[data-race-type="practice"]').click();
+  await page.locator('[data-action="start"]').click();
+  await expect(page.locator("#race-stage")).toBeVisible({ timeout: 30000 });
+  await expect(page.locator(".countdown")).toHaveCount(0, { timeout: 20000 });
+  await page.locator('[data-action="pit"]').click();
+  await expect(page.locator(".off-label")).toHaveText("PIT BREAK");
+  const time = await page.locator("#race-time").textContent();
+  await expect(page.locator(".off-label")).toHaveCount(0, { timeout: 7000 });
+  expect(await page.locator("#race-time").textContent()).not.toBe(time);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(
+    390,
+  );
+  await page.locator("#throttle").fill("35");
+  await expect
+    .poll(async () => Number(await page.locator("#speed").textContent()))
+    .toBeGreaterThan(0);
 });

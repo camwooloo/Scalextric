@@ -1,3 +1,10 @@
+import {
+  buildCircuit,
+  trackFrame,
+  laneOffset,
+  featureAt,
+  pieceNames,
+} from "./stunts.js";
 import * as THREE from "three";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
@@ -83,16 +90,10 @@ export class World {
         }
       });
     }
-    let pts = config.points.map(
-      (p, i) =>
-        new THREE.Vector3(
-          p[0],
-          config.bridge ? (config.heights?.[i] ?? (i === 2 ? 3.5 : 0)) : 0,
-          p[1],
-        ),
-    );
-    this.curve = new THREE.CatmullRomCurve3(pts, true, "centripetal");
-    this.length = this.curve.getLength();
+    const circuit = buildCircuit(config);
+    this.curve = circuit.curve;
+    this.features = circuit.features;
+    this.length = circuit.length;
     this.setDiorama(config);
     this.box(
       42,
@@ -108,22 +109,35 @@ export class World {
           : 0x465741,
     );
     this.box(42.4, 0.35, 26.4, 0, -1.2, 0, 0x172320);
-    const n = 700;
+    const n = config.features?.length ? 1600 : 700;
     const asphalt = this.makeTexture("asphalt");
-    const ribbon = (a, b, height, color, parity = null) => {
+    const ribbon = (a, b, height, color, parity = null, slot = false) => {
       let vs = [],
         uv = [],
         ix = [];
       for (let i = 0; i <= n; i++) {
-        let p = this.curve.getPointAt(i / n),
-          t = this.curve.getTangentAt(i / n),
-          normal = new THREE.Vector3(-t.z, 0, t.x).normalize();
+        const u = i / n,
+          { p, side: normal, up } = trackFrame(this.curve, u);
         for (let off of [a, b]) {
-          vs.push(p.x + normal.x * off, p.y + height, p.z + normal.z * off);
+          const lane = slot ? (a + b < 0 ? -0.6 : 0.6) : 0;
+          const offset = slot
+            ? off - lane + laneOffset(this.features, u, lane)
+            : off;
+          const v = p
+            .clone()
+            .addScaledVector(normal, offset)
+            .addScaledVector(up, height);
+          vs.push(v.x, v.y, v.z);
           uv.push(((i / n) * this.length) / 3, (off - a) / (b - a));
         }
+        const f = featureAt(this.features, (i + 0.5) / n);
+        const gap =
+          f?.type === "jump" &&
+          (i + 0.5) / n > f.takeoff &&
+          (i + 0.5) / n < f.landing;
         if (
           i < n &&
+          !gap &&
           (parity === null ||
             Math.floor(((i / n) * this.length) / 1.35) % 2 === parity)
         ) {
@@ -159,9 +173,16 @@ export class World {
     ribbon(-1.42, 1.42, 0.035, 0x101918);
     ribbon(-1.2, 1.2, 0.05, 0x363b3c);
     for (let lane of [-0.6, 0.6]) {
-      ribbon(lane - 0.022, lane + 0.022, 0.065, 0x070a0b);
+      ribbon(lane - 0.022, lane + 0.022, 0.065, 0x070a0b, null, true);
       for (let off of [-0.072, 0.072])
-        ribbon(lane + off - 0.015, lane + off + 0.015, 0.067, 0x9a9f9b);
+        ribbon(
+          lane + off - 0.015,
+          lane + off + 0.015,
+          0.067,
+          0x9a9f9b,
+          null,
+          true,
+        );
     }
     for (let off of [-1.17, 1.17])
       ribbon(off - 0.025, off + 0.025, 0.075, 0xd2cbbb);
@@ -169,8 +190,14 @@ export class World {
       let u = i / Math.round(this.length / 1.35),
         p = this.curve.getPointAt(u),
         t = this.curve.getTangentAt(u);
+      const f = featureAt(this.features, u);
+      if (f?.type === "jump" && u > f.takeoff && u < f.landing) continue;
       let seam = this.box(2.4, 0.008, 0.018, p.x, p.y + 0.077, p.z, 0x161c1c);
-      seam.rotation.y = Math.atan2(t.x, t.z);
+      const frame = trackFrame(this.curve, u);
+      seam.position.copy(frame.p).addScaledVector(frame.up, 0.077);
+      seam.quaternion.setFromRotationMatrix(
+        new THREE.Matrix4().makeBasis(frame.right, frame.up, frame.t),
+      );
     }
     if (config.borders !== false) {
       for (const side of [-1, 1]) {
@@ -180,7 +207,11 @@ export class World {
     }
     for (let i = 0; i < 10; i++) {
       let p = this.curve.getPointAt(i / 10);
-      if (p.y > 0.5) this.box(0.28, p.y, 0.28, p.x, p.y / 2, p.z, 0x858c83);
+      if (
+        p.y > 0.5 &&
+        !["loop", "jump"].includes(featureAt(this.features, i / 10)?.type)
+      )
+        this.box(0.28, p.y, 0.28, p.x, p.y / 2, p.z, 0x858c83);
     }
     const start = this.curve.getPointAt(0),
       tan = this.curve.getTangentAt(0);
@@ -259,6 +290,7 @@ export class World {
     }
 
     this.addDetails(config);
+    this.addStuntDetails();
     // Batch static meshes by material to keep mobile draw calls low.
     this.track.updateMatrixWorld(true);
     const batches = new Map(),
@@ -389,7 +421,7 @@ export class World {
   }
   addDetails(config) {
     // Moulded crash barriers and clip-in stanchions follow the slot-car circuit.
-    if (config.borders !== false) {
+    if (config.borders !== false && !config.features?.length) {
       for (const side of [-1, 1]) {
         const railPoints = [];
         for (let j = 0; j <= 180; j++) {
@@ -529,7 +561,10 @@ export class World {
     // Bridge beams follow the raised road, with regularly spaced supports.
     for (let j = 0; j < 70; j++) {
       const p = this.curve.getPointAt(j / 70);
-      if (p.y > 0.7) {
+      if (
+        p.y > 0.7 &&
+        !["loop", "jump"].includes(featureAt(this.features, j / 70)?.type)
+      ) {
         this.box(0.16, p.y, 0.16, p.x, p.y / 2 - 0.15, p.z, 0x778276);
         this.box(2.7, 0.12, 0.18, p.x, p.y - 0.12, p.z, 0xa3aa9a).rotation.y =
           Math.atan2(
@@ -576,50 +611,139 @@ export class World {
     await this.carReady;
     await this.renderer.compileAsync(this.scene, this.camera);
   }
+  addStuntDetails() {
+    for (const f of this.features) {
+      const frame = trackFrame(this.curve, f.start);
+      this.label(
+        pieceNames[f.type].toUpperCase(),
+        frame.p.x,
+        frame.p.y + 1.7,
+        frame.p.z - 2.2,
+        3.5,
+        0,
+        "#f5c744",
+        "#1b2525",
+      );
+      for (const u of [
+        f.start,
+        f.end,
+        ...(f.type === "jump" ? [f.takeoff, f.landing] : []),
+      ]) {
+        const { p, up, right, t } = trackFrame(this.curve, u);
+        for (let j = 0; j < 12; j++) {
+          const bar = this.box(
+            0.2,
+            0.018,
+            0.35,
+            0,
+            0,
+            0,
+            j % 2 ? 0x172222 : 0xf5c744,
+          );
+          bar.position
+            .copy(p)
+            .addScaledVector(right, (j - 5.5) * 0.2)
+            .addScaledVector(up, 0.095);
+          bar.quaternion.setFromRotationMatrix(
+            new THREE.Matrix4().makeBasis(right, up, t),
+          );
+        }
+      }
+      if (f.type === "intersection") {
+        const u = f.start + (f.end - f.start) * 0.09;
+        const p = this.curve.getPointAt(u);
+        for (const side of [-1, 1]) {
+          this.box(2.8, 0.018, 0.09, p.x, 0.105, p.z + side * 1.4, 0xf5c744);
+          this.box(0.09, 0.018, 2.8, p.x + side * 1.4, 0.105, p.z, 0xf5c744);
+        }
+      }
+      if (f.type === "loop") {
+        for (const q of [0.15, 0.3, 0.5, 0.7, 0.85]) {
+          const { p, side } = trackFrame(
+            this.curve,
+            f.start + (f.end - f.start) * q,
+          );
+          for (const off of [-1.6, 1.6]) {
+            const v = p.clone().addScaledVector(side, off);
+            this.box(
+              0.16,
+              Math.max(0.1, v.y),
+              0.16,
+              v.x,
+              v.y / 2,
+              v.z,
+              0xf0bf36,
+            );
+            this.box(0.8, 0.1, 0.65, v.x, 0, v.z, 0x293b38);
+          }
+        }
+      }
+    }
+  }
   pose(u, lane) {
-    u = ((u % 1) + 1) % 1;
-    let p = this.curve.getPointAt(u),
-      t = this.curve.getTangentAt(u);
-    p.add(new THREE.Vector3(-t.z, 0, t.x).normalize().multiplyScalar(lane));
-    return { p, t };
+    const frame = trackFrame(this.curve, u);
+    frame.p.addScaledVector(frame.side, laneOffset(this.features, u, lane));
+    return frame;
   }
   draw(state, dt, time) {
     this.vehicles.forEach((v, i) => {
-      let { p, t } = this.pose(i ? state.ai : state.progress, i ? 0.6 : -0.6);
+      let { p, t, right, up } = this.pose(
+        i ? state.ai : state.progress,
+        i ? 0.6 : -0.6,
+      );
       v.position.copy(p);
-      v.rotation.set(0, Math.atan2(t.x, t.z), 0);
-      v.rotateX(-Math.asin(t.y));
+      v.quaternion.setFromRotationMatrix(
+        new THREE.Matrix4().makeBasis(right, up, t),
+      );
+      const flight = i ? state.aiFlight : state.flight;
+      if (flight) {
+        v.position.y +=
+          Math.sin(Math.PI * Math.min(1, flight.elapsed / flight.duration)) *
+          flight.height;
+        v.rotateX(
+          -Math.cos(Math.PI * Math.min(1, flight.elapsed / flight.duration)) *
+            0.18,
+        );
+      }
       v.visible =
         i === 0
           ? !(state.racing && state.cam === "Bumper")
           : !state.racing || state.opponent;
-      if (i === 0 && state.off > 0) {
-        v.position.addScaledVector(state.fly, Math.min(state.off * 5, 6));
-        v.position.y += Math.max(
-          0,
-          Math.sin(Math.min(state.off / 1.5, 1) * Math.PI) * 2,
-        );
-        v.rotation.y += Math.min(state.off, 1.5) * 5;
-        v.rotation.z = Math.min(state.off, 1.5) * 2;
+      const off = i ? state.aiOff : state.off;
+      if (off > 0 && (i || state.crashReason !== "pit")) {
+        v.position.addScaledVector(i ? t : state.fly, Math.min(off * 5, 6));
+        v.position.y = Math.max(0.05, v.position.y + 2.5 * off - 5 * off * off);
+        v.rotation.y += Math.min(off, 1.5) * 5;
+        v.rotation.z = Math.min(off, 1.5) * 2;
       }
     });
     let target = new THREE.Vector3(),
       pos = new THREE.Vector3();
     if (state.racing) {
-      let { p, t } = this.pose(state.progress, -0.6);
+      let { p, t, up } = this.pose(state.progress, -0.6);
+      if (state.flight)
+        p.y +=
+          Math.sin(
+            Math.PI * Math.min(1, state.flight.elapsed / state.flight.duration),
+          ) * state.flight.height;
+      this.camera.up.copy(
+        ["Cockpit", "Bumper"].includes(state.cam)
+          ? up
+          : new THREE.Vector3(0, 1, 0),
+      );
       target.copy(p).addScaledVector(t, 3);
       if (state.cam === "Bumper") {
         pos.copy(p).addScaledVector(t, 1.15);
-        pos.y += 0.23;
-        target.y += 0.23;
+        pos.addScaledVector(up, 0.23);
+        target.addScaledVector(up, 0.23);
       } else if (state.cam === "Cockpit") {
         const height = this.vehicles[0]?.userData.height || 0.7;
         pos
           .copy(p)
           .addScaledVector(t, 0.02)
           .add(new THREE.Vector3(-t.z, 0, t.x).multiplyScalar(0.14));
-        pos.y += 0.085 + height * 0.9;
-        target.y = pos.y - 0.22;
+        pos.addScaledVector(up, 0.085 + height * 0.9);
+        target.copy(pos).addScaledVector(t, 3).addScaledVector(up, -0.22);
       } else if (state.cam === "Chase") {
         pos.copy(p).addScaledVector(t, -6.5);
         pos.y += 4.2;
@@ -630,6 +754,7 @@ export class World {
         target.copy(p);
       }
     } else {
+      this.camera.up.set(0, 1, 0);
       let a = 0.1 + Math.sin(time * 0.025) * 0.1;
       pos.set(29 * Math.cos(a), 29, 35 + Math.sin(a) * 7);
       target.set(0, 0, 0);

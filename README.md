@@ -9,7 +9,7 @@ A miniature motorsport playground. Build a circuit, collect your favourite cars,
 
 [![Play Slot Club](https://img.shields.io/badge/PLAY-SLOT_CLUB-ee623b?style=for-the-badge)](https://scalextric-chi.vercel.app/)
 ![Three.js](https://img.shields.io/badge/3D-THREE.JS-293b31?style=for-the-badge)
-![Circuits](https://img.shields.io/badge/CIRCUITS-09-718561?style=for-the-badge)
+![Circuits](https://img.shields.io/badge/CIRCUITS-14-718561?style=for-the-badge)
 ![Collection](https://img.shields.io/badge/CAR_MODELS-133-ee623b?style=for-the-badge)
 
 <br>
@@ -22,7 +22,7 @@ A miniature motorsport playground. Build a circuit, collect your favourite cars,
 
 The guide slot keeps you on the racing line. Your job is to judge the throttle.
 
-Accelerate down the straights, ease off through the corners, and watch the grip meter as the car approaches its limit. Brief spikes in cornering force give you room to recover. Sustained overspeed sends the car out of its slot, with a tumble and a quick re-slot to get you racing again.
+Accelerate down the straights, ease off through the corners, and watch the grip meter as the car approaches its limit. Brief spikes in cornering force give you room to recover. Sustained overspeed sends the car out of its slot, with a tumble and a 2.5–3.5-second crew repair before automatic re-slotting. The race clock and your rival keep going.
 
 The circuit sits on a miniature tabletop, complete with moulded track sections, twin slots, metallic power rails, textured asphalt, borders, crash barriers, pit garages, tyre stacks, trees, signs, bridge supports, and lighting rigs.
 
@@ -43,13 +43,13 @@ Search by name, filter by era or performance class, sort by price or name, and b
 
 Every local profile starts with **100,000,000 club credits** — enough to buy the entire collection. Prices run from **8,000 CR** to **600,000 CR**. No checkout. No real money. No account required.
 
-Five segmented ratings show **top speed, acceleration, cornering, braking and stability**. Higher price classes improve every rating; cars within a class have different strengths. The displayed ratings feed the actual racing physics. These are gameplay ratings, not manufacturer performance data.
+Seven segmented ratings show **top speed, acceleration, cornering, braking, stability, jump control and downforce**. Higher price classes improve every rating; cars within a class have different strengths. The displayed ratings feed the actual racing physics. These are gameplay ratings, not manufacturer performance data.
 
 [Browse the original model sources and artists →](https://scalextric-chi.vercel.app/credits.html)
 
 ![The car collection](docs/screenshots/garage.png)
 
-## Nine starting lines. Your own next.
+## Fourteen starting lines. Your own next.
 
 | Circuit | Character |
 | :--- | :--- |
@@ -62,10 +62,26 @@ Five segmented ratings show **top speed, acceleration, cornering, braking and st
 | **The Endurance Ring** | A fast outer loop with an infield challenge |
 | **The Night Session** | Floodlit racing after dark |
 | **The Club Hairpins** | Short straights and tight return bends |
+| **Switchback Speedway** | Two lane-swapping crossovers |
+| **Airborne Arena** | Twin ramp jumps with open gaps |
+| **Loop Laboratory** | A full vertical loop with separated entry and exit rails |
+| **Collision Junction** | A ground-level intersection with shared track space |
+| **Stunt Club Supercourse** | A loop, crossover and jump in one lap |
+
+### Take it off the flat
+
+Jump control widens your safe takeoff-speed range. Too slow or too fast means a missed landing. Downforce helps hold the car to the loop, but you still need momentum over the top. Driver cameras turn with the car through the inversion.
+
+Crossovers exchange lanes; intersections create shared ground-level crossing points. Cars can collide there, while a raised bridge keeps them apart. Hazard stripes mark the stunt sections. Your race briefing shows the speed guidance for your selected car.
+
+Use **Pit / B** on a clear section for a three-second breather. Crash repairs take **2.5–3.5 seconds**, pause with the game, and return you automatically. Failed jumps and loops return you to an approach checkpoint so you can build momentum again.
+
+![Vertical-loop racing circuit](docs/screenshots/stunt-loop.png)
+
 
 ### Your track. Your rules.
 
-Track Studio lets you shape a closed circuit, insert straight, curved, and chicane sections, add borders and a bridge, undo changes, and save the result to your collection. The editor uses a continuous spline through editable control points; it is a creative circuit builder rather than an exact physical-parts catalogue.
+Track Studio lets you shape a closed circuit, insert straight, curved, and chicane sections, add borders and a bridge, clip in crossovers, intersections, jumps and loops, reposition or remove stunt pieces, undo changes, and save the result to your collection. The editor uses a continuous spline through editable control points; it is a creative circuit builder rather than an exact physical-parts catalogue.
 
 ![Track Studio](docs/screenshots/studio.png)
 
@@ -79,7 +95,7 @@ Start a **Quick race** from the home screen using your saved settings, or use th
 
 ## Your driver dossier
 
-A dedicated stats page keeps your circuit and garage logbooks: fastest laps, total and clean laps, driving time, distance, wins, win rate, deslots, re-slots, top and average speed, throttle and brake time, favourite car and circuit, local credits, garage spending, recent laps and session history. Track and car tables make it easy to compare your progress.
+A dedicated stats page keeps your circuit and garage logbooks: fastest laps, total and clean laps, driving time, distance, wins, win rate, deslots, re-slots, top and average speed, throttle and brake time, favourite car and circuit, local credits, garage spending, recent laps and session history. Jump attempts, successful landings, loops cleared, collisions, pit stops and pit time are tracked too. Track and car tables make it easy to compare your progress.
 
 Existing personal bests are retained. New counters start with this update; older driving totals cannot be reconstructed. Everything remains in browser storage and travels with save exports.
 

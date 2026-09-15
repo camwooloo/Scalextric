@@ -1,3 +1,4 @@
+import { validFeatures } from "./stunts.js";
 import { cars, presets } from "./data.js";
 import { STARTING_CREDITS } from "./economy.js";
 import { normalizeStats } from "./stats.js";
@@ -33,7 +34,8 @@ export function validTrack(t) {
         Array.isArray(p) &&
         p.length === 2 &&
         p.every((v) => Number.isFinite(v) && Math.abs(v) <= 30),
-    )
+    ) &&
+    validFeatures(t)
   );
 }
 export function normalize(raw) {

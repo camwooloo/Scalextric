@@ -63,6 +63,20 @@ export function garageCards(profile, list, { i, carArt, escape }) {
                     "Sharp",
                     "Race-grade",
                   ],
+                  jump: [
+                    "Settled",
+                    "Balanced",
+                    "Air-ready",
+                    "Precise",
+                    "Stunt master",
+                  ],
+                  downforce: [
+                    "Light",
+                    "Assured",
+                    "Planted",
+                    "High aero",
+                    "Maximum",
+                  ],
                   stability: [
                     "Settled",
                     "Composed",

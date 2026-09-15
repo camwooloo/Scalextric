@@ -21,7 +21,12 @@ export function statsView(
     `<article class="stat-tile"><span class="eyebrow">${label}</span><strong>${value}</strong><small>${detail}</small></article>`;
   const bestFor = (t) => {
     const values = Object.entries(profile.records)
-      .filter(([key]) => key.startsWith(t.name + "|"))
+      .filter(([key]) =>
+        t.features?.length
+          ? key.startsWith(`${t.name}|${circuitKey(t)}|`)
+          : key.startsWith(t.name + "|") &&
+            !key.slice(t.name.length + 1).includes("|"),
+      )
       .map(([, v]) => v);
     const best = s.tracks[circuitKey(t)]?.best;
     return Math.min(...values, ...(best ? [best] : []));
@@ -48,6 +53,12 @@ export function statsView(
     ],
     ["DESLOTS", n(s.crashes)],
     ["RE-SLOTS", n(s.reslots)],
+    ["JUMP ATTEMPTS", n(s.jumps)],
+    ["CLEAN LANDINGS", n(s.landings)],
+    ["LOOPS CLEARED", n(s.loops)],
+    ["COLLISIONS", n(s.collisions)],
+    ["PIT STOPS", n(s.pitStops)],
+    ["PIT TIME", duration(s.pitSeconds)],
     ["TOP SPEED", `${Math.round(s.topSpeed * 7.2)} km/h`],
     [
       "AVERAGE SPEED",
@@ -116,7 +127,7 @@ export function statsView(
       .sort((a, b) => a[0].localeCompare(b[0]))
       .map(([key, v]) => {
         const split = key.lastIndexOf("|");
-        return `<tr><th>${escape(key.slice(0, split))}</th><td>${escape(carName(key.slice(split + 1)))}</td><td class="timing">${formatTime(v)}</td></tr>`;
+        return `<tr><th>${escape(key.slice(0, split).replace(/\|circuit-[a-z0-9]+$/, " · Stunt layout"))}</th><td>${escape(carName(key.slice(split + 1)))}</td><td class="timing">${formatTime(v)}</td></tr>`;
       })
       .join("") || '<tr><td colspan="3">No lap records yet.</td></tr>'
   }</tbody></table></div></details><p class="legal-note">Existing personal bests are preserved. New counters begin with this update; earlier laps, wins and driving time cannot be reconstructed. Favourites use active session time. Speed follows the game’s scale display. Recent average lap combines the last 200 stored laps across circuits.</p>`;

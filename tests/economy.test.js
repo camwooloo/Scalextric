@@ -10,7 +10,15 @@ test("every higher-priced car improves all ratings and handling parameters", () 
         for (const k of Object.keys(ratingLabels)) {
           assert.ok(a.ratings[k] > b.ratings[k], `${a.id} ${b.id} ${k}`);
         }
-        for (const k of ["speed", "grip", "accel", "braking", "stability"])
+        for (const k of [
+          "speed",
+          "grip",
+          "accel",
+          "braking",
+          "stability",
+          "jump",
+          "downforce",
+        ])
           assert.ok(a[k] > b[k]);
       }
   assert.ok(new Set(cars.map((c) => JSON.stringify(c.ratings))).size > 20);

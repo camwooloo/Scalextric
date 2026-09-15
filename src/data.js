@@ -189,6 +189,63 @@ export const presets = [
     ],
     theme: "club",
   },
+  ...[
+    {
+      name: "Switchback Speedway",
+      description:
+        "Two lane crossovers. Time your move and avoid your rival at the pinch points.",
+      features: [
+        { type: "crossover", at: 0.14 },
+        { type: "crossover", at: 0.64 },
+      ],
+    },
+    {
+      name: "Airborne Arena",
+      description:
+        "Two open jump gaps. Build speed for takeoff, then settle the car before the next bend.",
+      features: [
+        { type: "jump", at: 0.15 },
+        { type: "jump", at: 0.65 },
+      ],
+    },
+    {
+      name: "Loop Laboratory",
+      description:
+        "A full vertical loop. Keep the motor pulling over the top; downforce widens your safety margin.",
+      features: [{ type: "loop", at: 0.16 }],
+    },
+    {
+      name: "Collision Junction",
+      description:
+        "A ground-level intersection with shared track space. Watch the other lane and yield to avoid contact.",
+      features: [{ type: "intersection", at: 0.16 }],
+    },
+    {
+      name: "Stunt Club Supercourse",
+      description:
+        "A vertical loop, an airborne jump and a lane crossover. Three challenges, one trigger.",
+      features: [
+        { type: "loop", at: 0.15 },
+        { type: "crossover", at: 0.4 },
+        { type: "jump", at: 0.65 },
+      ],
+    },
+  ].map((t) => ({
+    ...t,
+    tag: "STUNT SERIES",
+    difficulty: "Stunt",
+    theme: "club",
+    points: [
+      [-16, -8],
+      [0, -8],
+      [16, -8],
+      [19, 0],
+      [16, 8],
+      [0, 8],
+      [-16, 8],
+      [-19, 0],
+    ],
+  })),
 ];
 export const cars = [
   {

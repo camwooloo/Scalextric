@@ -3429,3 +3429,79 @@ h1 {
     padding: 10px;
   }
 }
+/* Clip-in stunt pieces and live pit-crew recovery. */
+.stunt-list {
+  display: grid;
+  gap: 8px;
+  margin: 14px 0;
+}
+.stunt-list > div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-size: 12px;
+  flex-wrap: wrap;
+}
+.stunt-list label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}
+.stunt-list input {
+  width: 58px !important;
+  padding: 5px !important;
+}
+#repair-clock {
+  display: block;
+  font:
+    800 48px "Barlow Condensed",
+    sans-serif;
+  color: #f5c744;
+  line-height: 1.1;
+}
+#race-message .repair-reason {
+  display: block;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+}
+#race-message > small {
+  display: block;
+  font-size: 11px;
+  margin: 6px 0 10px;
+}
+@media (max-width: 600px) {
+  .race-camera {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .race-camera button {
+    padding: 7px 9px;
+    font-size: 10px;
+  }
+  #repair-clock {
+    font-size: 36px;
+  }
+}
+.stunt-briefing {
+  border: 1px solid #d5aa35;
+  border-left: 4px solid #efc347;
+  padding: 18px 22px;
+  margin: 0 0 24px;
+  border-radius: 10px;
+  background: rgba(225, 183, 54, 0.07);
+}
+.stunt-briefing strong {
+  display: block;
+  margin: 6px 0;
+  font-family: "Barlow Condensed";
+  font-size: 25px;
+}
+.stunt-briefing p {
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 0;
+}

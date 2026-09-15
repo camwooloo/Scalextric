@@ -1,3 +1,16 @@
+import {
+  baseCurve,
+  buildCircuit,
+  pieceNames,
+  pieceSpan,
+  featureAt,
+  advanceStunt,
+  jumpWindow,
+  loopMinimum,
+  repairSeconds,
+  collisionAt,
+  validFeatures,
+} from "./stunts.js";
 import "@fontsource/dm-sans/latin-400.css";
 import "@fontsource/dm-sans/latin-500.css";
 import "@fontsource/dm-sans/latin-600.css";
@@ -29,6 +42,10 @@ import {
   Layers,
   Lightbulb,
   MoveHorizontal,
+  MoveUpRight,
+  Shuffle,
+  RotateCw,
+  Wrench,
   Pause,
   Play,
   Plus,
@@ -64,6 +81,10 @@ const icons = {
   Layers,
   Lightbulb,
   MoveHorizontal,
+  MoveUpRight,
+  Shuffle,
+  RotateCw,
+  Wrench,
   Pause,
   Play,
   Plus,
@@ -191,6 +212,8 @@ const escape = (s) =>
 const allTracks = () => [...presets, ...profile.tracks];
 const track = () => allTracks()[selectedTrack] || presets[0];
 const car = () => cars.find((c) => c.id === profile.selected) || cars[0];
+const personalBestKey = () =>
+  `${track().name}|${track().features?.length ? `${circuitKey(track())}|` : ""}${car().id}`;
 function persist() {
   if (!save(profile))
     toast("Browser storage is full or unavailable. This session still works.");
@@ -206,14 +229,12 @@ function toast(message) {
 }
 function trackSvg(config, cls = "") {
   let pts = config.points;
-  const previewCurve = new THREE.CatmullRomCurve3(
-    pts.map((p) => new THREE.Vector3(p[0], 0, p[1])),
-    true,
-    "centripetal",
-  );
+  const previewCurve = config.features?.length
+    ? buildCircuit(config).curve
+    : baseCurve(config);
   const d =
     previewCurve
-      .getPoints(120)
+      .getPoints(240)
       .map((p, j) => `${j ? "L" : "M"}${p.x * 4 + 85} ${p.z * 4 + 49}`)
       .join(" ") + " Z";
   return `<svg class="track-map ${cls}" viewBox="0 0 170 100" fill="none"><path d="${d}" stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" opacity=".15"/><path d="${d}" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><circle cx="${pts[0][0] * 4 + 85}" cy="${pts[0][1] * 4 + 49}" r="3.5" fill="#ed643c"/></svg>`;
@@ -263,8 +284,27 @@ function home() {
       "",
     )}</div></div><div class="garage-peek"><div class="section-heading"><h2>In your garage</h2><button class="icon-btn" data-page="garage" aria-label="Open garage">${i("ArrowUpRight")}</button></div><div class="garage-feature"><span class="tiny">${car().type}</span><span class="garage-number">${car().number}</span>${carArt(car())}<h3>${car().name}</h3><div class="garage-caption"><span>${car().year} <span class="dot-divider">/</span> 1:32 SCALE</span><span class="ready"><span class="live-dot"></span> RACE READY</span></div></div></div></section>`;
 }
+function stuntBriefing() {
+  const features = track().features || [];
+  if (!features.length) return "";
+  const types = [...new Set(features.map((f) => f.type))];
+  const details = [];
+  if (types.includes("jump"))
+    details.push(
+      `Jump takeoff: ${Math.round(jumpWindow(car()).min * 7.2)}–${Math.round(jumpWindow(car()).max * 7.2)} km/h.`,
+    );
+  if (types.includes("loop"))
+    details.push(
+      `Loop minimum: ${Math.ceil(loopMinimum(car()) * 7.2)} km/h. Keep power through the top.`,
+    );
+  if (types.some((t) => ["crossover", "intersection"].includes(t)))
+    details.push(
+      "Watch your rival at shared crossing points; lift or brake to avoid contact.",
+    );
+  return `<div class="stunt-briefing"><span class="eyebrow">STUNT RACE BRIEFING</span><strong>${types.map((t) => pieceNames[t]).join(" · ")}</strong><p>${details.join(" ")} Crashes mean a 2.5–3.5s crew repair; the race keeps running.</p></div>`;
+}
 function setup() {
-  return `${heading("LIGHTS OUT. HEART RATE UP.", "Find your <em>racing line.</em>", "Choose your circuit, settle into your car, and squeeze the trigger.")}<div class="race-ticket"><div class="ticket-car">${carArt(car())}</div><div><span class="eyebrow">YOUR GRID IS READY</span><h2>${escape(car().name)}</h2><p>${escape(track().name)} · ${raceType === "practice" ? "Unlimited laps" : lapTarget + " laps"} · ${mode === "slot" ? "Classic slot" : "Driver view"}</p></div><button class="orange-btn" data-action="start">To the starting grid ${i("ArrowRight")}</button></div><div class="setup-grid"><div class="setup-preview"><div id="scene-mount"></div><div class="preview-caption"><span class="dark-pill">${escape(track().difficulty)}</span><h2>${escape(track().name)}</h2><p>${escape(car().name)} · ${Math.round(world?.length || 0)}m</p><p>PERSONAL BEST · ${formatTime(profile.records[track().name + "|" + car().id])}</p></div></div><div class="setup-panel"><h3>01 <span>The experience</span></h3><div class="mode-options"><button data-mode="slot" class="mode-btn ${mode === "slot" ? "selected" : ""}">${i("Gamepad2")}<strong>Classic slot</strong><small>Follow the car. Master the trigger.</small></button><button data-mode="driver" class="mode-btn ${mode === "driver" ? "selected" : ""}">${i("Gauge")}<strong>In the driver's seat</strong><small>Chase, cockpit & bumper cameras.</small></button></div><h3>02 <span>The challenge</span></h3><div class="segmented">${[
+  return `${heading("LIGHTS OUT. HEART RATE UP.", "Find your <em>racing line.</em>", "Choose your circuit, settle into your car, and squeeze the trigger.")}<div class="race-ticket"><div class="ticket-car">${carArt(car())}</div><div><span class="eyebrow">YOUR GRID IS READY</span><h2>${escape(car().name)}</h2><p>${escape(track().name)} · ${raceType === "practice" ? "Unlimited laps" : lapTarget + " laps"} · ${mode === "slot" ? "Classic slot" : "Driver view"}</p></div><button class="orange-btn" data-action="start">To the starting grid ${i("ArrowRight")}</button></div>${stuntBriefing()}<div class="setup-grid"><div class="setup-preview"><div id="scene-mount"></div><div class="preview-caption"><span class="dark-pill">${escape(track().difficulty)}</span><h2>${escape(track().name)}</h2><p>${escape(car().name)} · ${Math.round(world?.length || 0)}m</p><p>PERSONAL BEST · ${formatTime(profile.records[personalBestKey()])}</p></div></div><div class="setup-panel"><h3>01 <span>The experience</span></h3><div class="mode-options"><button data-mode="slot" class="mode-btn ${mode === "slot" ? "selected" : ""}">${i("Gamepad2")}<strong>Classic slot</strong><small>Follow the car. Master the trigger.</small></button><button data-mode="driver" class="mode-btn ${mode === "driver" ? "selected" : ""}">${i("Gauge")}<strong>In the driver's seat</strong><small>Chase, cockpit & bumper cameras.</small></button></div><h3>02 <span>The challenge</span></h3><div class="segmented">${[
     ["race", "Grand Prix"],
     ["time", "Time trial"],
     ["practice", "Free run"],
@@ -331,7 +371,8 @@ function settings() {
     ["W / ↑ / Space", "Accelerate"],
     ["S / ↓", "Brake"],
     ["C", "Cycle camera"],
-    ["R", "Put car back on track"],
+    ["R", "Re-slot after repairs"],
+    ["B", "Three-second pit break"],
     ["Esc / P", "Pause / resume"],
   ]
     .map(
@@ -340,7 +381,7 @@ function settings() {
     )
     .join(
       "",
-    )}<p>On touch screens, hold the orange trigger to accelerate or use the analogue slider to set precise power. Release before tight corners. Tap RESET after a crash.</p><div class="tip">${i("Gauge")} Lateral force grows with the square of speed. A little less throttle can make all the difference.</div></section></div>`;
+    )}<p>On touch screens, hold the orange trigger to accelerate or use the analogue slider to set precise power. Release before tight corners. The crew returns your car after a short repair countdown. Tap PIT for a three-second break; your rival keeps racing.</p><div class="tip">${i("Gauge")} Lateral force grows with the square of speed. A little less throttle can make all the difference.</div></section></div>`;
 }
 function editorPage() {
   if (!editor)
@@ -350,11 +391,15 @@ function editorPage() {
       selected: 0,
       history: [],
     };
-  return `${heading("IMAGINATION, ASSEMBLED.", "Welcome to <em>track studio.</em>", "Drag the orange handles to shape your circuit. Add sections, borders, and a bridge.")}<div class="editor-layout"><section class="editor-canvas"><div class="editor-toolbar"><span class="tiny">TOP VIEW / DRAG TO EDIT</span><button class="text-btn" data-action="undo">${i("Undo2")} Undo</button></div><svg id="editor-svg" viewBox="-22 -14 44 28" aria-label="Track layout editor"></svg><div class="editor-bottom"><span><span class="live-dot"></span> CLOSED LOOP</span><span id="piece-count"></span></div></section><section class="editor-panel"><label>Track name<input id="track-name" maxlength="40" value="${escape(editor.name)}"></label><label>Start from a preset<select id="editor-preset"><option value="">Choose a circuit…</option>${presets.map((t, j) => `<option value="${j}">${t.name}</option>`).join("")}</select></label><h3>Piece library</h3><p class="muted small">Sections insert after the selected orange handle.</p><div class="piece-grid">${[
+  return `${heading("IMAGINATION, ASSEMBLED.", "Welcome to <em>track studio.</em>", "Shape your circuit, then clip in crossovers, jumps and full vertical loops.")}<div class="editor-layout"><section class="editor-canvas"><div class="editor-toolbar"><span class="tiny">TOP VIEW / DRAG TO EDIT</span><button class="text-btn" data-action="undo">${i("Undo2")} Undo</button></div><svg id="editor-svg" viewBox="-22 -14 44 28" aria-label="Track layout editor"></svg><div class="editor-bottom"><span><span class="live-dot"></span> CLOSED LOOP</span><span id="piece-count"></span></div></section><section class="editor-panel"><label>Track name<input id="track-name" maxlength="40" value="${escape(editor.name)}"></label><label>Start from a preset<select id="editor-preset"><option value="">Choose a circuit…</option>${presets.map((t, j) => `<option value="${j}">${t.name}</option>`).join("")}</select></label><h3>Piece library</h3><p class="muted small">Sections insert after the selected orange handle. Stunts need clear space; adjust their lap position below.</p><div class="piece-grid">${[
     ["straight", "MoveHorizontal", "Straight"],
     ["curve", "CornerUpRight", "Curve"],
     ["chicane", "Spline", "Chicane"],
     ["bridge", "Landmark", "Bridge"],
+    ["crossover", "Shuffle", "Crossover"],
+    ["intersection", "Plus", "Intersection"],
+    ["jump", "MoveUpRight", "Jump"],
+    ["loop", "RotateCw", "Loop"],
   ]
     .map(
       ([a, ic, l]) =>
@@ -362,22 +407,25 @@ function editorPage() {
     )
     .join(
       "",
-    )}</div><label class="toggle-row">Track borders<input id="border-toggle" type="checkbox" ${editor.borders !== false ? "checked" : ""}></label><label class="toggle-row">Raised bridge<input id="bridge-toggle" type="checkbox" ${editor.bridge ? "checked" : ""}></label><button class="text-btn danger" data-action="remove-point">${i("Trash2")} Remove selected section</button><div class="tip">${i("Info")} Keep room between sections. The studio uses a continuous slot through your control points.</div><button class="orange-btn wide" data-action="save-track">${i("Save")} Save circuit</button><button class="outline-btn wide" data-action="test-track">${i("Flag")} Save & test drive</button></section></div>`;
+    )}</div><div class="stunt-list">${(editor.features || []).map((f, j) => `<div><span>${pieceNames[f.type]}</span><label>Position <input data-feature-position="${j}" aria-label="${pieceNames[f.type]} position" type="number" min="3" max="97" value="${Math.round(f.at * 100)}">%</label><button class="text-btn" data-remove-feature="${j}" aria-label="Remove ${pieceNames[f.type]}">×</button></div>`).join("")}</div><label class="toggle-row">Track borders<input id="border-toggle" type="checkbox" ${editor.borders !== false ? "checked" : ""}></label><label class="toggle-row">Raised bridge<input id="bridge-toggle" type="checkbox" ${editor.bridge ? "checked" : ""}></label><button class="text-btn danger" data-action="remove-point">${i("Trash2")} Remove selected section</button><div class="tip">${i("Info")} Keep room between sections. Yellow markers show stunt pieces. Test-drive after reshaping: jumps need speed control, loops need momentum and downforce.</div><button class="orange-btn wide" data-action="save-track">${i("Save")} Save circuit</button><button class="outline-btn wide" data-action="test-track">${i("Flag")} Save & test drive</button></section></div>`;
 }
 function drawEditor() {
   let svg = $("#editor-svg");
   if (!svg) return;
-  let curve = new THREE.CatmullRomCurve3(
-    editor.points.map((p) => new THREE.Vector3(p[0], 0, p[1])),
-    true,
-    "centripetal",
-  );
+  let curve = buildCircuit(editor).curve;
   let d =
     curve
       .getPoints(250)
       .map((p, j) => `${j ? "L" : "M"}${p.x} ${p.z}`)
       .join(" ") + "Z";
   svg.innerHTML = `<defs><pattern id="grid" width="1" height="1" patternUnits="userSpaceOnUse"><circle cx="0" cy="0" r=".035" fill="#879084"/></pattern></defs><rect x="-22" y="-14" width="44" height="28" fill="url(#grid)"/><path d="${d}" fill="none" stroke="${editor.borders === false ? "#b6b8ab" : "#e7b797"}" stroke-width="3.05"/><path d="${d}" fill="none" stroke="#35413b" stroke-width="2.4"/><path d="${d}" fill="none" stroke="#ced0bf" stroke-width=".05" stroke-dasharray=".3 .25"/>${editor.points.map((p, j) => `<circle data-handle="${j}" cx="${p[0]}" cy="${p[1]}" r="${editor.selected === j ? 0.48 : 0.32}" fill="${editor.selected === j ? "#ff6136" : "#f2eedf"}" stroke="#e55e35" stroke-width=".12"/>`).join("")}${editor.bridge ? `<text x="${editor.points[2][0]}" y="${editor.points[2][1] - 1}" text-anchor="middle" font-size=".7" fill="#df5d32">BRIDGE</text>` : ""}`;
+  for (const f of editor.features || []) {
+    const p = baseCurve(editor).getPointAt(f.at);
+    svg.insertAdjacentHTML(
+      "beforeend",
+      `<g pointer-events="none"><circle cx="${p.x}" cy="${p.z}" r=".65" fill="#f6c644" stroke="#182c28" stroke-width=".12"/><text x="${p.x}" y="${p.z + 0.22}" text-anchor="middle" font-size=".65" fill="#182c28">${{ loop: "↻", jump: "↗", crossover: "×", intersection: "+" }[f.type]}</text></g>`,
+    );
+  }
   $("#piece-count").textContent =
     `${editor.points.length} SECTIONS / ${Math.round(curve.getLength())}m`;
 }
@@ -454,7 +502,7 @@ function selectTrack(j) {
   state.ai = 0.03;
 }
 function raceUI() {
-  return `<div id="race-stage"><div id="scene-mount"></div><div class="race-top"><button class="race-icon" data-action="pause" aria-label="Pause race">${i("Pause")}</button><div class="race-title"><span>${raceType === "race" ? "GRAND PRIX" : raceType === "time" ? "TIME TRIAL" : "FREE RUN"}</span><strong>${escape(track().name)}</strong></div><div class="race-clock"><span>SESSION</span><strong id="race-time">00:00.00</strong></div></div><div class="race-left"><div class="race-position"><span>${raceType === "race" ? "POSITION" : "LAPS"}</span><strong id="position">1<small>/ 2</small></strong></div><div class="lap-stat"><span>LAP</span><strong id="lap">1 / ${lapTarget}</strong></div><div class="lap-stat"><span>BEST LAP</span><strong id="best-lap">—</strong></div></div><div class="race-map">${trackSvg(track()).replace("</svg>", '<circle id="player-map-dot" r="3.5" fill="#ff693c" stroke="#fff" stroke-width="1"/></svg>')}</div><div id="race-message" aria-live="polite"></div><div class="race-bottom"><div class="race-camera"><button data-action="camera">${i("Video")} <span id="camera-label">${state.cam}</span> <kbd>C</kbd></button><button data-action="reset">${i("RotateCcw")} Reset <kbd>R</kbd></button></div><div class="speedometer"><strong id="speed">0</strong><span>KM/H <b>1:32</b></span><div class="load-meter"><span id="load-fill"></span></div><small id="grip-label">GRIP AVAILABLE</small></div><div class="controller"><div class="controller-label"><span>THROTTLE</span><b id="power-label">0%</b></div><input id="throttle" aria-label="Analogue throttle" type="range" min="0" max="100" value="0"><div class="trigger-row"><button id="brake-button">BRAKE</button><button id="trigger">${i("Zap")} HOLD TO GO</button></div></div></div></div>`;
+  return `<div id="race-stage"><div id="scene-mount"></div><div class="race-top"><button class="race-icon" data-action="pause" aria-label="Pause race">${i("Pause")}</button><div class="race-title"><span>${raceType === "race" ? "GRAND PRIX" : raceType === "time" ? "TIME TRIAL" : "FREE RUN"}</span><strong>${escape(track().name)}</strong></div><div class="race-clock"><span>SESSION</span><strong id="race-time">00:00.00</strong></div></div><div class="race-left"><div class="race-position"><span>${raceType === "race" ? "POSITION" : "LAPS"}</span><strong id="position">1<small>/ 2</small></strong></div><div class="lap-stat"><span>LAP</span><strong id="lap">1 / ${lapTarget}</strong></div><div class="lap-stat"><span>BEST LAP</span><strong id="best-lap">—</strong></div></div><div class="race-map">${trackSvg(track()).replace("</svg>", '<circle id="player-map-dot" r="3.5" fill="#ff693c" stroke="#fff" stroke-width="1"/></svg>')}</div><div id="race-message" aria-live="polite" data-mode="${state.countdown > 0 ? Math.ceil(state.countdown) : ""}">${state.countdown > 0 ? `<div class="countdown">${Math.ceil(state.countdown)}</div><span>GET READY</span>` : ""}</div><div class="race-bottom"><div class="race-camera"><button data-action="camera">${i("Video")} <span id="camera-label">${state.cam}</span> <kbd>C</kbd></button><button data-action="reset">${i("RotateCcw")} Reset <kbd>R</kbd></button><button data-action="pit">${i("Wrench")} Pit <kbd>B</kbd></button></div><div class="speedometer"><strong id="speed">0</strong><span>KM/H <b>1:32</b></span><div class="load-meter"><span id="load-fill"></span></div><small id="grip-label">GRIP AVAILABLE</small></div><div class="controller"><div class="controller-label"><span>THROTTLE</span><b id="power-label">0%</b></div><input id="throttle" aria-label="Analogue throttle" type="range" min="0" max="100" value="0"><div class="trigger-row"><button id="brake-button">BRAKE</button><button id="trigger">${i("Zap")} HOLD TO GO</button></div></div></div></div>`;
 }
 function formatTime(s) {
   if (!Number.isFinite(s)) return "—";
@@ -551,6 +599,14 @@ async function start() {
     speed: 0,
     aiSpeed: 0,
     off: 0,
+    aiOff: 0,
+    aiRepair: 0,
+    repair: 0,
+    flight: null,
+    aiFlight: null,
+    crashReason: "",
+    returnProgress: undefined,
+    aiReturn: undefined,
     slip: 0,
     recovery: 1.2,
     time: 0,
@@ -581,10 +637,25 @@ async function start() {
 }
 function resetCar() {
   if (!state.racing || state.finished) return;
-  if (state.off) {
+  if (
+    !state.off &&
+    (state.flight || featureAt(world.features, state.progress)?.type === "loop")
+  ) {
+    toast("Finish the stunt before stopping for the crew.");
+    return;
+  }
+  if (state.off && state.repair > 0) {
+    toast(`Pit crew working · ${state.repair.toFixed(1)}s remaining`);
+    return;
+  }
+  if (state.off && state.crashReason !== "pit") {
     addStats(profile.stats, statContext, { reslots: 1 });
     queueSave();
   }
+  if (state.returnProgress !== undefined) state.progress = state.returnProgress;
+  state.returnProgress = undefined;
+  state.flight = null;
+  state.repair = 0;
   resetHandling(state);
   held = false;
   brake = false;
@@ -595,6 +666,42 @@ function resetCar() {
     $("#race-message").dataset.mode = "";
   }
   world?.draw(state, 0, 0);
+}
+function crashCar(reason, feature = null) {
+  if (state.off || state.finished) return;
+  if (
+    reason === "pit" &&
+    (state.flight ||
+      ["loop", "jump"].includes(
+        featureAt(world.features, state.progress)?.type,
+      ))
+  ) {
+    toast("Finish the stunt before taking a pit break.");
+    return;
+  }
+  state.off = 0.01;
+  state.repair = repairSeconds(reason);
+  state.crashReason = reason;
+  state.flight = null;
+  state.fly.copy(world.curve.getTangentAt(state.progress % 1));
+  if (feature && ["jump", "loop"].includes(reason))
+    state.returnProgress =
+      Math.floor(state.progress) +
+      Math.max(0.01, feature.start - 12 / world.length);
+  if (reason !== "pit") {
+    state.crashes++;
+    state.lapCrashes++;
+    addStats(profile.stats, statContext, { crashes: 1 });
+  }
+  addStats(profile.stats, statContext, {
+    pitStops: 1,
+    ...(reason === "collision" ? { collisions: 1 } : {}),
+  });
+  queueSave();
+  held = false;
+  brake = false;
+  manualThrottle = 0;
+  if ($("#throttle")) $("#throttle").value = 0;
 }
 function modal(title, body, buttons) {
   $("#modal-root").innerHTML =
@@ -634,7 +741,7 @@ function finish(aiWon = false) {
   manualThrottle = 0;
   stopAudio();
   profile.races++;
-  const key = track().name + "|" + car().id;
+  const key = personalBestKey();
   if (
     Number.isFinite(state.best) &&
     (!profile.records[key] || state.best < profile.records[key])
@@ -658,6 +765,7 @@ function pushHistory() {
       bridge: editor.bridge,
       borders: editor.borders,
       heights: editor.heights,
+      features: editor.features || [],
     }),
   );
   if (editor.history.length > 40) editor.history.shift();
@@ -676,6 +784,12 @@ function saveTrack(test = false) {
     toast("Give neighbouring handles at least 1.8m of space.");
     return;
   }
+  if (!validFeatures(editor)) {
+    toast(
+      "Stunt pieces overlap or sit too close to the start. Move or remove a piece first.",
+    );
+    return;
+  }
   const t = {
     name: editor.name,
     points: structuredClone(editor.points),
@@ -683,6 +797,7 @@ function saveTrack(test = false) {
     borders: editor.borders,
     theme: editor.theme,
     heights: editor.heights,
+    features: structuredClone(editor.features || []),
     description: "Designed in your track studio. Ready for the starting grid.",
     difficulty: "Custom",
     id: editor.id || crypto.randomUUID(),
@@ -770,6 +885,47 @@ document.addEventListener("click", (e) => {
     window.scrollTo(0, previousScroll);
     return;
   }
+  if (el.dataset.removeFeature !== undefined) {
+    pushHistory();
+    editor.features.splice(+el.dataset.removeFeature, 1);
+    render();
+    return;
+  }
+  if (el.dataset.piece && pieceNames[el.dataset.piece]) {
+    const curve = baseCurve(editor),
+      p = editor.points[editor.selected];
+    let nearest = 0,
+      distance = Infinity;
+    for (let j = 0; j < 1000; j++) {
+      const q = curve.getPointAt(j / 1000),
+        d = Math.hypot(q.x - p[0], q.z - p[1]);
+      if (d < distance) {
+        distance = d;
+        nearest = j / 1000;
+      }
+    }
+    const f = {
+      type: el.dataset.piece,
+      at: Math.min(
+        0.88,
+        Math.max(
+          0.1,
+          nearest + pieceSpan[el.dataset.piece] / curve.getLength() / 2 + 0.025,
+        ),
+      ),
+    };
+    const features = [...(editor.features || []), f];
+    if (!validFeatures({ ...editor, features })) {
+      toast(
+        "No clear space here. Choose another handle or move an existing stunt piece.",
+      );
+      return;
+    }
+    pushHistory();
+    editor.features = features;
+    render();
+    return;
+  }
   if (el.dataset.piece) {
     if (editor.points.length >= 40) {
       toast("Maximum 40 control sections per circuit.");
@@ -807,6 +963,10 @@ document.addEventListener("click", (e) => {
     return;
   }
   switch (el.dataset.action) {
+    case "pit":
+      if (state.racing && !paused && !state.finished && state.countdown <= 0)
+        crashCar("pit");
+      break;
     case "next-track":
       selectTrack((selectedTrack + 1) % allTracks().length);
       render();
@@ -831,7 +991,7 @@ document.addEventListener("click", (e) => {
     case "help":
       modal(
         "A little throttle. A lot of feeling.",
-        `<p>Pick a circuit and a car, then choose Classic slot or a driver camera. Hold <kbd>W</kbd>, <kbd>↑</kbd> or <kbd>Space</kbd> to accelerate. Release before bends, or use <kbd>S</kbd> to brake.</p><p>Too fast in a corner? Your car flies off. Press <kbd>R</kbd> to re-slot it. On mobile, use the on-screen trigger and throttle slider.</p>`,
+        `<p>Pick a circuit and a car, then choose Classic slot or a driver camera. Hold <kbd>W</kbd>, <kbd>↑</kbd> or <kbd>Space</kbd> to accelerate. Release before bends, or use <kbd>S</kbd> to brake.</p><p>Too fast in a corner? Your car flies off. The pit crew repairs and re-slots it after a short countdown. Use <kbd>B</kbd> for a three-second pit break. Jumps reward controlled takeoff speed; keep power on through vertical loops. Crossovers and intersections share space with your rival. On mobile, use the on-screen trigger and throttle slider.</p>`,
         `<button class="orange-btn" data-action="close">Got it ${i("ArrowRight")}</button>`,
       );
       break;
@@ -880,6 +1040,20 @@ document.addEventListener("click", (e) => {
 });
 document.addEventListener("change", async (e) => {
   let el = e.target;
+  if (el.dataset.featurePosition !== undefined) {
+    const j = +el.dataset.featurePosition,
+      features = structuredClone(editor.features);
+    features[j].at = Number(el.value) / 100;
+    if (!validFeatures({ ...editor, features })) {
+      toast("Leave room between stunt pieces and the starting line.");
+      render();
+      return;
+    }
+    pushHistory();
+    editor.features = features;
+    drawEditor();
+    return;
+  }
   switch (el.id) {
     case "track-select":
       selectTrack(+el.value);
@@ -1046,6 +1220,7 @@ document.addEventListener("keydown", (e) => {
   if (["w", "arrowup", " "].includes(key)) held = true;
   if (["s", "arrowdown"].includes(key)) brake = true;
   if (key === "r") resetCar();
+  if (key === "b" && !e.repeat && state.countdown <= 0) crashCar("pit");
   if (key === "c" && !e.repeat)
     document.querySelector('[data-action="camera"]')?.click();
 });
@@ -1110,29 +1285,44 @@ function advanceSimulation(dt) {
       const throttle = held ? 1 : manualThrottle;
       if (state.off > 0) {
         state.off += dt;
+        state.repair = Math.max(0, state.repair - dt);
+        addStats(profile.stats, statContext, { pitSeconds: dt });
         state.speed = 0;
+        if (state.repair === 0) resetCar();
       } else {
-        state.speed = stepSpeed(state.speed, throttle, brake, dt, car());
+        if (!state.flight)
+          state.speed = stepSpeed(state.speed, throttle, brake, dt, car());
         let u = state.progress % 1;
-        const curvature = sampleCurvature(world.curve, world.length, u);
+        const activeFeature = featureAt(world.features, u);
+        const curvature =
+          activeFeature?.type === "loop" || state.flight
+            ? 0
+            : sampleCurvature(world.curve, world.length, u);
         state.load = cornerLoad(state.speed, curvature, car().grip);
         state.recovery = Math.max(0, state.recovery - dt);
         state.slip =
           state.recovery > 0 ? 0 : stepGrip(state.load, state.slip, dt);
         if (state.slip > car().stability && state.speed > 8) {
-          state.off = 0.01;
-          state.fly.copy(world.curve.getTangentAt(u));
-          state.crashes++;
-          state.lapCrashes++;
-          addStats(profile.stats, statContext, { crashes: 1 });
-          queueSave();
-          held = false;
-          brake = false;
-          manualThrottle = 0;
-          $("#throttle").value = 0;
+          crashCar("corner");
         } else {
+          const previousProgress = state.progress;
           let prev = Math.floor(state.progress);
           state.progress += (state.speed * dt) / world.length;
+          const event = advanceStunt(state, world, car(), previousProgress, dt);
+          if (event === "jump" || event === "loop")
+            crashCar(event, featureAt(world.features, state.progress));
+          if (event === "takeoff")
+            addStats(profile.stats, statContext, { jumps: 1 });
+          if (event === "landed")
+            addStats(profile.stats, statContext, { landings: 1 });
+          for (const f of world.features)
+            if (
+              f.type === "loop" &&
+              previousProgress % 1 < f.end &&
+              state.progress % 1 >= f.end &&
+              !state.off
+            )
+              addStats(profile.stats, statContext, { loops: 1 });
           addStats(profile.stats, statContext, {
             distance: state.speed * dt,
             topSpeed: state.speed,
@@ -1147,7 +1337,7 @@ function advanceSimulation(dt) {
             state.lapCrashes = 0;
             queueSave();
             state.best = Math.min(state.best, state.lapTime);
-            const recordKey = track().name + "|" + car().id;
+            const recordKey = personalBestKey();
             if (
               !profile.records[recordKey] ||
               state.best < profile.records[recordKey]
@@ -1165,15 +1355,74 @@ function advanceSimulation(dt) {
         }
       }
       if (raceType === "race") {
-        let aiU = state.ai % 1,
-          ac =
-            world.curve
-              .getTangentAt(aiU)
-              .angleTo(world.curve.getTangentAt((aiU + 0.018) % 1)) /
-            (world.length * 0.018);
-        let desired = Math.min(15, Math.sqrt(17 / Math.max(0.01, ac)));
-        state.aiSpeed += (desired - state.aiSpeed) * Math.min(dt * 4, 1);
-        state.ai += (state.aiSpeed * dt) / world.length;
+        if (state.aiOff) {
+          state.aiOff += dt;
+          state.aiRepair -= dt;
+          state.aiSpeed = 0;
+          if (state.aiRepair <= 0) {
+            state.aiOff = 0;
+            state.ai = state.aiReturn ?? state.ai;
+            state.aiReturn = undefined;
+          }
+        } else {
+          const rival = cars[car().id === "aston" ? 0 : 4],
+            aiU = state.ai % 1;
+          const f = featureAt(world.features, aiU),
+            ahead = featureAt(world.features, (aiU + 6 / world.length) % 1);
+          const stunt = f || ahead;
+          const ac =
+            f?.type === "loop"
+              ? 0
+              : sampleCurvature(world.curve, world.length, aiU);
+          let desired = Math.min(15, Math.sqrt(17 / Math.max(0.01, ac)));
+          if (stunt?.type === "loop") desired = loopMinimum(rival) + 3;
+          if (stunt?.type === "jump") {
+            const w = jumpWindow(rival);
+            desired = (w.min + w.max) / 2;
+          }
+          if (!state.aiFlight)
+            state.aiSpeed = stepSpeed(
+              state.aiSpeed,
+              desired / rival.speed,
+              false,
+              dt,
+              rival,
+            );
+          const previous = state.ai;
+          state.ai += (state.aiSpeed * dt) / world.length;
+          const aiState = {
+            progress: state.ai,
+            speed: state.aiSpeed,
+            flight: state.aiFlight,
+          };
+          const event = advanceStunt(aiState, world, rival, previous, dt);
+          state.aiFlight = aiState.flight;
+          if (event === "jump" || event === "loop") {
+            state.aiOff = 0.01;
+            state.aiRepair = repairSeconds(event);
+            state.aiFlight = null;
+            const failed = featureAt(world.features, state.ai);
+            state.aiReturn =
+              Math.floor(state.ai) +
+              Math.max(0.01, (failed?.start || 0) - 12 / world.length);
+          }
+          if (
+            !state.off &&
+            !state.aiOff &&
+            !state.flight &&
+            !state.aiFlight &&
+            state.recovery <= 0 &&
+            world.features.length &&
+            collisionAt(
+              world.pose(state.progress, -0.6).p,
+              world.pose(state.ai, 0.6).p,
+            )
+          ) {
+            crashCar("collision");
+            state.aiOff = 0.01;
+            state.aiRepair = repairSeconds("collision");
+          }
+        }
         if (state.ai >= lapTarget && !state.finished) finish(true);
       }
       if (gain) {
@@ -1226,6 +1475,11 @@ function frame(now) {
     $("#load-fill").style.background = state.load > 0.8 ? "#ff5e36" : "#b3d298";
     $("#grip-label").textContent =
       state.load > 0.8 ? "EASE OFF · LIMIT APPROACHING" : "GRIP AVAILABLE";
+    const activeStunt = featureAt(world.features, state.progress);
+    if (state.flight)
+      $("#grip-label").textContent = "AIRBORNE · HOLD YOUR LINE";
+    else if (activeStunt?.type === "loop")
+      $("#grip-label").textContent = "LOOP · KEEP YOUR MOMENTUM";
     const messageMode =
       state.countdown > 0
         ? String(Math.ceil(state.countdown))
@@ -1240,11 +1494,13 @@ function frame(now) {
         state.countdown > 0
           ? `<div class="countdown">${Math.ceil(state.countdown)}</div><span>GET READY</span>`
           : state.off
-            ? `<div class="off-label">OFF THE SLOT!</div><button data-action="reset">${i("RotateCcw")} Re-slot car <kbd>R</kbd></button>`
+            ? `<div class="off-label">${state.crashReason === "pit" ? "PIT BREAK" : "OFF THE SLOT!"}</div><span class="repair-reason">${{ corner: "Corner overload", jump: "Missed landing", loop: "Lost loop grip", collision: "Track collision", pit: "Crew checks & a breather" }[state.crashReason] || "Recovering"}</span><strong id="repair-clock"></strong><small>Race clock running · automatic return</small><button data-action="reset">${i("Wrench")} Re-slot car <kbd>R</kbd></button>`
             : "";
       iconify();
     }
   }
+  if (state.off && $("#repair-clock"))
+    $("#repair-clock").textContent = `${Math.max(0, state.repair).toFixed(1)}s`;
   if (!paused) world.draw(state, dt, time);
   frameAverage = frameAverage * 0.98 + elapsed * 0.02;
   if (

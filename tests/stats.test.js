@@ -75,3 +75,31 @@ test("circuit identity survives rename but distinguishes layout changes", () => 
   assert.equal(circuitKey(a), circuitKey({ ...a, name: "B" }));
   assert.notEqual(circuitKey(a), circuitKey({ ...a, bridge: true }));
 });
+
+import { statsView } from "../src/stats-view.js";
+import { cars, presets } from "../src/data.js";
+test("stunt layout best laps exclude the original route and display readable car names", () => {
+  const track = {
+    ...presets.find((t) => t.name === "Loop Laboratory"),
+    name: "Custom circuit",
+  };
+  const key = circuitKey(track);
+  const profile = normalize({
+    version: 1,
+    records: {
+      "Custom circuit|porsche": 10,
+      [`Custom circuit|${key}|porsche`]: 30,
+      "Custom circuit|circuit-other|porsche": 5,
+    },
+  });
+  const html = statsView(profile, [track], cars, {
+    heading: () => "",
+    escape: String,
+    formatTime: (v) => (Number.isFinite(v) ? `${v}s` : "—"),
+  });
+  assert.ok(
+    html.includes('<th>Custom circuit</th><td class="timing">30s</td>'),
+  );
+  assert.ok(html.includes("Custom circuit · Stunt layout"));
+  assert.ok(!html.includes(key));
+});
