@@ -1,3 +1,4 @@
+import { ClubAudio, engineAllowed } from "./audio.js";
 import {
   baseCurve,
   buildCircuit,
@@ -257,7 +258,7 @@ $("#app").innerHTML =
     )
     .join(
       "",
-    )}</nav><div class="sidebar-bottom"><div class="club-card"><span class="live-dot"></span> SMALL SCALE. NO LIMITS.<p>Your next great race<br>starts right here.</p><span class="tiny">THE 1:32 RACING EXPERIENCE</span></div><button data-page="settings" class="nav-item">${i("SlidersHorizontal")}<span>Settings & controls</span></button><div class="profile"><div class="avatar">DR</div><div><strong>Club driver</strong><small>LOCAL PLAYER</small></div><span class="online"></span></div></div></aside><main><header><div class="breadcrumb">THE PADDOCK <span>/</span> <b id="page-label">OVERVIEW</b></div><div class="header-right"><button class="theme-switch" data-action="theme" aria-label="Toggle dark theme">◐</button><span class="storage-status">${i("HardDrive")} Saved on this device</span><span class="header-line"></span><span class="member">CLUB MEMBER <b>001</b></span></div></header><div id="content"></div><footer><span><span class="live-dot"></span> ALL SYSTEMS GO</span><span>BUILT FOR THE LOVE OF THE RACE.</span><button class="footer-settings" data-page="settings">Settings & controls ↗</button></footer></main><div id="toast" role="status"></div><div id="modal-root"></div>`;
+    )}</nav><div class="sidebar-bottom"><div class="club-card"><span class="live-dot"></span> SMALL SCALE. NO LIMITS.<p>Your next great race<br>starts right here.</p><span class="tiny">THE 1:32 RACING EXPERIENCE</span></div><button data-page="settings" class="nav-item">${i("SlidersHorizontal")}<span>Settings & controls</span></button><div class="profile"><div class="avatar">DR</div><div><strong>Club driver</strong><small>LOCAL PLAYER</small></div><span class="online"></span></div></div></aside><main><header><div class="breadcrumb">THE PADDOCK <span>/</span> <b id="page-label">OVERVIEW</b></div><div class="header-right"><button class="music-toggle" data-action="music" aria-pressed="${profile.settings.music}" title="Toggle retro background music">♫ Music <b>${profile.settings.music ? "ON" : "OFF"}</b></button><button class="theme-switch" data-action="theme" aria-label="Toggle dark theme">◐</button><span class="storage-status">${i("HardDrive")} Saved on this device</span><span class="header-line"></span><span class="member">CLUB MEMBER <b>001</b></span></div></header><div id="content"></div><footer><span><span class="live-dot"></span> ALL SYSTEMS GO</span><span>BUILT FOR THE LOVE OF THE RACE.</span><button class="footer-settings" data-page="settings">Settings & controls ↗</button></footer></main><div id="toast" role="status"></div><div id="modal-root"></div>`;
 const sceneEl = document.createElement("div");
 sceneEl.id = "scene";
 try {
@@ -367,7 +368,7 @@ function settings() {
     )
     .join(
       "",
-    )}</select></label><label class="toggle-row">Engine sound<input type="checkbox" id="sound-toggle" ${profile.settings.sound ? "checked" : ""}></label><h3>Browser storage</h3><p>Your garage, custom tracks, best laps, and settings save automatically on this device.</p><button class="outline-btn" data-action="export">${i("Download")} Export save backup</button><label class="outline-btn import-label">${i("Upload")} Import backup<input type="file" id="import-save" accept="application/json" hidden></label></section><section class="settings-card"><h2>Master the trigger</h2>${[
+    )}</select></label><label class="toggle-row">Engine sound<input type="checkbox" id="sound-toggle" ${profile.settings.sound ? "checked" : ""}></label><label class="audio-volume">Engine volume <input id="engine-volume" type="range" aria-label="Engine volume" min="0" max="100" value="${Math.round(profile.settings.engineVolume * 100)}"></label><label class="toggle-row">Retro background music<input type="checkbox" id="music-toggle" ${profile.settings.music ? "checked" : ""}></label><p class="small muted">Off by default. An original retro synth soundtrack for the paddock and the race.</p><label class="audio-volume">Music volume <input id="music-volume" type="range" aria-label="Music volume" min="0" max="100" value="${Math.round(profile.settings.musicVolume * 100)}"></label><h3>Browser storage</h3><p>Your garage, custom tracks, best laps, and settings save automatically on this device.</p><button class="outline-btn" data-action="export">${i("Download")} Export save backup</button><label class="outline-btn import-label">${i("Upload")} Import backup<input type="file" id="import-save" accept="application/json" hidden></label></section><section class="settings-card"><h2>Master the trigger</h2>${[
     ["W / ↑ / Space", "Accelerate"],
     ["S / ↓", "Brake"],
     ["C", "Cycle camera"],
@@ -502,32 +503,46 @@ function selectTrack(j) {
   state.ai = 0.03;
 }
 function raceUI() {
-  return `<div id="race-stage"><div id="scene-mount"></div><div class="race-top"><button class="race-icon" data-action="pause" aria-label="Pause race">${i("Pause")}</button><div class="race-title"><span>${raceType === "race" ? "GRAND PRIX" : raceType === "time" ? "TIME TRIAL" : "FREE RUN"}</span><strong>${escape(track().name)}</strong></div><div class="race-clock"><span>SESSION</span><strong id="race-time">00:00.00</strong></div></div><div class="race-left"><div class="race-position"><span>${raceType === "race" ? "POSITION" : "LAPS"}</span><strong id="position">1<small>/ 2</small></strong></div><div class="lap-stat"><span>LAP</span><strong id="lap">1 / ${lapTarget}</strong></div><div class="lap-stat"><span>BEST LAP</span><strong id="best-lap">—</strong></div></div><div class="race-map">${trackSvg(track()).replace("</svg>", '<circle id="player-map-dot" r="3.5" fill="#ff693c" stroke="#fff" stroke-width="1"/></svg>')}</div><div id="race-message" aria-live="polite" data-mode="${state.countdown > 0 ? Math.ceil(state.countdown) : ""}">${state.countdown > 0 ? `<div class="countdown">${Math.ceil(state.countdown)}</div><span>GET READY</span>` : ""}</div><div class="race-bottom"><div class="race-camera"><button data-action="camera">${i("Video")} <span id="camera-label">${state.cam}</span> <kbd>C</kbd></button><button data-action="reset">${i("RotateCcw")} Reset <kbd>R</kbd></button><button data-action="pit">${i("Wrench")} Pit <kbd>B</kbd></button></div><div class="speedometer"><strong id="speed">0</strong><span>KM/H <b>1:32</b></span><div class="load-meter"><span id="load-fill"></span></div><small id="grip-label">GRIP AVAILABLE</small></div><div class="controller"><div class="controller-label"><span>THROTTLE</span><b id="power-label">0%</b></div><input id="throttle" aria-label="Analogue throttle" type="range" min="0" max="100" value="0"><div class="trigger-row"><button id="brake-button">BRAKE</button><button id="trigger">${i("Zap")} HOLD TO GO</button></div></div></div></div>`;
+  return `<div id="race-stage"><div id="scene-mount"></div><div class="race-top"><button class="race-icon" data-action="pause" aria-label="Pause race">${i("Pause")}</button><div class="race-title"><span>${raceType === "race" ? "GRAND PRIX" : raceType === "time" ? "TIME TRIAL" : "FREE RUN"}</span><strong>${escape(track().name)}</strong></div><div class="race-clock"><span>SESSION</span><strong id="race-time">00:00.00</strong></div></div><div class="race-left"><div class="race-position"><span>${raceType === "race" ? "POSITION" : "LAPS"}</span><strong id="position">1<small>/ 2</small></strong></div><div class="lap-stat"><span>LAP</span><strong id="lap">1 / ${lapTarget}</strong></div><div class="lap-stat"><span>BEST LAP</span><strong id="best-lap">—</strong></div></div><div class="race-map">${trackSvg(track()).replace("</svg>", '<circle id="player-map-dot" r="3.5" fill="#ff693c" stroke="#fff" stroke-width="1"/></svg>')}</div><div id="race-message" aria-live="polite" data-mode="${state.countdown > 0 ? Math.ceil(state.countdown) : ""}">${state.countdown > 0 ? `<div class="countdown">${Math.ceil(state.countdown)}</div><span>GET READY</span>` : ""}</div><div class="race-bottom"><div class="race-camera"><button data-action="camera">${i("Video")} <span id="camera-label">${state.cam}</span> <kbd>C</kbd></button><button data-action="reset">${i("RotateCcw")} Reset <kbd>R</kbd></button><button data-action="pit">${i("Wrench")} Pit <kbd>B</kbd></button><button class="music-toggle" data-action="music" aria-pressed="${profile.settings.music}">♫ Music <b>${profile.settings.music ? "ON" : "OFF"}</b></button></div><div class="speedometer"><strong id="speed">0</strong><span>KM/H <b>1:32</b></span><div class="load-meter"><span id="load-fill"></span></div><small id="grip-label">GRIP AVAILABLE</small></div><div class="controller"><div class="controller-label"><span>THROTTLE</span><b id="power-label">0%</b></div><input id="throttle" aria-label="Analogue throttle" type="range" min="0" max="100" value="0"><div class="trigger-row"><button id="brake-button">BRAKE</button><button id="trigger">${i("Zap")} HOLD TO GO</button></div></div></div></div>`;
 }
 function formatTime(s) {
   if (!Number.isFinite(s)) return "—";
   let m = Math.floor(s / 60);
   return `${String(m).padStart(2, "0")}:${(s % 60).toFixed(2).padStart(5, "0")}`;
 }
-let audioContext, osc, gain;
+const clubAudio = new ClubAudio();
+function syncAudio() {
+  clubAudio.engineVolume = profile.settings.engineVolume;
+  const hidden = document.hidden || !document.hasFocus();
+  clubAudio.updateEngine(
+    engineAllowed(state, profile.settings, paused, hidden),
+    car(),
+    state.speed,
+    held ? 1 : manualThrottle,
+    brake,
+  );
+  clubAudio.setMusic(
+    profile.settings.music && !hidden && !paused,
+    profile.settings.musicVolume * (state.racing && !state.finished ? 0.72 : 1),
+  );
+}
 function startAudio() {
-  if (!profile.settings.sound) return;
-  try {
-    audioContext ||= new (window.AudioContext || window.webkitAudioContext)();
-    audioContext.resume();
-    if (!osc) {
-      osc = audioContext.createOscillator();
-      gain = audioContext.createGain();
-      osc.type = "sawtooth";
-      gain.gain.value = 0;
-      osc.connect(gain);
-      gain.connect(audioContext.destination);
-      osc.start();
-    }
-  } catch {}
+  if (profile.settings.sound || profile.settings.music) clubAudio.unlock();
+  syncAudio();
 }
 function stopAudio() {
-  if (gain) gain.gain.setTargetAtTime(0, audioContext.currentTime, 0.08);
+  clubAudio.stopEngine();
+}
+function setMusic(enabled) {
+  profile.settings.music = enabled;
+  if (enabled) clubAudio.unlock();
+  syncAudio();
+  persist();
+  document.querySelectorAll('[data-action="music"]').forEach((button) => {
+    button.setAttribute("aria-pressed", String(enabled));
+    button.innerHTML = `♫ Music <b>${enabled ? "ON" : "OFF"}</b>`;
+  });
+  if ($("#music-toggle")) $("#music-toggle").checked = enabled;
 }
 async function start() {
   if (state.starting) return;
@@ -823,6 +838,10 @@ document.addEventListener("click", (e) => {
   }
   let el = e.target.closest("button");
   if (!el) return;
+  if (el.dataset.action === "music") {
+    setMusic(!profile.settings.music);
+    return;
+  }
   if (el.dataset.action === "theme") {
     profile.settings.theme =
       document.documentElement.dataset.theme === "dark" ? "light" : "dark";
@@ -1116,8 +1135,13 @@ document.addEventListener("change", async (e) => {
       persist();
       applyQuality();
       break;
+    case "music-toggle":
+      setMusic(el.checked);
+      break;
     case "sound-toggle":
       profile.settings.sound = el.checked;
+      if (el.checked) clubAudio.unlock();
+      syncAudio();
       persist();
       break;
     case "import-save":
@@ -1133,6 +1157,8 @@ document.addEventListener("change", async (e) => {
         )
           throw Error();
         profile = normalize(p);
+        clubAudio.silence();
+        setMusic(profile.settings.music);
         applyTheme();
         mode = profile.racePrefs.mode;
         raceType = profile.racePrefs.type;
@@ -1151,6 +1177,14 @@ document.addEventListener("change", async (e) => {
   }
 });
 document.addEventListener("input", (e) => {
+  if (["engine-volume", "music-volume"].includes(e.target.id)) {
+    profile.settings[
+      e.target.id === "engine-volume" ? "engineVolume" : "musicVolume"
+    ] = Number(e.target.value) / 100;
+    clubAudio.unlock();
+    syncAudio();
+    persist();
+  }
   if (e.target.id === "car-search") {
     garageFilter.query = e.target.value;
     garageFilter.page = 0;
@@ -1160,6 +1194,10 @@ document.addEventListener("input", (e) => {
 });
 let drag = null;
 document.addEventListener("pointerdown", (e) => {
+  if (profile.settings.music) {
+    clubAudio.unlock();
+    syncAudio();
+  }
   if (e.target.closest("#trigger")) {
     e.preventDefault();
     held = true;
@@ -1200,6 +1238,10 @@ function release() {
 document.addEventListener("pointerup", release);
 document.addEventListener("pointercancel", release);
 document.addEventListener("keydown", (e) => {
+  if (profile.settings.music) {
+    clubAudio.unlock();
+    syncAudio();
+  }
   if (state.starting) {
     if (e.key === "Escape") navigate("race");
     if (e.key === "Tab") {
@@ -1228,18 +1270,22 @@ document.addEventListener("keyup", (e) => {
   if (["w", "arrowup", " "].includes(e.key.toLowerCase())) held = false;
   if (["s", "arrowdown"].includes(e.key.toLowerCase())) brake = false;
 });
+window.addEventListener("focus", () => syncAudio());
 window.addEventListener("blur", () => {
+  clubAudio.silence();
   release();
   manualThrottle = 0;
   if (state.racing && !paused && !state.finished) pause();
 });
 window.addEventListener("pagehide", () => {
+  clubAudio.silence();
   if (state.racing && statContext)
     recordSession(profile.stats, statContext, state, "Exited");
   persist();
 });
 document.addEventListener("visibilitychange", () => {
   if (document.hidden) {
+    clubAudio.silence();
     release();
     if (state.racing && !paused && !state.finished) pause();
     persist();
@@ -1425,18 +1471,6 @@ function advanceSimulation(dt) {
         }
         if (state.ai >= lapTarget && !state.finished) finish(true);
       }
-      if (gain) {
-        gain.gain.setTargetAtTime(
-          state.off ? 0 : 0.014 * throttle,
-          audioContext.currentTime,
-          0.05,
-        );
-        osc.frequency.setTargetAtTime(
-          50 + state.speed * 13,
-          audioContext.currentTime,
-          0.06,
-        );
-      }
     }
   } else if (!state.racing) {
     state.progress += dt * 0.032;
@@ -1449,10 +1483,12 @@ function frame(now) {
   let dt = Math.min(elapsed / 1000, 0.5);
   last = now;
   time += dt;
+  syncAudio();
   if (document.hidden || !sceneEl.isConnected || !world) return;
   // Fixed physics steps keep grip/recovery consistent even on slower frames.
   for (let remaining = dt; remaining > 1e-6; remaining -= 1 / 60)
     advanceSimulation(Math.min(remaining, 1 / 60));
+  syncAudio();
   if (state.racing && now - hudTime > 70) {
     hudTime = now;
     const mapPos = world.curve.getPointAt(state.progress % 1);

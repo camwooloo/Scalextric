@@ -101,6 +101,12 @@ Existing personal bests are retained. New counters start with this update; older
 
 ![Driver statistics](docs/screenshots/stats.png)
 
+## Set the soundtrack
+
+Layered engine audio follows the throttle, revs and gear shifts, with softened high frequencies and its own volume slider. Engines stop at the finish, during repairs and when paused.
+
+The **♫ Music OFF** button in the header and race controls enables an original retro synth soundtrack. Music starts off by default; its toggle and separate volume setting save in your browser. Leaving the tab silences both channels.
+
 ## Race your way
 
 | Experience | What’s on the grid |

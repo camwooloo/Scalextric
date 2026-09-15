@@ -3505,3 +3505,58 @@ h1 {
   line-height: 1.6;
   margin: 0;
 }
+.music-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 8px 11px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: transparent;
+  color: inherit;
+  font:
+    600 12px "DM Sans",
+    sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.music-toggle b {
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+.music-toggle[aria-pressed="true"] {
+  border-color: #f16d43;
+  background: rgba(241, 109, 67, 0.12);
+}
+.music-toggle[aria-pressed="true"] b {
+  color: #f16d43;
+}
+.audio-volume {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin: 12px 0 24px;
+  font-size: 13px;
+}
+.audio-volume input {
+  width: 55%;
+  accent-color: #ee6a40;
+}
+@media (max-width: 600px) {
+  .header-right {
+    gap: 7px;
+  }
+  .header-right .music-toggle {
+    font-size: 11px;
+    padding: 7px 8px;
+  }
+  .race-camera {
+    max-width: 100%;
+  }
+  .race-camera .music-toggle {
+    margin-left: auto;
+  }
+}

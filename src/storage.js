@@ -12,7 +12,14 @@ const defaults = {
   records: {},
   stats: null,
   races: 0,
-  settings: { quality: "auto", sound: true, theme: "dark" },
+  settings: {
+    quality: "auto",
+    sound: true,
+    theme: "dark",
+    music: false,
+    engineVolume: 0.45,
+    musicVolume: 0.3,
+  },
   lastTrack: 0,
   presetCount: presets.length,
   racePrefs: { mode: "slot", type: "race", laps: 3 },
@@ -74,6 +81,13 @@ export function normalize(raw) {
           : raw.lastTrack
         : 0,
     settings: {
+      music: raw.settings?.music === true,
+      engineVolume: Number.isFinite(raw.settings?.engineVolume)
+        ? Math.max(0, Math.min(1, raw.settings.engineVolume))
+        : 0.45,
+      musicVolume: Number.isFinite(raw.settings?.musicVolume)
+        ? Math.max(0, Math.min(1, raw.settings.musicVolume))
+        : 0.3,
       theme: ["dark", "light", "system"].includes(raw.settings?.theme)
         ? raw.settings.theme
         : "dark",
