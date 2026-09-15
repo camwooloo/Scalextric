@@ -1,0 +1,6 @@
+Model: 1976 Volkswagen Golf GTI Mk1
+Author: ddiaz-design (https://sketchfab.com/ddiaz-design)
+Source: https://sketchfab.com/3d-models/1976-volkswagen-golf-gti-mk1-1fc46cb37bd748e3bb9355fcedaf3817
+License: CC Attribution-NonCommercial-ShareAlike (by-nc-sa) — http://creativecommons.org/licenses/by-nc-sa/4.0/
+Downloaded: 2026-06-13 via Sketchfab Download API
+Modifications: scale-normalized, meshopt-compressed, textures resized/transcoded to webp for real-time display.

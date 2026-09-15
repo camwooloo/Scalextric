@@ -1,0 +1,6 @@
+Model: Lamborghini Centenario
+Author: TEDIORE (https://sketchfab.com/TEDIORE)
+Source: https://sketchfab.com/3d-models/lamborghini-centenario-55968d5e76f24ba3ab85b5a373074787
+License: CC Attribution-NonCommercial (by-nc) — http://creativecommons.org/licenses/by-nc/4.0/
+Downloaded: 2026-06-13 via Sketchfab Download API
+Modifications: scale-normalized, meshopt-compressed, textures resized/transcoded to webp for real-time display.

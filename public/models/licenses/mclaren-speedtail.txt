@@ -1,0 +1,6 @@
+Model: 2020 McLaren Speedtail
+Author: ddiaz-design (https://sketchfab.com/ddiaz-design)
+Source: https://sketchfab.com/3d-models/2020-mclaren-speedtail-f2364571602342e798b98f8fee14e2ed
+License: CC Attribution (by) — http://creativecommons.org/licenses/by/4.0/
+Downloaded: 2026-06-14 via Sketchfab Download API
+Modifications: scale-normalized, meshopt-compressed, textures resized/transcoded to webp for real-time display.

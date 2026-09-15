@@ -1,0 +1,6 @@
+Model: 2022 McLaren 765LT
+Author: ddiaz-design (https://sketchfab.com/ddiaz-design)
+Source: https://sketchfab.com/3d-models/2022-mclaren-765lt-7c1940823fe94e05b7ced7de8ff9fe48
+License: CC Attribution-NonCommercial-ShareAlike (by-nc-sa) — http://creativecommons.org/licenses/by-nc-sa/4.0/
+Downloaded: 2026-06-13 via Sketchfab Download API
+Modifications: scale-normalized, meshopt-compressed, textures resized/transcoded to webp for real-time display.

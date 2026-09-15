@@ -1,0 +1,6 @@
+Model: 2000 Honda Civic Type-R
+Author: outpiston (https://sketchfab.com/outpiston)
+Source: https://sketchfab.com/3d-models/2000-honda-civic-type-r-4715562e16c44c5e9e847d9ff3fc2170
+License: CC Attribution-NonCommercial-ShareAlike (by-nc-sa) — http://creativecommons.org/licenses/by-nc-sa/4.0/
+Downloaded: 2026-06-12 via Sketchfab Download API
+Modifications: scale-normalized, meshopt-compressed, textures resized/transcoded to webp for real-time display.

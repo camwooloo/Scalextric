@@ -1,0 +1,6 @@
+Model: 1984 Audi Sport quattro
+Author: ddiaz-design (https://sketchfab.com/ddiaz-design)
+Source: https://sketchfab.com/3d-models/1984-audi-sport-quattro-a2e98736245448afa807a2b5cabe05c7
+License: CC Attribution-NonCommercial-ShareAlike (by-nc-sa) — http://creativecommons.org/licenses/by-nc-sa/4.0/
+Downloaded: 2026-06-12 via Sketchfab Download API
+Modifications: scale-normalized, meshopt-compressed, textures resized/transcoded to webp for real-time display.

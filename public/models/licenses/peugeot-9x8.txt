@@ -1,0 +1,6 @@
+Model: 2024 | Peugeot 9X8 EVO
+Author: sohyalebret (https://sketchfab.com/sohyalebret)
+Source: https://sketchfab.com/3d-models/2024-peugeot-9x8-evo-b3efbf3a774c4411983e630d764c8cea
+License: CC Attribution (by) — http://creativecommons.org/licenses/by/4.0/
+Downloaded: 2026-06-12 via Sketchfab Download API
+Modifications: scale-normalized, meshopt-compressed, textures resized/transcoded to webp for real-time display.

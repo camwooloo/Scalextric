@@ -1,17 +1,22 @@
 import * as THREE from "three";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
-import { loadCar, releaseCar } from "./car-models";
+import { loadCar, releaseCar, configureModelRenderer } from "./car-models";
 export class World {
   constructor(el) {
     this.el = el;
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color("#1c2525");
     this.scene.fog = new THREE.Fog("#1c2525", 60, 140);
-    this.renderer = new THREE.WebGLRenderer({ antialias: true });
-    this.renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    this.renderer = new THREE.WebGLRenderer({
+      antialias: devicePixelRatio < 1.5,
+      powerPreference: "high-performance",
+    });
+    configureModelRenderer(this.renderer);
+    this.renderer.setPixelRatio(Math.min(devicePixelRatio, 1.25));
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    this.renderer.shadowMap.autoUpdate = false;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 0.85;
     el.append(this.renderer.domElement);
@@ -29,7 +34,7 @@ export class World {
     let sun = new THREE.DirectionalLight(0xffefdb, 3);
     sun.position.set(-15, 35, 15);
     sun.castShadow = true;
-    sun.shadow.mapSize.set(2048, 2048);
+    sun.shadow.mapSize.set(1024, 1024);
     Object.assign(sun.shadow.camera, {
       left: -30,
       right: 30,
@@ -49,7 +54,8 @@ export class World {
   resize() {
     let w = this.el.clientWidth,
       h = this.el.clientHeight;
-    this.renderer.setSize(w, h);
+    if (!w || !h) return;
+    this.renderer.setSize(w, h, false);
     this.camera.aspect = w / h;
     this.camera.updateProjectionMatrix();
   }
@@ -65,6 +71,7 @@ export class World {
     return m;
   }
   build(config) {
+    this.renderer.shadowMap.needsUpdate = true;
     while (this.track.children.length) {
       let c = this.track.children[0];
       this.track.remove(c);
@@ -534,21 +541,40 @@ export class World {
   }
 
   setCars(spec, opponent) {
+    const key = `${spec.id}|${opponent.id}|${this.lowDetail}`;
+    if (this.carsKey === key && this.carReady) return this.carReady;
+    this.carsKey = key;
     const token = Symbol();
     this.carToken = token;
-    this.carReady = Promise.all([
+    this.carReady = Promise.allSettled([
       loadCar({ ...spec, lowDetail: this.lowDetail }),
       loadCar({ ...opponent, lowDetail: this.lowDetail }),
-    ]).then((vehicles) => {
-      if (this.carToken !== token) return;
+    ]).then((results) => {
+      const failure = results.find((r) => r.status === "rejected");
+      const vehicles = results
+        .filter((r) => r.status === "fulfilled")
+        .map((r) => r.value);
+      if (failure) {
+        vehicles.forEach(releaseCar);
+        throw failure.reason;
+      }
+      if (this.carToken !== token) {
+        vehicles.forEach(releaseCar);
+        return;
+      }
       this.vehicles.forEach(releaseCar);
       this.vehicles = vehicles;
       this.vehicles.forEach((v) => this.scene.add(v));
     });
-    this.carReady.catch((error) =>
-      console.error("Car model could not load", error),
-    );
+    this.carReady.catch((error) => {
+      if (this.carToken === token) this.carsKey = null;
+      console.error("Car model could not load", error);
+    });
     return this.carReady;
+  }
+  async prepare() {
+    await this.carReady;
+    await this.renderer.compileAsync(this.scene, this.camera);
   }
   pose(u, lane) {
     u = ((u % 1) + 1) % 1;

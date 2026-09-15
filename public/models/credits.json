@@ -46,5 +46,1021 @@
     "source": "https://sketchfab.com/3d-models/bmw-m4-competition-m-package-5c0a2dafb1ad408d9fc9eeef9aee531b",
     "title": "BMW M4 Competition M Package",
     "modifications": "Mesh simplification, mesh/material merging, WebP texture resizing, Meshopt compression, and in-game scale/orientation."
+  },
+  {
+    "id": "audi-sport-quattro",
+    "title": "1984 Audi Sport quattro",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/1984-audi-sport-quattro-a2e98736245448afa807a2b5cabe05c7",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Source mirror normalised scale and compressed meshes/textures. Slot Club further simplified meshes, merged materials, resized WebP textures, applied Meshopt compression and normalised game scale/orientation."
+  },
+  {
+    "id": "bmw-m1",
+    "title": "1980 BMW M1 AHG Studie",
+    "author": "OUTPISTON (https://sketchfab.com/outpiston)",
+    "source": "https://sketchfab.com/3d-models/1980-bmw-m1-ahg-studie-cd1d528eee2e4d9298c4e8647116545a",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Source mirror normalised scale and compressed meshes/textures. Slot Club further simplified meshes, merged materials, resized WebP textures, applied Meshopt compression and normalised game scale/orientation."
+  },
+  {
+    "id": "ferrari-250-gto",
+    "title": "1962 Ferrari 250 GTO",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/1962-ferrari-250-gto-0d2a7ee6ace246c0b545280ca5cc4031",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Source mirror normalised scale and compressed meshes/textures. Slot Club further simplified meshes, merged materials, resized WebP textures, applied Meshopt compression and normalised game scale/orientation."
+  },
+  {
+    "id": "ferrari-f40",
+    "title": "Ferrari f40",
+    "author": "Black Snow (https://sketchfab.com/BlackSnow02)",
+    "source": "https://sketchfab.com/3d-models/ferrari-f40-52a66c41cfcd4f999fb1b1c49bf24d70",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Source mirror normalised scale and compressed meshes/textures. Slot Club further simplified meshes, merged materials, resized WebP textures, applied Meshopt compression and normalised game scale/orientation."
+  },
+  {
+    "id": "honda-nsx-r",
+    "title": "1992 Honda NSX-R",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/1992-honda-nsx-r-a21edb35a7714774a10b74642e815ca2",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Source mirror normalised scale and compressed meshes/textures. Slot Club further simplified meshes, merged materials, resized WebP textures, applied Meshopt compression and normalised game scale/orientation."
+  },
+  {
+    "id": "jaguar-xj220",
+    "title": "1992 Jaguar XJ220",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/1992-jaguar-xj220-7dd7bc17b4564f6eb03542ad6cab6dda",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Source mirror normalised scale and compressed meshes/textures. Slot Club further simplified meshes, merged materials, resized WebP textures, applied Meshopt compression and normalised game scale/orientation."
+  },
+  {
+    "id": "lamborghini-countach",
+    "title": "1989 Lamborghini Countach 25th Anniversary",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/1989-lamborghini-countach-25th-anniversary-75acd9a580574e128c0886d2bc5a2b21",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Source mirror normalised scale and compressed meshes/textures. Slot Club further simplified meshes, merged materials, resized WebP textures, applied Meshopt compression and normalised game scale/orientation."
+  },
+  {
+    "id": "lancia-stratos",
+    "title": "Lancia Stratos HF - Rally - Alitalia Livery",
+    "author": "James Slater (https://sketchfab.com/JamesSlater)",
+    "source": "https://sketchfab.com/3d-models/lancia-stratos-hf-rally-alitalia-livery-76dfbe905346419d817fa03d1e46e547",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Source mirror normalised scale and compressed meshes/textures. Slot Club further simplified meshes, merged materials, resized WebP textures, applied Meshopt compression and normalised game scale/orientation."
+  },
+  {
+    "id": "lotus-esprit-v8",
+    "title": "1996 Lotus Esprit V8",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/1996-lotus-esprit-v8-fdc64e96ed3349d9bf4aff9db79e5aa2",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Source mirror normalised scale and compressed meshes/textures. Slot Club further simplified meshes, merged materials, resized WebP textures, applied Meshopt compression and normalised game scale/orientation."
+  },
+  {
+    "id": "mazda-787b",
+    "title": "Mazda-787b | www.vecarz.com",
+    "author": "vecarz (https://sketchfab.com/heynic)",
+    "source": "https://sketchfab.com/3d-models/mazda-787b-wwwvecarzcom-2d23833aba9b4efcbf3ec4876a12f715",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Source mirror normalised scale and compressed meshes/textures. Slot Club further simplified meshes, merged materials, resized WebP textures, applied Meshopt compression and normalised game scale/orientation."
+  },
+  {
+    "id": "mercedes-300sl",
+    "title": "Mercedes-Benz 300sl Gullwing | www.vecarz.com",
+    "author": "Nic Cheung (https://sketchfab.com/heynic)",
+    "source": "https://sketchfab.com/3d-models/mercedes-benz-300sl-gullwing-wwwvecarzcom-65edd5814c9842bb9c769388d13fa27f",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Source mirror normalised scale and compressed meshes/textures. Slot Club further simplified meshes, merged materials, resized WebP textures, applied Meshopt compression and normalised game scale/orientation."
+  },
+  {
+    "id": "porsche-930",
+    "title": "Porsche 911 (930) Turbo 1975",
+    "author": "Lexyc16 (https://sketchfab.com/Lexyc16)",
+    "source": "https://sketchfab.com/3d-models/porsche-911-930-turbo-1975-de1ffd344c41481892511f7fd332c136",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Source mirror normalised scale and compressed meshes/textures. Slot Club further simplified meshes, merged materials, resized WebP textures, applied Meshopt compression and normalised game scale/orientation."
+  },
+  {
+    "id": "toyota-supra-a80",
+    "title": "Toyota Supra (A80) 1993",
+    "author": "Lexyc16 (https://sketchfab.com/Lexyc16)",
+    "source": "https://sketchfab.com/3d-models/toyota-supra-a80-1993-dd897d7823784bc5893c183c1328e8cb",
+    "license": "CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)",
+    "modifications": "Source mirror normalised scale and compressed meshes/textures. Slot Club further simplified meshes, merged materials, resized WebP textures, applied Meshopt compression and normalised game scale/orientation."
+  },
+  {
+    "id": "vw-golf-gti-mk1",
+    "title": "1976 Volkswagen Golf GTI Mk1",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/1976-volkswagen-golf-gti-mk1-1fc46cb37bd748e3bb9355fcedaf3817",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Source mirror normalised scale and compressed meshes/textures. Slot Club further simplified meshes, merged materials, resized WebP textures, applied Meshopt compression and normalised game scale/orientation."
+  },
+  {
+    "id": "aston-martin-one-77",
+    "title": "2009 Aston Martin One-77",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2009-aston-martin-one-77-bc691ea66a2747aca226fbf3c51fbb04",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "aston-martin-valiant",
+    "title": "2025 Aston Martin Valiant",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2025-aston-martin-valiant-49e5a4e4f02a42f895e2374487490989",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "audi-r15-tdi",
+    "title": "2009 Audi R15 TDI",
+    "author": "OUTPISTON (https://sketchfab.com/outpiston)",
+    "source": "https://sketchfab.com/3d-models/2009-audi-r15-tdi-f64fce5acb8a4d81a08b1bd84a6792d9",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "audi-r18",
+    "title": "AUDI R18",
+    "author": "Godheim (https://sketchfab.com/Godheim)",
+    "source": "https://sketchfab.com/3d-models/audi-r18-3a5f4938e662429b8633120aa62805a4",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "audi-r8-gt-2011",
+    "title": "2011 Audi R8 GT",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2011-audi-r8-gt-82a564b96dde47a78925d9e45b78aaa1",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "audi-r8-v10-gt",
+    "title": "2023 Audi R8 Coupe V10 GT RWD",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2023-audi-r8-coupe-v10-gt-rwd-0701d14ce550407f900df891316788f0",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "audi-rs-etron-gt",
+    "title": "2022 Audi RS e-tron GT",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2022-audi-rs-e-tron-gt-e5b032ec99bc44be9f31761c574fe4c2",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "audi-rs6-avant-gt",
+    "title": "2024 Audi RS6 Avant GT",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2024-audi-rs6-avant-gt-85ccb4a2903e4eeab4c8298a8fa4e39f",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "audi-ur-quattro",
+    "title": "1980 Audi Ur Quattro",
+    "author": "Robert Doman (https://sketchfab.com/RDoman)",
+    "source": "https://sketchfab.com/3d-models/1980-audi-ur-quattro-b9ccdd8ddc154ee99ab153794042fd07",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "bac-mono",
+    "title": "2017 BAC Mono",
+    "author": "OUTPISTON (https://sketchfab.com/outpiston)",
+    "source": "https://sketchfab.com/3d-models/2017-bac-mono-06e164b7dc9b42129c5882f043016591",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "bmw-30-csl",
+    "title": "1973 BMW 3.0 CSL RHD (E9)",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/1973-bmw-30-csl-rhd-e9-86ee7c1a83334576933ab431542269d5",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "bmw-i8-roadster",
+    "title": "2019 BMW i8 Roadster",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2019-bmw-i8-roadster-57f9d1de23534a80878d048684c0e60f",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "bmw-m2-g87",
+    "title": "2023 BMW M2 G87 Coupé",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2023-bmw-m2-g87-coupe-7a608716b25b4589a8cc323e9cbd1e8d",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "bmw-m3-csl-e46",
+    "title": "2003 BMW M3 CSL (E46)",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2003-bmw-m3-csl-e46-9a44382562e243a78badb5c080714508",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "bmw-m3-e30",
+    "title": "[FREE] BMW M3 E30",
+    "author": "Martin Trafas (https://sketchfab.com/Bexxie)",
+    "source": "https://sketchfab.com/3d-models/free-bmw-m3-e30-ac3c7013434e403e8faff87948caf422",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "bmw-m3-e36",
+    "title": "1993 BMW M3 Coupe (E36)",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/1993-bmw-m3-coupe-e36-76401039fa80419ab036bea09acb898d",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "bmw-m3-e46",
+    "title": "BMW M3 E46",
+    "author": "Lexyc16 (https://sketchfab.com/Lexyc16)",
+    "source": "https://sketchfab.com/3d-models/bmw-m3-e46-a067132c75f5456daa4f60c4001337d7",
+    "license": "CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "bmw-m3-gts-e92",
+    "title": "2011 BMW E92 M3 GTS",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2011-bmw-e92-m3-gts-ba0c261ab55649f5a8ec1572700ae0e3",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "bmw-m4-f82",
+    "title": "2018 BMW M4 Coupe (F82 LCi)",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2018-bmw-m4-coupe-f82-lci-6dcbd7234690431e87e68f580be60e22",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "bmw-m4-g82",
+    "title": "2021 BMW M4 Competition (G82)",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2021-bmw-m4-competition-g82-b16d7a4d771e4abd85ce4e29d41402ed",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "bmw-m5-competition",
+    "title": "2021 BMW M5 Competition",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2021-bmw-m5-competition-29a4c13761cb40e6a050871bd40a0963",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "bugatti-bolide",
+    "title": "2020 Bugatti Bolide Concept",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2020-bugatti-bolide-concept-658684653b154ffba72d5f9511312ca8",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "bugatti-chiron",
+    "title": "2021 Bugatti Chiron Pur Sport",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2021-bugatti-chiron-pur-sport-f791c209b88249e9856a552672b64fea",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "bugatti-divo",
+    "title": "2019 Bugatti Divo",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2019-bugatti-divo-7849e9f9cf2347c28fb5e41b1629991c",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "bugatti-tourbillon",
+    "title": "2026 Bugatti Tourbillon",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2026-bugatti-tourbillon-4f63f5a74611477989cefd9861b9784a",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "bugatti-veyron",
+    "title": "2009 Bugatti Veyron 16.4",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2009-bugatti-veyron-164-33da16dacdb34d8088324a24645a1802",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "ferrari-12cilindri",
+    "title": "2025 Ferrari 12Cilindri",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2025-ferrari-12cilindri-cb0b42a5bda844bd8ccd62451f1db427",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "ferrari-296-gts",
+    "title": "2023 Ferrari 296 GTS",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2023-ferrari-296-gts-9a596b9d09414adfad64fc1f5fd019f9",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "ferrari-430-scuderia",
+    "title": "2008 Ferrari 430 Scuderia",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2008-ferrari-430-scuderia-b00843d61131449595b82ac83f341558",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "ferrari-488-pista",
+    "title": "2019 Ferrari 488 Pista",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2019-ferrari-488-pista-1d1344847d8540e9a6a7f21184ab7769",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "ferrari-599-gto",
+    "title": "Ferrari 599 GTO",
+    "author": "Black Snow (https://sketchfab.com/BlackSnow02)",
+    "source": "https://sketchfab.com/3d-models/ferrari-599-gto-14b4f6d9f84d4e30be52a2158685d3ff",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "ferrari-849-testarossa",
+    "title": "2026 Ferrari 849 Testarossa",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2026-ferrari-849-testarossa-6e0619a84ef746998989d633a33a1851",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "ferrari-enzo",
+    "title": "2002 Ferrari Enzo",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2002-ferrari-enzo-9e790860a49d4594a6eef87cab190bba",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "ferrari-f50",
+    "title": "1995 Ferrari F50",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/1995-ferrari-f50-9d7ec096be3546e3967ebdb5e4a87e31",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "ferrari-f8-tributo",
+    "title": "2020 Ferrari F8 Tributo",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2020-ferrari-f8-tributo-8a86c4d634f64f8b8ee836bc93fa6ac8",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "ferrari-laferrari",
+    "title": "Ferrari Laferrari | www.vecarz.com",
+    "author": "vecarz (https://sketchfab.com/heynic)",
+    "source": "https://sketchfab.com/3d-models/ferrari-laferrari-wwwvecarzcom-979f7085012e4d6399f38de3f9c39012",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "ferrari-monza-sp2",
+    "title": "2019 Ferrari Monza SP2",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2019-ferrari-monza-sp2-09b0681baaed40d9aada9138a5f75875",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "ferrari-sf90-xx",
+    "title": "2023 Ferrari SF90 XX Stradale",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2023-ferrari-sf90-xx-stradale-2c80c667232544649328cf3589921bcd",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "glickenhaus-scg-004c",
+    "title": "2020 SCG 004C",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2020-scg-004c-de1b2e02fb094e09a54bc27c72912852",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "honda-civic-type-r-ek9",
+    "title": "2000 Honda Civic Type-R",
+    "author": "OUTPISTON (https://sketchfab.com/outpiston)",
+    "source": "https://sketchfab.com/3d-models/2000-honda-civic-type-r-4715562e16c44c5e9e847d9ff3fc2170",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "honda-civic-type-r-fk2",
+    "title": "2015 Honda Civic Type R",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2015-honda-civic-type-r-423afaa1c6664859832d4a5458d90b52",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "honda-civic-type-r-fk8",
+    "title": "2018 Honda Civic Type R",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2018-honda-civic-type-r-c312252877204a44999bf084d1e19118",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "honda-civic-type-r-fl5",
+    "title": "2023 Honda Civic Type R",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2023-honda-civic-type-r-8c9484184a2b4254aafd67418b8c18db",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "honda-crx",
+    "title": "1988 Honda CR-X",
+    "author": "OUTPISTON (https://sketchfab.com/outpiston)",
+    "source": "https://sketchfab.com/3d-models/1988-honda-cr-x-573d5c2480324a879ee15221ee426160",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "honda-integra-dc2",
+    "title": "1998 Honda Integra Type R DC2",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/1998-honda-integra-type-r-dc2-db88d2cc21654a4eb73ec9f0c2a7e113",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "honda-integra-dc5",
+    "title": "2001 Honda Integra Type-R (DC5)",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2001-honda-integra-type-r-dc5-0fea873aaf694d1b98c308b0becd51ce",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "honda-s800",
+    "title": "Honda s800",
+    "author": "Alexios Apokaukos (https://sketchfab.com/Alexios_Apokaukos)",
+    "source": "https://sketchfab.com/3d-models/honda-s800-fa6c6113f1e34d9baaff80b5b586a25d",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "jaguar-xkr",
+    "title": "2009 Jaguar XKR 5.0 Supercharged Speed Pack",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2009-jaguar-xkr-50-supercharged-speed-pack-f3967a3f59fc469e91be12effce74904",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "koenigsegg-agera-rs",
+    "title": "Koenigsegg Agera RS",
+    "author": "RongstadJ (https://sketchfab.com/RongstadJ)",
+    "source": "https://sketchfab.com/3d-models/koenigsegg-agera-rs-a30e098257254fcfa1323f2841e26d13",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "koenigsegg-ccx",
+    "title": "2006 Koenigsegg CCX",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2006-koenigsegg-ccx-10efe5c94dd747b4a5157cfd229a8049",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "koenigsegg-jesko",
+    "title": "2020 Koenigsegg Jesko",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2020-koenigsegg-jesko-c657f51fb0db43e38fea172dfa385287",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "koenigsegg-one",
+    "title": "Koenigsegg One Pro",
+    "author": "Head to Turbosquid - Allay Design (https://sketchfab.com/Alister.Dsa)",
+    "source": "https://sketchfab.com/3d-models/koenigsegg-one-pro-26d50f742f3241f5a36081d93205c764",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "lamborghini-aventador",
+    "title": "Lamborghini Aventador",
+    "author": "Outlaw Games™ (https://sketchfab.com/Outlaw_Games)",
+    "source": "https://sketchfab.com/3d-models/lamborghini-aventador-e328d9f5dcfd48bdbe8c73324b52ece3",
+    "license": "CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "lamborghini-centenario",
+    "title": "Lamborghini Centenario",
+    "author": "SÄNTI (https://sketchfab.com/TEDIORE)",
+    "source": "https://sketchfab.com/3d-models/lamborghini-centenario-55968d5e76f24ba3ab85b5a373074787",
+    "license": "CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "lamborghini-gallardo",
+    "title": "Lamborghini Gallardo 2010",
+    "author": "Artem P (https://sketchfab.com/temp0.crazy)",
+    "source": "https://sketchfab.com/3d-models/lamborghini-gallardo-2010-ff0eb2242d0e42eb8b7034b4db639e56",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "lamborghini-huracan-sterrato",
+    "title": "2024 Lamborghini Huracan Sterrato",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2024-lamborghini-huracan-sterrato-7af3c1063acf4439a7e69e05eaf94b9b",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "lamborghini-reventon",
+    "title": "2008 Lamborghini Reventon",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2008-lamborghini-reventon-0269b1057e224f7c85de8bafc43500bb",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "lamborghini-revuelto",
+    "title": "2024 Lamborghini Revuelto",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2024-lamborghini-revuelto-9128ccf717f641b9bcdaa5f06a613f01",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "lamborghini-sian",
+    "title": "2021 Lamborghini Sián Roadster",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2021-lamborghini-sian-roadster-ddedd95cd1bf478ebe476c8eb9dbe78d",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "lamborghini-temerario",
+    "title": "2025 Lamborghini Temerario",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2025-lamborghini-temerario-223504eacee54eaf9169cc60db1c0a70",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "lamborghini-veneno",
+    "title": "Lamborghini venevo",
+    "author": "Jonrss (https://sketchfab.com/huy14320000006)",
+    "source": "https://sketchfab.com/3d-models/lamborghini-venevo-5884f95259ff411c95510cdde5ede33e",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "lancia-037",
+    "title": "Lancia 037 Stradale 1978",
+    "author": "vecarz (https://sketchfab.com/heynic)",
+    "source": "https://sketchfab.com/3d-models/lancia-037-stradale-1978-36f1c5964de14e0088d828e88a3749b9",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "lancia-delta-integrale",
+    "title": "1992 Lancia Delta HF Integrale Evoluzione",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/1992-lancia-delta-hf-integrale-evoluzione-6ebb1a271c714e1dacfe4eba04f0e4c3",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "lexus-lfa-nurburgring",
+    "title": "2012 Lexus LFA Nurburgring Package",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2012-lexus-lfa-nurburgring-package-c9d725a16ea6424fa74403b5138808b2",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "lexus-lfa",
+    "title": "2011 Lexus LFA",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2011-lexus-lfa-83d062d1cd144e6a944c7415ef864889",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "lotus-3-eleven",
+    "title": "2015 Lotus 3 Eleven",
+    "author": "OUTPISTON (https://sketchfab.com/outpiston)",
+    "source": "https://sketchfab.com/3d-models/2015-lotus-3-eleven-d63c1150da8e45f88e526c99cc889bfd",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "lotus-elise-sprint",
+    "title": "2018 Lotus Elise Sprint 220",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2018-lotus-elise-sprint-220-fd5980631d4049259cff55bbf422aa81",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "lotus-emira",
+    "title": "2023 Lotus Emira Turbo SE",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2023-lotus-emira-turbo-se-a5d1f1962b4d4ebab6b449824fc58c9a",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "lotus-evora-gt430",
+    "title": "2018 Lotus Evora GT430",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2018-lotus-evora-gt430-aa58af64c5a74660b06ca517e8c7f50e",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "lotus-evora-s",
+    "title": "AC - Lotus Evora S",
+    "author": "DAVID.3D.ART (https://sketchfab.com/david3dart)",
+    "source": "https://sketchfab.com/3d-models/ac-lotus-evora-s-63588352602445dfb94549bda26ce123",
+    "license": "CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "lotus-exige-240",
+    "title": "AC Lotus Exige 240 (FREE)",
+    "author": "Blender Studio™ (https://sketchfab.com/Blend_GUY)",
+    "source": "https://sketchfab.com/3d-models/ac-lotus-exige-240-free-5795366af7bc4fd985c86a3dc81234f5",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "lotus-exige-360-cup",
+    "title": "2016 Lotus Exige 360 Cup",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2016-lotus-exige-360-cup-ccc280412c5b47478127aef8986d4903",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "lotus-exige-s-2006",
+    "title": "2006 Lotus Exige S",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2006-lotus-exige-s-13d071ac1288486b990be3ef818d8181",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "maserati-mc12",
+    "title": "2004 Maserati MC12 Stradale",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2004-maserati-mc12-stradale-a801759b1a2447869f1186372eb320f0",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "maserati-mc20",
+    "title": "2021 Maserati MC20",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2021-maserati-mc20-6811b291cda74d468fab04298029135f",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "mclaren-600lt",
+    "title": "2019 McLaren 600LT",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2019-mclaren-600lt-3eac09c5ff3646fb94709bc1b31b1943",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "mclaren-675lt-spider",
+    "title": "2017 McLaren 675LT Spider",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2017-mclaren-675lt-spider-7f3fcc4ef1a7472c91e0aaa9d0a86a89",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "mclaren-765lt",
+    "title": "2022 McLaren 765LT",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2022-mclaren-765lt-7c1940823fe94e05b7ced7de8ff9fe48",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "mclaren-artura",
+    "title": "2023 McLaren Artura",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2023-mclaren-artura-d393abd807f04d62b96b1bd82119b5d4",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "mclaren-f1-lm",
+    "title": "1995 McLaren F1 LM",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/1995-mclaren-f1-lm-a0ef25e23a4a423d8fca5c62da54db77",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "mclaren-f1",
+    "title": "McLaren F1",
+    "author": "ᗩᒪE᙭. Kᗩ.🚗 (https://sketchfab.com/Alex.Ka.)",
+    "source": "https://sketchfab.com/3d-models/mclaren-f1-d96ebc208df54311964cad24f83e1656",
+    "license": "CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "mclaren-mp4-12c",
+    "title": "2012 McLaren MP4-12C",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2012-mclaren-mp4-12c-ae2ed2bccbc84bccb21407e1657d860f",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "mclaren-senna",
+    "title": "2019 McLaren Senna",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2019-mclaren-senna-725c62082f754cb28bd07e7e55bfbefc",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "mclaren-solus-gt",
+    "title": "2023 McLaren Solus GT",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2023-mclaren-solus-gt-452421d5d503479bb6e75e4a627b5490",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "mclaren-speedtail",
+    "title": "2020 McLaren Speedtail",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2020-mclaren-speedtail-f2364571602342e798b98f8fee14e2ed",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "mclaren-w1",
+    "title": "2025 McLaren W1",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2025-mclaren-w1-519ee6f9089b4d548cd4384ef159f62e",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "mercedes-amg-one",
+    "title": "2023 Mercedes-Benz AMG ONE",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2023-mercedes-benz-amg-one-0f75e0705a1f455585813859d901458a",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "mercedes-slr-mclaren",
+    "title": "2004 Mercedes-Benz SLR McLaren",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2004-mercedes-benz-slr-mclaren-6dd3f12d311d4d1f8a55ce0e1596a442",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "mini-cooper-s-classic",
+    "title": "1965 Austin Mini Cooper S",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/1965-austin-mini-cooper-s-8b063519ced9423db1210bb2423c7d2a",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "mini-jcw-cabrio",
+    "title": "2016 Mini John Cooper Works Cabrio",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2016-mini-john-cooper-works-cabrio-704688ec24e04155aa45a1a2018286eb",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "mini-jcw-gp",
+    "title": "2020 Mini John Cooper Works GP",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2020-mini-john-cooper-works-gp-f8fa0409d83a4b099590dbcc7884a908",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "noble-m600",
+    "title": "2011 Noble M600",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2011-noble-m600-746187c4345543e0b09a06fe20c80d6e",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "pagani-zonda-f",
+    "title": "2005 Pagani Zonda F",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2005-pagani-zonda-f-708ee246211244a88aa3c36f0f21f4df",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "peugeot-9x8",
+    "title": "2024 | Peugeot 9X8 EVO",
+    "author": "kevin (ケビン) (https://sketchfab.com/sohyalebret)",
+    "source": "https://sketchfab.com/3d-models/2024-peugeot-9x8-evo-b3efbf3a774c4411983e630d764c8cea",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "porsche-911-dakar",
+    "title": "2023 Porsche 911 Dakar Rallye Design Package",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2023-porsche-911-dakar-rallye-design-package-3d08be7f0ed04c368d487ee72bc05225",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "porsche-959",
+    "title": "Porsche 959",
+    "author": "Alexios Apokaukos (https://sketchfab.com/Alexios_Apokaukos)",
+    "source": "https://sketchfab.com/3d-models/porsche-959-0530aa8fa4b74427a71c961a5bdd7087",
+    "license": "CC-BY-SA-4.0 (http://creativecommons.org/licenses/by-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "porsche-963",
+    "title": "2023 Porsche 963 LMDh Racecar No.5",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2023-porsche-963-lmdh-racecar-no5-0b46fea1c4484a0c887bd0b9aac86f5d",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "porsche-carrera-gt",
+    "title": "2004 Porsche Carrera GT",
+    "author": "OUTPISTON (https://sketchfab.com/outpiston)",
+    "source": "https://sketchfab.com/3d-models/2004-porsche-carrera-gt-9d48aa751ab24becbf7110e93c8a7a1f",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "porsche-gt3-992",
+    "title": "2022 Porsche 911 GT3 (992)",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2022-porsche-911-gt3-992-ba01afbaf32846e598db315be3507db3",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "rimac-nevera-r",
+    "title": "2025 Rimac Nevera R",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2025-rimac-nevera-r-755944b48f4b49bd820fa7cb73d906c5",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "toyota-ae86",
+    "title": "Toyota AE86 Sprinter Trueno Zenki",
+    "author": "Martin Trafas (https://sketchfab.com/Bexxie)",
+    "source": "https://sketchfab.com/3d-models/toyota-ae86-sprinter-trueno-zenki-a5737bf3cc9b4179a6e5ebe173ff70d9",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "toyota-gr-supra",
+    "title": "Toyota GR Supra",
+    "author": "thelightning (https://sketchfab.com/thelightning)",
+    "source": "https://sketchfab.com/3d-models/toyota-gr-supra-9231f2d5e71a43dd87603dc0b339d99d",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "toyota-gr-yaris",
+    "title": "2021 Toyota GR Yaris",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2021-toyota-gr-yaris-98e6611ad034451982b6a9908c63fc47",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "toyota-ts030",
+    "title": "Toyota TS030 Hybrid | www.vecarz.com",
+    "author": "vecarz (https://sketchfab.com/heynic)",
+    "source": "https://sketchfab.com/3d-models/toyota-ts030-hybrid-wwwvecarzcom-59f9ff1cbd144e3fa1f2d195512ca248",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "tvr-sagaris",
+    "title": "2006 TVR Sagaris",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2006-tvr-sagaris-41c36ef256214e0f99d317c0369f1bab",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "vw-beetle",
+    "title": "1968 Volkswagen Beetle",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/1968-volkswagen-beetle-969a477451ee40bb8e715ec0907d187e",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "vw-idr",
+    "title": "Volkswagen I.D.R - with interior",
+    "author": "tulex_art (https://sketchfab.com/CassioFernandes)",
+    "source": "https://sketchfab.com/3d-models/volkswagen-idr-with-interior-109ed75bc4df4400a308cbff7cc70f6d",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "vw-w12-concept",
+    "title": "1997 Volkswagen W12 Concept",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/1997-volkswagen-w12-concept-4b8faf5ec5274676b1f16cbe3f836e03",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "one1",
+    "title": "2014 Koenigsegg One-1",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2014-koenigsegg-one-1-d21c0d3ee5094938889a26d7215b91e5",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "imola",
+    "title": "2021 Pagani Imola",
+    "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+    "source": "https://sketchfab.com/3d-models/2021-pagani-imola-41d59a9e413944ba82e4a230db4c170c",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "caspita",
+    "title": "Jiotto Caspita F1 Road Car 1989 By Alex.Ka.",
+    "author": "ᗩᒪE᙭. Kᗩ.🚗 (https://sketchfab.com/Alex.Ka.)",
+    "source": "https://sketchfab.com/3d-models/jiotto-caspita-f1-road-car-1989-by-alexka-828c84b390624f0389287bd036d7dbf5",
+    "license": "CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "f1",
+    "title": "McLaren F1 GTR Longtail | www.vecarz.com",
+    "author": "vecarz (https://sketchfab.com/heynic)",
+    "source": "https://sketchfab.com/3d-models/mclaren-f1-gtr-longtail-wwwvecarzcom-a6dbc062d2e843828c392bbd07727ead",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+  },
+  {
+    "id": "amggt3",
+    "title": "Mercedes-AMG GT3 | www.vecarz.com",
+    "author": "vecarz (https://sketchfab.com/heynic)",
+    "source": "https://sketchfab.com/3d-models/mercedes-amg-gt3-wwwvecarzcom-6a3f7e3455064721b74b7f0b66427a07",
+    "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+    "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
   }
 ]

@@ -1,0 +1,6 @@
+Model: 2021 BMW M4 Competition (G82)
+Author: ddiaz-design (https://sketchfab.com/ddiaz-design)
+Source: https://sketchfab.com/3d-models/2021-bmw-m4-competition-g82-b16d7a4d771e4abd85ce4e29d41402ed
+License: CC Attribution-NonCommercial-ShareAlike (by-nc-sa) — http://creativecommons.org/licenses/by-nc-sa/4.0/
+Downloaded: 2026-06-12 via Sketchfab Download API
+Modifications: scale-normalized, meshopt-compressed, textures resized/transcoded to webp for real-time display.

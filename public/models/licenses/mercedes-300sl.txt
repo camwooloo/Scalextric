@@ -1,0 +1,6 @@
+Model: Mercedes-Benz 300sl Gullwing | www.vecarz.com
+Author: heynic (https://sketchfab.com/heynic)
+Source: https://sketchfab.com/3d-models/mercedes-benz-300sl-gullwing-wwwvecarzcom-65edd5814c9842bb9c769388d13fa27f
+License: CC Attribution — http://creativecommons.org/licenses/by/4.0/
+Downloaded: 2026-06-12 via Sketchfab Download API
+Modifications: scale-normalized, meshopt-compressed, textures resized/transcoded to webp for real-time display.

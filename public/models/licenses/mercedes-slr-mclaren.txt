@@ -1,0 +1,6 @@
+Model: 2004 Mercedes-Benz SLR McLaren
+Author: ddiaz-design (https://sketchfab.com/ddiaz-design)
+Source: https://sketchfab.com/3d-models/2004-mercedes-benz-slr-mclaren-6dd3f12d311d4d1f8a55ce0e1596a442
+License: CC Attribution-NonCommercial-ShareAlike (by-nc-sa) — http://creativecommons.org/licenses/by-nc-sa/4.0/
+Downloaded: 2026-06-12 via Sketchfab Download API
+Modifications: scale-normalized, meshopt-compressed, textures resized/transcoded to webp for real-time display.

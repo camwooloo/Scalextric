@@ -1,0 +1,6 @@
+Model: Mazda-787b | www.vecarz.com
+Author: heynic (https://sketchfab.com/heynic)
+Source: https://sketchfab.com/3d-models/mazda-787b-wwwvecarzcom-2d23833aba9b4efcbf3ec4876a12f715
+License: CC Attribution (by) — http://creativecommons.org/licenses/by/4.0/
+Downloaded: 2026-06-12 via Sketchfab Download API
+Modifications: scale-normalized, meshopt-compressed, textures resized/transcoded to webp for real-time display.

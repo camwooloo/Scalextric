@@ -1,0 +1,6 @@
+Model: 1995 Ferrari F50
+Author: ddiaz-design (https://sketchfab.com/ddiaz-design)
+Source: https://sketchfab.com/3d-models/1995-ferrari-f50-9d7ec096be3546e3967ebdb5e4a87e31
+License: CC Attribution (by) — http://creativecommons.org/licenses/by/4.0/
+Downloaded: 2026-06-12 via Sketchfab Download API
+Modifications: scale-normalized, meshopt-compressed, textures resized/transcoded to webp for real-time display.

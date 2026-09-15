@@ -1,0 +1,6 @@
+Model: 2017 McLaren 675LT Spider
+Author: ddiaz-design (https://sketchfab.com/ddiaz-design)
+Source: https://sketchfab.com/3d-models/2017-mclaren-675lt-spider-7f3fcc4ef1a7472c91e0aaa9d0a86a89
+License: CC Attribution (by) — http://creativecommons.org/licenses/by/4.0/
+Downloaded: 2026-06-14 via Sketchfab Download API
+Modifications: scale-normalized, meshopt-compressed, textures resized/transcoded to webp for real-time display.

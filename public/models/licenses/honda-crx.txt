@@ -1,0 +1,6 @@
+Model: 1988 Honda CR-X
+Author: outpiston (https://sketchfab.com/outpiston)
+Source: https://sketchfab.com/3d-models/1988-honda-cr-x-573d5c2480324a879ee15221ee426160
+License: CC Attribution-NonCommercial-ShareAlike (by-nc-sa) — http://creativecommons.org/licenses/by-nc-sa/4.0/
+Downloaded: 2026-06-12 via Sketchfab Download API
+Modifications: scale-normalized, meshopt-compressed, textures resized/transcoded to webp for real-time display.

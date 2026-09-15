@@ -1,0 +1,6 @@
+Model: 2019 Ferrari 488 Pista
+Author: ddiaz-design (https://sketchfab.com/ddiaz-design)
+Source: https://sketchfab.com/3d-models/2019-ferrari-488-pista-1d1344847d8540e9a6a7f21184ab7769
+License: CC Attribution (by) — http://creativecommons.org/licenses/by/4.0/
+Downloaded: 2026-06-12 via Sketchfab Download API
+Modifications: scale-normalized, meshopt-compressed, textures resized/transcoded to webp for real-time display.

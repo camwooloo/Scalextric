@@ -1,0 +1,8 @@
+{
+  "id": "one1",
+  "title": "2014 Koenigsegg One-1",
+  "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+  "source": "https://sketchfab.com/3d-models/2014-koenigsegg-one-1-d21c0d3ee5094938889a26d7215b91e5",
+  "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+  "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+}

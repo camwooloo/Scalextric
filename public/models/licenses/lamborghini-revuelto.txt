@@ -1,0 +1,6 @@
+Model: 2024 Lamborghini Revuelto
+Author: ddiaz-design (https://sketchfab.com/ddiaz-design)
+Source: https://sketchfab.com/3d-models/2024-lamborghini-revuelto-9128ccf717f641b9bcdaa5f06a613f01
+License: CC Attribution (by) — http://creativecommons.org/licenses/by/4.0/
+Downloaded: 2026-06-13 via Sketchfab Download API
+Modifications: scale-normalized, meshopt-compressed, textures resized/transcoded to webp for real-time display.

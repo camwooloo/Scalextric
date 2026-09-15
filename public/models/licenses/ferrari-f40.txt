@@ -1,0 +1,6 @@
+Model: Ferrari f40
+Author: BlackSnow02 (https://sketchfab.com/BlackSnow02)
+Source: https://sketchfab.com/3d-models/ferrari-f40-52a66c41cfcd4f999fb1b1c49bf24d70
+License: CC Attribution — http://creativecommons.org/licenses/by/4.0/
+Downloaded: 2026-06-12 via Sketchfab Download API
+Modifications: scale-normalized, meshopt-compressed, textures resized/transcoded to webp for real-time display.

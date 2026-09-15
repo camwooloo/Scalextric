@@ -1,0 +1,6 @@
+Model: Lamborghini venevo
+Author: huy14320000006 (https://sketchfab.com/huy14320000006)
+Source: https://sketchfab.com/3d-models/lamborghini-venevo-5884f95259ff411c95510cdde5ede33e
+License: CC Attribution (by) — http://creativecommons.org/licenses/by/4.0/
+Downloaded: 2026-06-13 via Sketchfab Download API
+Modifications: scale-normalized, meshopt-compressed, textures resized/transcoded to webp for real-time display.

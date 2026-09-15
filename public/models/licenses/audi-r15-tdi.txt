@@ -1,0 +1,6 @@
+Model: 2009 Audi R15 TDI
+Author: outpiston (https://sketchfab.com/outpiston)
+Source: https://sketchfab.com/3d-models/2009-audi-r15-tdi-f64fce5acb8a4d81a08b1bd84a6792d9
+License: CC Attribution-NonCommercial-ShareAlike (by-nc-sa) — http://creativecommons.org/licenses/by-nc-sa/4.0/
+Downloaded: 2026-06-12 via Sketchfab Download API
+Modifications: scale-normalized, meshopt-compressed, textures resized/transcoded to webp for real-time display.

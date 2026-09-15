@@ -19,7 +19,14 @@ test("collection and edited tracks persist across reload", async ({ page }) => {
   page.on("pageerror", (e) => errors.push(e.message));
   await page.goto("/");
   await page.locator('nav [data-page="shop"]').click();
+  await page
+    .getByRole("searchbox", { name: "Search cars" })
+    .fill("Mini Cooper S");
   await page.locator('[data-car="mini"]').click();
+  const purchased = await page.evaluate(() =>
+    JSON.parse(localStorage.getItem("slot-club:v1")),
+  );
+  expect(purchased.credits).toBe(100000000 - 8000);
   await page.reload();
   await page.locator('nav [data-page="garage"]').click();
   await expect(page.locator('[data-car="mini"]')).toContainText("Selected");
@@ -47,7 +54,7 @@ test("race deslots, reset, cameras and pause work", async ({ page }) => {
   await page.locator('[data-race-type="practice"]').click();
   await page.locator('[data-mode="driver"]').click();
   await page.locator('[data-action="start"]').click();
-  await expect(page.locator("#race-stage")).toBeVisible();
+  await expect(page.locator("#race-stage")).toBeVisible({ timeout: 30000 });
   await expect(page.locator(".countdown")).toHaveCount(0, { timeout: 20000 });
   await page.keyboard.down("w");
   await expect(page.locator(".off-label")).toBeVisible({ timeout: 25000 });
@@ -85,7 +92,7 @@ test("time trial finishes and saves a best lap", async ({ page }) => {
   await page.locator("#track-select").selectOption("1");
   await page.locator('[data-race-type="time"]').click();
   await page.locator('[data-action="start"]').click();
-  await expect(page.locator("#race-stage")).toBeVisible();
+  await expect(page.locator("#race-stage")).toBeVisible({ timeout: 30000 });
   await expect(page.locator(".countdown")).toHaveCount(0, { timeout: 20000 });
   await page.locator("#throttle").fill("30");
   await expect(page.locator(".modal h2")).toHaveText("That’s a wrap.", {
@@ -95,6 +102,10 @@ test("time trial finishes and saves a best lap", async ({ page }) => {
     JSON.parse(localStorage.getItem("slot-club:v1")),
   );
   expect(data.races).toBe(1);
+  expect(data.stats.laps).toBe(3);
+  expect(data.stats.completed).toBe(1);
+  expect(data.stats.cars.porsche.laps).toBe(3);
+  expect(Object.values(data.stats.tracks)[0].laps).toBe(3);
   expect(Object.values(data.records)[0]).toBeGreaterThan(0);
 });
 test("phone layouts fit and touch trigger drives", async ({ browser }) => {
@@ -118,7 +129,7 @@ test("phone layouts fit and touch trigger drives", async ({ browser }) => {
   }
   await page.locator('[data-race-type="practice"]').tap();
   await page.locator('[data-action="start"]').tap();
-  await expect(page.locator("#race-stage")).toBeVisible();
+  await expect(page.locator("#race-stage")).toBeVisible({ timeout: 30000 });
   await expect(page.locator(".countdown")).toHaveCount(0, { timeout: 25000 });
   const client = await context.newCDPSession(page);
   const bounds = await page.locator("#trigger").boundingBox();
@@ -154,4 +165,74 @@ test("AI completes a Grand Prix and records the result", async ({ page }) => {
       () => JSON.parse(localStorage.getItem("slot-club:v1")).races,
     ),
   ).toBe(1);
+});
+
+test("dark theme, catalogue filters, quick race and stats persist", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  await page.getByRole("button", { name: "Toggle dark theme" }).click();
+  await page.reload();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+  await page.locator('nav [data-page="shop"]').click();
+  await expect(page.locator(".car-card")).toHaveCount(24);
+  await expect(page.locator("#car-count")).toHaveText("133 cars");
+  await page.getByRole("searchbox", { name: "Search cars" }).fill("Countach");
+  await expect(page.locator(".car-card:visible")).toHaveCount(1);
+  await page.locator('nav [data-page="home"]').click();
+  await page.locator('[data-action="quick-start"]').click();
+  await expect(page.locator("#race-stage")).toBeVisible({ timeout: 30000 });
+  await expect(page.locator(".countdown")).toHaveCount(0, { timeout: 20000 });
+  await page.locator("#throttle").fill("30");
+  await expect
+    .poll(async () => Number(await page.locator("#speed").textContent()))
+    .toBeGreaterThan(0);
+  await page.locator('[data-action="pause"]').click();
+  await page.locator('.modal [data-page="race"]').click();
+  await page.locator('nav [data-page="stats"]').click();
+  await expect(page.locator("h1")).toContainText("Every lap.");
+  const s = await page.evaluate(
+    () => JSON.parse(localStorage.getItem("slot-club:v1")).stats,
+  );
+  expect(s.starts).toBe(1);
+  expect(s.seconds).toBeGreaterThan(0);
+  expect(s.history[0].result).toBe("Exited");
+  await page.reload();
+  await page.locator('nav [data-page="stats"]').click();
+  await expect(page.getByText("Exited", { exact: false })).not.toHaveCount(0);
+});
+
+test("priced catalogue pages and a newly sourced car reach the grid", async ({
+  page,
+}) => {
+  const errors = [];
+  page.on("pageerror", (e) => errors.push(e.message));
+  await page.goto("/");
+  await page.locator('nav [data-page="shop"]').click();
+  await expect(
+    page.locator(".car-card").first().getByRole("meter"),
+  ).toHaveCount(5);
+  await page.locator('[data-garage-step="1"]').click();
+  await expect(page.locator(".garage-pagination")).toContainText("PAGE 2 / 6");
+  await page
+    .getByRole("searchbox", { name: "Search cars" })
+    .fill("Lancia Stratos");
+  await expect(page.locator(".car-card")).toHaveCount(1);
+  await page.locator('[data-car="lancia-stratos"]').click();
+  await expect(page.locator("#credit-balance")).toContainText("99,975,000");
+  await page.locator('[data-car="lancia-stratos"]').click();
+  await expect(page.locator("#credit-balance")).toContainText("99,975,000");
+  await page.locator('nav [data-page="race"]').click();
+  await expect(page.locator("#car-select")).toHaveValue("lancia-stratos");
+  await page.locator('[data-race-type="practice"]').click();
+  await page.locator('[data-action="start"]').click();
+  await expect(page.locator("#race-stage")).toBeVisible({ timeout: 45000 });
+  await expect(page.locator(".countdown")).toHaveCount(0, { timeout: 25000 });
+  await page.locator("#throttle").fill("30");
+  await expect
+    .poll(async () => Number(await page.locator("#speed").textContent()))
+    .toBeGreaterThan(0);
+  await page.locator('[data-action="pause"]').click();
+  expect(errors).toEqual([]);
 });

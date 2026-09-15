@@ -1,0 +1,6 @@
+Model: AUDI R18
+Author: Godheim (https://sketchfab.com/Godheim)
+Source: https://sketchfab.com/3d-models/audi-r18-3a5f4938e662429b8633120aa62805a4
+License: CC Attribution (by) — http://creativecommons.org/licenses/by/4.0/
+Downloaded: 2026-06-12 via Sketchfab Download API
+Modifications: scale-normalized, meshopt-compressed, textures resized/transcoded to webp for real-time display.

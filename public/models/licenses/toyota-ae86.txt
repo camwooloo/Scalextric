@@ -1,0 +1,6 @@
+Model: Toyota AE86 Sprinter Trueno Zenki
+Author: TinoD2 (https://sketchfab.com/TinoD2)
+Source: https://sketchfab.com/3d-models/toyota-ae86-sprinter-trueno-zenki-a5737bf3cc9b4179a6e5ebe173ff70d9
+License: CC Attribution (by) — http://creativecommons.org/licenses/by/4.0/
+Downloaded: 2026-06-12 via Sketchfab Download API
+Modifications: scale-normalized, meshopt-compressed, textures resized/transcoded to webp for real-time display.

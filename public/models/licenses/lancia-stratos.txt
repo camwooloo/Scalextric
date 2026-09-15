@@ -1,0 +1,6 @@
+Model: Lancia Stratos HF - Rally - Alitalia Livery
+Author: JamesSlater (https://sketchfab.com/JamesSlater)
+Source: https://sketchfab.com/3d-models/lancia-stratos-hf-rally-alitalia-livery-76dfbe905346419d817fa03d1e46e547
+License: CC Attribution (by) — http://creativecommons.org/licenses/by/4.0/
+Downloaded: 2026-06-13 via Sketchfab Download API
+Modifications: scale-normalized, meshopt-compressed, textures resized/transcoded to webp for real-time display.

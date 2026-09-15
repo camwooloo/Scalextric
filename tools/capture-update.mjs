@@ -1,0 +1,10 @@
+import {chromium} from '@playwright/test';
+const b=await chromium.launch(),p=await b.newPage({viewport:{width:1440,height:1000}});const errors=[];p.on('pageerror',e=>errors.push(e.message));
+await p.goto('http://localhost:5173');await p.waitForTimeout(2500);await p.screenshot({path:'docs/screenshots/paddock.png'});
+await p.locator('nav [data-page="race"]').click();await p.screenshot({path:'docs/screenshots/setup.png',fullPage:true});
+await p.locator('nav [data-page="shop"]').click();await p.screenshot({path:'docs/screenshots/garage.png'});
+await p.locator('nav [data-page="stats"]').click();await p.screenshot({path:'docs/screenshots/stats.png',fullPage:true});
+await p.setViewportSize({width:390,height:844});await p.screenshot({path:'docs/screenshots/mobile-stats.png'});
+await p.locator('nav [data-page="race"]').click();await p.screenshot({path:'docs/screenshots/mobile-setup.png',fullPage:true});
+await p.locator('nav [data-page="home"]').click();await p.screenshot({path:'docs/screenshots/mobile.png',fullPage:true});
+console.log({errors});await b.close();

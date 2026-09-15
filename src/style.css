@@ -2535,3 +2535,897 @@ input[type="range"] {
     min-height: 32px;
   }
 }
+/* Night paddock: warm print colours, analogue timing and restrained race stripes. */
+:root {
+  color-scheme: light;
+  --surface: #eeefe7;
+  --ink: #25332e;
+  --soft: #f4f4ee;
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  color: #eee7d7;
+  background: #141b1b;
+  --surface: #1d2825;
+  --soft: #24312c;
+  --line: #34433b;
+  --muted: #a7b2a1;
+  --green: #b4c7a0;
+  --ink: #eee7d7;
+}
+body {
+  border-top: 4px solid var(--orange);
+}
+header {
+  position: relative;
+}
+header::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 105px;
+  height: 3px;
+  background: linear-gradient(90deg, #ee623b 40%, #d5b266 40% 70%, #7e9b80 70%);
+}
+h1 {
+  font-weight: 700;
+}
+.theme-switch {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  font-size: 22px;
+  display: grid;
+  place-items: center;
+  color: var(--ink);
+}
+.hero-configure {
+  display: inline-block;
+  background: none;
+  border: 0;
+  color: #eee7d7;
+  font-size: 11px;
+  margin: 12px 0 0;
+  padding: 9px 0;
+}
+.hero-copy .orange-btn {
+  margin-right: 15px;
+}
+.race-ticket {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 7px;
+  padding: 20px 25px;
+  margin-bottom: 22px;
+  border-left: 4px solid var(--orange);
+}
+.ticket-car {
+  width: 150px;
+  flex-shrink: 0;
+}
+.ticket-car .car-art {
+  height: 90px;
+}
+.race-ticket h2 {
+  font: 700 29px "Barlow Condensed";
+  margin: 6px 0;
+}
+.race-ticket p {
+  font-size: 11px;
+  color: var(--muted);
+}
+.race-ticket > button {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+.setup-footer {
+  color: var(--muted);
+  line-height: 1.8;
+}
+.loading-card {
+  background: var(--surface);
+  color: var(--ink);
+  padding: 40px;
+  max-width: 440px;
+  width: 100%;
+  text-align: center;
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--orange);
+  border-radius: 8px;
+}
+.loading-card .brand-mark {
+  margin: 0 auto 28px;
+}
+.loading-card h2 {
+  font: 700 42px "Barlow Condensed";
+  margin: 12px 0;
+}
+.loading-card p {
+  font-size: 13px;
+  color: var(--muted);
+}
+.loading-card small {
+  font-size: 11px;
+  color: var(--muted);
+}
+.loading-card .text-btn {
+  display: block;
+  margin: 24px auto 0;
+}
+.loading-line {
+  height: 4px;
+  background: var(--line);
+  margin: 25px 0 15px;
+  overflow: hidden;
+}
+.loading-line::after {
+  content: "";
+  display: block;
+  height: 4px;
+  width: 40%;
+  background: var(--orange);
+  animation: grid-load 1s ease-in-out infinite alternate;
+}
+@keyframes grid-load {
+  to {
+    transform: translateX(150%);
+  }
+}
+:root[data-theme="dark"] .sidebar {
+  background: #18221f;
+}
+:root[data-theme="dark"]
+  :is(
+    .quick-card,
+    .preset-card,
+    .garage-feature,
+    .setup-panel,
+    .car-card,
+    .large-track,
+    .settings-card,
+    .editor-panel,
+    .editor-canvas,
+    .modal,
+    .club-card
+  ) {
+  background: var(--surface);
+  border-color: var(--line);
+  color: var(--ink);
+}
+:root[data-theme="dark"]
+  :is(
+    .mode-btn,
+    select,
+    input:not([type="range"], [type="checkbox"], [type="file"])
+  ) {
+  background: #141e1b;
+  border-color: var(--line);
+  color: var(--ink);
+}
+:root[data-theme="dark"]
+  :is(
+    .nav-item.active,
+    .nav-item:hover,
+    .preset-card.selected,
+    .collection-banner,
+    .chosen-btn
+  ) {
+  background: #2c3e32;
+  color: #d3dfba;
+  border-color: #526b48;
+}
+:root[data-theme="dark"] .mode-btn.selected {
+  background: #49372b;
+  border-color: #d68a55;
+}
+:root[data-theme="dark"]
+  :is(
+    .outline-btn,
+    .segmented,
+    .member b,
+    .club-card,
+    .control-row,
+    .editor-toolbar,
+    .editor-bottom
+  ) {
+  border-color: var(--line);
+}
+:root[data-theme="dark"] .outline-btn:hover {
+  background: #304037;
+}
+:root[data-theme="dark"] :is(.car-art, .favourites img) {
+  mix-blend-mode: normal;
+}
+:root[data-theme="dark"] :is(.garage-number, .car-bg-number) {
+  color: #40513d;
+}
+:root[data-theme="dark"]
+  :is(
+    .eyebrow,
+    .nav-item,
+    .breadcrumb,
+    .breadcrumb b,
+    .muted,
+    .tiny.muted,
+    .page-heading p,
+    .setup-panel h3,
+    .setup-panel h3 span,
+    .mode-btn small,
+    .quick-card p,
+    .club-card p,
+    .club-card,
+    .tip,
+    label,
+    .text-btn,
+    .settings-card p,
+    .modal p,
+    .legal-note,
+    .car-card-top,
+    .garage-caption,
+    .profile small,
+    .control-row,
+    .editor-bottom,
+    .header-right,
+    .large-track p,
+    .settings-card h3
+  ) {
+  color: #a9b7a0;
+}
+:root[data-theme="dark"] :is(.orange, .green, .avatar, .nav-item b) {
+  background: #364631;
+  color: #c7d2b2;
+}
+:root[data-theme="dark"] .orange {
+  background: #4e392b;
+  color: #f3a070;
+}
+:root[data-theme="dark"] .track-map {
+  color: #b2c28e;
+}
+:root[data-theme="dark"] .stat-bar {
+  background: #384736;
+}
+:root[data-theme="dark"] .stat-bar b {
+  background: #adbf8c;
+}
+:root[data-theme="dark"] h1 em {
+  color: #a7b691;
+}
+:root[data-theme="dark"] .car-stats {
+  border-color: var(--line);
+}
+:root[data-theme="dark"] .editor-canvas svg {
+  background: #18241e;
+}
+:root[data-theme="dark"] .piece {
+  background: #26372b;
+  color: #c5d0b6;
+  border-color: var(--line);
+}
+:root[data-theme="dark"] .piece:hover {
+  background: #384b32;
+}
+.stats-intro {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 11px;
+  color: var(--muted);
+  padding: 0 0 18px;
+  border-bottom: 1px solid var(--line);
+}
+.stats-hero {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  margin: 22px 0;
+}
+.stat-tile {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  padding: 23px;
+  min-width: 0;
+  border-radius: 5px;
+}
+.stat-tile strong {
+  display: block;
+  font: 700 43px/1.1 "Barlow Condensed";
+  margin: 13px 0 9px;
+  font-variant-numeric: tabular-nums;
+}
+.stat-tile small {
+  font-size: 10px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+.stats-hero .stat-tile:first-child {
+  border-top: 3px solid var(--orange);
+}
+.stats-hero .stat-tile:first-child strong {
+  color: var(--orange);
+  font-size: 60px;
+}
+.favourites {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin: 25px 0;
+}
+.favourites article {
+  position: relative;
+  min-height: 160px;
+  padding: 25px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  overflow: hidden;
+  background: linear-gradient(130deg, var(--surface), transparent);
+}
+.favourites h2 {
+  font: 600 30px "Barlow Condensed";
+  margin: 16px 0 7px;
+  position: relative;
+}
+.favourites p {
+  font-size: 11px;
+  color: var(--muted);
+  position: relative;
+}
+.favourites img {
+  position: absolute;
+  right: -15px;
+  top: 10px;
+  width: 200px;
+  opacity: 0.23;
+}
+.stats-small {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin: 25px 0;
+}
+.stats-small .stat-tile {
+  padding: 18px;
+}
+.stats-small .stat-tile strong {
+  font-size: 30px;
+  margin-bottom: 0;
+}
+.stats-panel {
+  padding: 23px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  margin: 20px 0;
+  min-width: 0;
+}
+.stats-panel h2 {
+  font: 600 24px "Barlow Condensed";
+}
+.table-scroll {
+  overflow: auto;
+}
+.stats-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.stats-table th,
+.stats-table td {
+  padding: 15px 13px;
+  text-align: right;
+  border-bottom: 1px solid var(--line);
+  font-variant-numeric: tabular-nums;
+}
+.stats-table th:first-child {
+  text-align: left;
+  padding-left: 0;
+}
+.stats-table thead th {
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.stats-table tbody th {
+  font-weight: 500;
+}
+.stats-table tbody tr:last-child :is(td, th) {
+  border: 0;
+}
+.timing {
+  color: #de8a58;
+  font-family: "Barlow Condensed";
+  font-size: 20px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.stats-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.stats-columns .stats-panel {
+  margin: 0 0 20px;
+}
+.history-bar {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 11px;
+  margin: 25px 0;
+}
+.history-bar > span {
+  width: 135px;
+  flex-shrink: 0;
+}
+.history-bar > div {
+  height: 5px;
+  background: var(--line);
+  flex: 1;
+  border-radius: 2px;
+}
+.history-bar b {
+  display: block;
+  height: 100%;
+  background: var(--orange);
+}
+.history-bar > strong {
+  width: 25px;
+  text-align: right;
+}
+.log-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+}
+.log-row strong {
+  font-size: 12px;
+  font-weight: 500;
+}
+.log-row small {
+  display: block;
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 7px;
+}
+.log-row > .timing {
+  white-space: nowrap;
+}
+.empty-state,
+.stats-caption {
+  font-size: 11px;
+  color: var(--muted);
+  padding: 14px 0;
+}
+.stats-panel summary {
+  cursor: pointer;
+  font-size: 14px;
+  padding: 5px 0;
+}
+.garage-tools {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  margin-bottom: 22px;
+}
+.garage-tools input {
+  max-width: 420px;
+}
+.garage-tools select {
+  max-width: 190px;
+}
+.garage-tools span {
+  font-size: 11px;
+  color: var(--muted);
+  margin-left: auto;
+}
+.car-card {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 400px;
+}
+.car-card[hidden] {
+  display: none;
+}
+@media (max-width: 1100px) {
+  .race-ticket {
+    gap: 16px;
+    padding: 17px;
+  }
+  .ticket-car {
+    width: 100px;
+  }
+  .race-ticket h2 {
+    font-size: 23px;
+  }
+  .race-ticket > button {
+    font-size: 10px;
+    padding: 12px;
+  }
+  .stat-tile {
+    padding: 17px;
+  }
+  .stats-small {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .stats-hero {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 760px) {
+  .race-ticket {
+    flex-wrap: wrap;
+    position: relative;
+  }
+  .ticket-car {
+    width: 80px;
+  }
+  .race-ticket > div:nth-child(2) {
+    flex: 1;
+  }
+  .race-ticket > button {
+    width: 100%;
+    min-height: 48px;
+  }
+  .stats-columns,
+  .favourites {
+    grid-template-columns: 1fr;
+  }
+  .stats-small {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .stats-intro {
+    font-size: 9px;
+  }
+  .stats-panel {
+    padding: 17px;
+  }
+  .stats-hero {
+    gap: 10px;
+  }
+  .stat-tile .eyebrow {
+    font-size: 7px;
+    letter-spacing: 1px;
+  }
+  .stat-tile strong {
+    font-size: 36px;
+  }
+  .stats-hero .stat-tile:first-child strong {
+    font-size: 44px;
+  }
+  .stats-panel .section-heading {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .garage-tools {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .garage-tools input {
+    max-width: none;
+  }
+  .garage-tools select {
+    flex: 1;
+  }
+  .hero-copy {
+    max-width: 330px;
+  }
+  .hero-configure {
+    font-size: 10px;
+  }
+  .setup-preview {
+    display: none;
+  }
+  .setup-panel .mode-options {
+    margin-bottom: 20px;
+  }
+}
+@media (max-width: 540px) {
+  .sidebar .nav-item {
+    width: 16.666%;
+  }
+  .nav-item span {
+    font-size: 6px;
+  }
+  .header-right {
+    gap: 10px;
+  }
+  .theme-switch {
+    width: 29px;
+    height: 29px;
+    font-size: 20px;
+  }
+  .stats-small .stat-tile {
+    padding: 13px;
+  }
+  .stats-small .stat-tile strong {
+    font-size: 27px;
+  }
+  .stats-panel h2 {
+    font-size: 22px;
+  }
+  .history-bar > span {
+    width: 110px;
+    font-size: 10px;
+  }
+  .stats-intro {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .favourites h2 {
+    font-size: 28px;
+  }
+}
+.cars-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.car-card {
+  min-width: 0;
+  contain-intrinsic-width: 0;
+}
+@media (max-width: 760px) {
+  .cars-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.in-race :is(.speedometer, .race-left, .race-map) {
+  backdrop-filter: none;
+}
+.wallet-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 24px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 4px solid #d3b069;
+  border-radius: 6px;
+  margin-bottom: 22px;
+}
+.wallet-banner strong {
+  display: block;
+  font: 700 35px "Barlow Condensed";
+  margin-top: 7px;
+  color: #d3b069;
+  font-variant-numeric: tabular-nums;
+}
+.wallet-banner small {
+  font-size: 15px;
+  letter-spacing: 2px;
+}
+.wallet-banner p {
+  color: var(--muted);
+  font-size: 11px;
+  text-align: right;
+}
+.garage-tools {
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.garage-tools input {
+  flex: 1;
+  min-width: 190px;
+}
+.garage-tools select {
+  width: auto;
+  max-width: 190px;
+}
+.garage-guide {
+  font-size: 11px;
+  color: var(--muted);
+  margin: -7px 0 23px;
+  max-width: 850px;
+}
+.class-badge {
+  font: 600 11px "Barlow Condensed";
+  letter-spacing: 1px;
+  border: 1px solid #61745d;
+  padding: 5px 8px;
+  color: #b3c399;
+}
+.class-S {
+  border-color: #d4b574;
+  color: #d4b574;
+}
+.class-A {
+  border-color: #dd8362;
+  color: #dd8362;
+}
+.class-B {
+  border-color: #729caf;
+  color: #729caf;
+}
+.car-character {
+  font-size: 10px;
+  color: var(--muted);
+  margin: 4px 0 16px;
+}
+.rating-list {
+  display: grid;
+  gap: 13px;
+  margin: 18px 0 22px;
+}
+.rating-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  margin-bottom: 6px;
+}
+.rating-label b {
+  font-weight: 400;
+  color: var(--muted);
+  font-size: 10px;
+}
+.rating-label small {
+  display: inline-block;
+  margin-left: 5px;
+  font: 600 12px "Barlow Condensed";
+  color: #8bbde1;
+  min-width: 15px;
+  text-align: right;
+}
+.rating-segments {
+  display: flex;
+  gap: 3px;
+  height: 6px;
+}
+.rating-segments > span {
+  flex: 1;
+  background: #253e51;
+  overflow: hidden;
+}
+.rating-segments b {
+  height: 100%;
+  display: block;
+  background: #4a9bd7;
+}
+.car-price {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--line);
+  padding: 17px 0;
+}
+.car-price > span {
+  font-size: 8px;
+  letter-spacing: 1px;
+  color: var(--muted);
+}
+.car-price > strong {
+  font: 600 25px "Barlow Condensed";
+  color: #d3b069;
+}
+.car-price small {
+  font-size: 11px;
+}
+.garage-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 30px 0 10px;
+}
+.garage-pagination > span {
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 1px;
+}
+.garage-pagination button:disabled {
+  opacity: 0.3;
+}
+.garage-empty {
+  padding: 45px 20px;
+  grid-column: 1/-1;
+  text-align: center;
+  color: var(--muted);
+  border: 1px dashed var(--line);
+}
+.car-card {
+  contain-intrinsic-height: 550px;
+}
+:root:not([data-theme="dark"])
+  :is(.class-badge, .car-price > strong, .wallet-banner strong) {
+  color: #6c5830;
+}
+:root:not([data-theme="dark"]) .rating-segments > span {
+  background: #c6d4dc;
+}
+:root:not([data-theme="dark"]) .rating-label small {
+  color: #2771a5;
+}
+@media (max-width: 760px) {
+  .garage-tools select {
+    flex: 1;
+    min-width: 140px;
+    max-width: none;
+  }
+  .garage-tools input {
+    flex-basis: 100%;
+  }
+  .garage-tools > span {
+    width: 100%;
+    margin-top: 5px;
+  }
+  .rating-label {
+    font-size: 10px;
+  }
+  .rating-label b {
+    font-size: 8px;
+  }
+  .wallet-banner {
+    padding: 20px;
+  }
+  .wallet-banner p {
+    font-size: 9px;
+  }
+  .car-price {
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-start;
+  }
+}
+@media (max-width: 540px) {
+  .rating-label {
+    align-items: flex-start;
+    gap: 3px;
+  }
+  .rating-label b {
+    max-width: 70px;
+    text-align: right;
+    font-size: 7px;
+  }
+  .rating-label > span {
+    font-size: 8px;
+  }
+  .rating-label small {
+    font-size: 10px;
+    margin-left: 2px;
+  }
+  .rating-segments {
+    gap: 2px;
+    height: 5px;
+  }
+  .class-badge {
+    font-size: 9px;
+    padding: 4px;
+  }
+  .wallet-banner {
+    align-items: flex-start;
+  }
+  .wallet-banner strong {
+    font-size: 29px;
+  }
+  .wallet-banner p {
+    max-width: 115px;
+    font-size: 9px;
+  }
+  .garage-guide {
+    font-size: 10px;
+  }
+  .car-price > strong {
+    font-size: 24px;
+  }
+  .garage-pagination {
+    gap: 10px;
+  }
+  .garage-pagination > span {
+    font-size: 8px;
+    letter-spacing: 0;
+  }
+  .garage-pagination button {
+    font-size: 9px;
+    padding: 10px;
+  }
+}

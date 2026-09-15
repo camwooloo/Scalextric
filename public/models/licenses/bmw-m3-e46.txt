@@ -1,0 +1,6 @@
+Model: BMW M3 E46
+Author: Lexyc16 (https://sketchfab.com/Lexyc16)
+Source: https://sketchfab.com/3d-models/bmw-m3-e46-a067132c75f5456daa4f60c4001337d7
+License: CC Attribution-NonCommercial (by-nc) — http://creativecommons.org/licenses/by-nc/4.0/
+Downloaded: 2026-06-12 via Sketchfab Download API
+Modifications: scale-normalized, meshopt-compressed, textures resized/transcoded to webp for real-time display.

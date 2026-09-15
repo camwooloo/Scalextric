@@ -1,0 +1,6 @@
+Model: Lamborghini Aventador
+Author: Outlaw_Games (https://sketchfab.com/Outlaw_Games)
+Source: https://sketchfab.com/3d-models/lamborghini-aventador-e328d9f5dcfd48bdbe8c73324b52ece3
+License: CC Attribution-NonCommercial (by-nc) — http://creativecommons.org/licenses/by-nc/4.0/
+Downloaded: 2026-06-12 via Sketchfab Download API
+Modifications: scale-normalized, meshopt-compressed, textures resized/transcoded to webp for real-time display.

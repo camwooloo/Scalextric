@@ -1,0 +1,8 @@
+{
+  "id": "imola",
+  "title": "2021 Pagani Imola",
+  "author": "Ddiaz Design (https://sketchfab.com/ddiaz-design)",
+  "source": "https://sketchfab.com/3d-models/2021-pagani-imola-41d59a9e413944ba82e4a230db4c170c",
+  "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+  "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+}

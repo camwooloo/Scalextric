@@ -1,0 +1,6 @@
+Model: 1980 BMW M1 AHG Studie
+Author: outpiston (https://sketchfab.com/outpiston)
+Source: https://sketchfab.com/3d-models/1980-bmw-m1-ahg-studie-cd1d528eee2e4d9298c4e8647116545a
+License: CC Attribution-NonCommercial-ShareAlike (by-nc-sa) — http://creativecommons.org/licenses/by-nc-sa/4.0/
+Downloaded: 2026-06-12 via Sketchfab Download API
+Modifications: scale-normalized, meshopt-compressed, textures resized/transcoded to webp for real-time display.

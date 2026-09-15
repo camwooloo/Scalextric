@@ -1,0 +1,14 @@
+import {chromium} from '@playwright/test';
+import sharp from 'sharp';
+import fs from 'node:fs';
+const browser=await chromium.launch(),page=await browser.newPage({viewport:{width:1200,height:630},deviceScaleFactor:1});
+await page.goto('http://localhost:5173/tools/brand.html');
+await page.evaluate(()=>document.fonts.ready);
+await page.locator('.car').evaluate(img=>img.decode());
+await page.screenshot({path:'public/og-image.png'});
+await page.evaluate(()=>document.body.classList.add('icon-only'));
+const icon=await page.locator('.icon').screenshot({omitBackground:true});
+await sharp(icon).resize(180,180).png().toFile('public/apple-touch-icon.png');
+await sharp(icon).resize(64,64).png().toFile('public/favicon.png');
+const png=await sharp(icon).resize(32,32).png().toBuffer(),head=Buffer.alloc(22);head.writeUInt16LE(1,2);head.writeUInt16LE(1,4);head[6]=32;head[7]=32;head.writeUInt16LE(1,10);head.writeUInt16LE(32,12);head.writeUInt32LE(png.length,14);head.writeUInt32LE(22,18);fs.writeFileSync('public/favicon.ico',Buffer.concat([head,png]));
+await browser.close();

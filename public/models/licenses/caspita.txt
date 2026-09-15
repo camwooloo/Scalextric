@@ -1,0 +1,8 @@
+{
+  "id": "caspita",
+  "title": "Jiotto Caspita F1 Road Car 1989 By Alex.Ka.",
+  "author": "ᗩᒪE᙭. Kᗩ.🚗 (https://sketchfab.com/Alex.Ka.)",
+  "source": "https://sketchfab.com/3d-models/jiotto-caspita-f1-road-car-1989-by-alexka-828c84b390624f0389287bd036d7dbf5",
+  "license": "CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)",
+  "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+}

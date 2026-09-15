@@ -10,7 +10,7 @@ A miniature motorsport playground. Build a circuit, collect your favourite cars,
 [![Play Slot Club](https://img.shields.io/badge/PLAY-SLOT_CLUB-ee623b?style=for-the-badge)](https://scalextric-chi.vercel.app/)
 ![Three.js](https://img.shields.io/badge/3D-THREE.JS-293b31?style=for-the-badge)
 ![Circuits](https://img.shields.io/badge/CIRCUITS-09-718561?style=for-the-badge)
-![Collection](https://img.shields.io/badge/CARS-ALL_FREE-ee623b?style=for-the-badge)
+![Collection](https://img.shields.io/badge/CAR_MODELS-133-ee623b?style=for-the-badge)
 
 <br>
 
@@ -35,11 +35,17 @@ The circuit sits on a miniature tabletop, complete with moulded track sections, 
 
 ## A garage worth coming back to
 
-Six detailed, downloadable 3D car models replace the original block-shaped cars. Each has its own silhouette, bodywork, wheels, glass, materials, and handling characteristics. The garage thumbnails are rendered from the same models used on the track.
+133 detailed, downloadable 3D car models fill the garage. Each has its own silhouette, bodywork, wheels, glass, materials, and handling characteristics. The garage thumbnails are rendered from the same models used on the track.
 
-**Porsche 911 GT3 RS · Ford Mustang Mach 1 · McLaren P1 GTR · Mini Cooper S · Aston Martin DB11 · BMW M4 Competition**
+**Modern icons meet the poster-car years.** Porsche 911 GT3 RS, Mustang Mach 1, McLaren P1 GTR, Mini Cooper S, Aston Martin DB11 and BMW M4 join the F40, Countach, Stratos, Sport Quattro, M1, 787B, Supra, NSX-R, XJ220, 300 SL, Golf GTI, 930 Turbo, Esprit V8 and 250 GTO.
 
-Every car is free to collect. No checkout. No account required.
+Search by name, filter by era or performance class, sort by price or name, and browse 24 cars at a time.
+
+Every local profile starts with **100,000,000 club credits** — enough to buy the entire collection. Prices run from **8,000 CR** to **600,000 CR**. No checkout. No real money. No account required.
+
+Five segmented ratings show **top speed, acceleration, cornering, braking and stability**. Higher price classes improve every rating; cars within a class have different strengths. The displayed ratings feed the actual racing physics. These are gameplay ratings, not manufacturer performance data.
+
+[Browse the original model sources and artists →](https://scalextric-chi.vercel.app/credits.html)
 
 ![The car collection](docs/screenshots/garage.png)
 
@@ -63,6 +69,22 @@ Track Studio lets you shape a closed circuit, insert straight, curved, and chica
 
 ![Track Studio](docs/screenshots/studio.png)
 
+## The night paddock
+
+Warm cream, racing orange and deep green. Switch between **Night paddock**, **Classic cream**, or your device’s theme. The original Slot Club monogram now appears in browser tabs, with a matching racing poster when you share the site.
+
+Start a **Quick race** from the home screen using your saved settings, or use the race ticket to pick a circuit, car, mode and lap count. Model loading and graphics warm-up happen before lights out.
+
+![Race setup](docs/screenshots/setup.png)
+
+## Your driver dossier
+
+A dedicated stats page keeps your circuit and garage logbooks: fastest laps, total and clean laps, driving time, distance, wins, win rate, deslots, re-slots, top and average speed, throttle and brake time, favourite car and circuit, local credits, garage spending, recent laps and session history. Track and car tables make it easy to compare your progress.
+
+Existing personal bests are retained. New counters start with this update; older driving totals cannot be reconstructed. Everything remains in browser storage and travels with save exports.
+
+![Driver statistics](docs/screenshots/stats.png)
+
 ## Race your way
 
 | Experience | What’s on the grid |
@@ -78,7 +100,7 @@ Track Studio lets you shape a closed circuit, insert straight, curved, and chica
 - **Desktop and mobile:** responsive menus, touch controls, and a touch-friendly track editor.
 - **Your collection stays with you:** cars, custom circuits, personal bests, and preferences save in browser storage.
 - **Backups included:** export and import your save from Settings.
-- **Detail with a budget:** compressed models, smaller mobile variants, shared model caching, batched scenery, and adaptive graphics quality.
+- **Detail with a budget:** compressed models loaded only when selected, lighter geometry in adaptive/performance modes, GPU-compressed textures where provided, a bounded model cache, batched scenery, cached static shadows and adaptive resolution.
 - **Pause when life happens:** the race pauses when you leave the tab.
 
 Saves are local to the browser and site address. Cloud accounts and database storage are planned for a later stage.
@@ -101,7 +123,9 @@ These are detailed community-made representations of real cars, not manufacturer
 | [2017 Aston Martin DB11](https://sketchfab.com/3d-models/2017-aston-martin-db11-52l-twin-turbo-v12-936854ba7dde46f09a47d355d433808c) | Hari31 | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
 | [BMW M4 Competition M Package](https://sketchfab.com/3d-models/bmw-m4-competition-m-package-5c0a2dafb1ad408d9fc9eeef9aee531b) | SRT Performance | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
 
-Models were simplified, merged, texture-resized, compressed, oriented, and scaled for browser use. Optimised models and their renders retain their respective asset licences. Porsche and Ford derivatives are non-commercial and share-alike. These asset licences do not relicense the game code or unrelated content.
+Models were simplified, merged, compressed, oriented, and scaled for browser use. WebP textures were resized; existing GPU-compressed KTX2 textures retain their source resolution. Optimised models and their renders retain their respective asset licences. Several derivatives require non-commercial use and/or share-alike; consult the full per-model credits. These asset licences do not relicense the game code or unrelated content.
+
+The expanded models were sourced from [Marque’s model collection](https://github.com/JamieGeddes/marque/tree/main/public/models), with original Sketchfab metadata and licence files retained.
 
 [Full in-game credits](https://scalextric-chi.vercel.app/credits.html) · [Machine-readable credits](public/models/credits.json)
 

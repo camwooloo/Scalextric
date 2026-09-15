@@ -1,0 +1,6 @@
+Model: Lancia 037 Stradale 1978
+Author: heynic (https://sketchfab.com/heynic)
+Source: https://sketchfab.com/3d-models/lancia-037-stradale-1978-36f1c5964de14e0088d828e88a3749b9
+License: CC Attribution (by) — http://creativecommons.org/licenses/by/4.0/
+Downloaded: 2026-06-13 via Sketchfab Download API
+Modifications: scale-normalized, meshopt-compressed, textures resized/transcoded to webp for real-time display.

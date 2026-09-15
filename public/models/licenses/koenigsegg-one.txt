@@ -1,0 +1,6 @@
+Model: Koenigsegg One Pro
+Author: Alister.Dsa (https://sketchfab.com/Alister.Dsa)
+Source: https://sketchfab.com/3d-models/koenigsegg-one-pro-26d50f742f3241f5a36081d93205c764
+License: CC Attribution (by) — http://creativecommons.org/licenses/by/4.0/
+Downloaded: 2026-06-13 via Sketchfab Download API
+Modifications: scale-normalized, meshopt-compressed, textures resized/transcoded to webp for real-time display.

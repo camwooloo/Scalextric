@@ -1,0 +1,6 @@
+Model: 1989 Lamborghini Countach 25th Anniversary
+Author: ddiaz-design (https://sketchfab.com/ddiaz-design)
+Source: https://sketchfab.com/3d-models/1989-lamborghini-countach-25th-anniversary-75acd9a580574e128c0886d2bc5a2b21
+License: CC Attribution (by) — http://creativecommons.org/licenses/by/4.0/
+Downloaded: 2026-06-13 via Sketchfab Download API
+Modifications: scale-normalized, meshopt-compressed, textures resized/transcoded to webp for real-time display.

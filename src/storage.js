@@ -1,12 +1,17 @@
 import { cars, presets } from "./data.js";
+import { STARTING_CREDITS } from "./economy.js";
+import { normalizeStats } from "./stats.js";
 const KEY = "slot-club:v1";
 const defaults = {
   owned: ["porsche"],
   selected: "porsche",
   tracks: [],
+  credits: STARTING_CREDITS,
+  creditsSpent: 0,
   records: {},
+  stats: null,
   races: 0,
-  settings: { quality: "auto", sound: true },
+  settings: { quality: "auto", sound: true, theme: "dark" },
   lastTrack: 0,
   presetCount: presets.length,
   racePrefs: { mode: "slot", type: "race", laps: 3 },
@@ -48,7 +53,16 @@ export function normalize(raw) {
     owned,
     selected: owned.includes(raw.selected) ? raw.selected : owned[0],
     tracks,
+    credits:
+      Number.isFinite(raw.credits) && raw.credits >= 0
+        ? Math.min(1_000_000_000, Math.floor(raw.credits))
+        : STARTING_CREDITS,
+    creditsSpent:
+      Number.isFinite(raw.creditsSpent) && raw.creditsSpent >= 0
+        ? raw.creditsSpent
+        : 0,
     records,
+    stats: normalizeStats(raw.stats),
     races: Number.isInteger(raw.races) && raw.races >= 0 ? raw.races : 0,
     presetCount: presets.length,
     lastTrack:
@@ -58,6 +72,9 @@ export function normalize(raw) {
           : raw.lastTrack
         : 0,
     settings: {
+      theme: ["dark", "light", "system"].includes(raw.settings?.theme)
+        ? raw.settings.theme
+        : "dark",
       quality: ["auto", "high", "low"].includes(raw.settings?.quality)
         ? raw.settings.quality
         : "auto",

@@ -80,6 +80,21 @@ const icons = {
   Warehouse,
   Zap,
 };
+import {
+  emptyStats,
+  circuitKey,
+  addStats,
+  recordLap,
+  recordSession,
+} from "./stats.js";
+import { purchaseCar } from "./economy.js";
+import {
+  garageView,
+  garageList,
+  garageCards,
+  garagePagination,
+} from "./garage-view.js";
+import { statsView } from "./stats-view.js";
 import { sampleCurvature, stepGrip, resetHandling } from "./handling";
 import { World } from "./scene";
 import { presets, cars, stepSpeed, cornerLoad } from "./data";
@@ -121,6 +136,48 @@ let state = {
   crashes: 0,
   finished: false,
 };
+profile.stats ||= emptyStats();
+const garageFilter = {
+  query: "",
+  era: "all",
+  tier: "all",
+  sort: "price-low",
+  page: 0,
+};
+let statContext,
+  lastStatSave = 0,
+  saveQueued = false;
+function queueSave() {
+  if (saveQueued) return;
+  saveQueued = true;
+  (window.requestIdleCallback || ((fn) => setTimeout(fn, 0)))(
+    () => {
+      saveQueued = false;
+      persist();
+    },
+    { timeout: 1500 },
+  );
+}
+function applyTheme() {
+  const theme = profile.settings.theme || "dark";
+  document.documentElement.dataset.theme =
+    theme === "system"
+      ? matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light"
+      : theme;
+  document
+    .querySelector('meta[name="theme-color"]')
+    ?.setAttribute(
+      "content",
+      document.documentElement.dataset.theme === "dark" ? "#141b1b" : "#f5f4ef",
+    );
+}
+applyTheme();
+matchMedia("(prefers-color-scheme: dark)").addEventListener(
+  "change",
+  applyTheme,
+);
 const i = (name, cls = "") =>
   `<i data-lucide="${name.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase()}" class="${cls}"></i>`;
 const escape = (s) =>
@@ -171,21 +228,20 @@ $("#app").innerHTML =
     ["builder", "Spline", "Track studio"],
     ["garage", "Warehouse", "My garage"],
     ["shop", "ShoppingBag", "Car shop"],
+    ["stats", "Gauge", "Driver stats"],
   ]
     .map(
       ([p, ic, label]) =>
-        `<button data-page="${p}" class="nav-item ${p === "home" ? "active" : ""}">${i(ic)}<span>${label}</span>${p === "shop" ? "<b>FREE</b>" : ""}</button>`,
+        `<button data-page="${p}" class="nav-item ${p === "home" ? "active" : ""}">${i(ic)}<span>${label}</span>${p === "shop" ? "<b>133</b>" : ""}</button>`,
     )
     .join(
       "",
-    )}</nav><div class="sidebar-bottom"><div class="club-card"><span class="live-dot"></span> SMALL SCALE. NO LIMITS.<p>Your next great race<br>starts right here.</p><span class="tiny">THE 1:32 RACING EXPERIENCE</span></div><button data-page="settings" class="nav-item">${i("SlidersHorizontal")}<span>Settings & controls</span></button><div class="profile"><div class="avatar">DR</div><div><strong>Club driver</strong><small>LOCAL PLAYER</small></div><span class="online"></span></div></div></aside><main><header><div class="breadcrumb">THE PADDOCK <span>/</span> <b id="page-label">OVERVIEW</b></div><div class="header-right"><span class="storage-status">${i("HardDrive")} Saved on this device</span><span class="header-line"></span><span class="member">CLUB MEMBER <b>001</b></span></div></header><div id="content"></div><footer><span><span class="live-dot"></span> ALL SYSTEMS GO</span><span>BUILT FOR THE LOVE OF THE RACE.</span><button class="footer-settings" data-page="settings">Settings & controls ↗</button></footer></main><div id="toast" role="status"></div><div id="modal-root"></div>`;
+    )}</nav><div class="sidebar-bottom"><div class="club-card"><span class="live-dot"></span> SMALL SCALE. NO LIMITS.<p>Your next great race<br>starts right here.</p><span class="tiny">THE 1:32 RACING EXPERIENCE</span></div><button data-page="settings" class="nav-item">${i("SlidersHorizontal")}<span>Settings & controls</span></button><div class="profile"><div class="avatar">DR</div><div><strong>Club driver</strong><small>LOCAL PLAYER</small></div><span class="online"></span></div></div></aside><main><header><div class="breadcrumb">THE PADDOCK <span>/</span> <b id="page-label">OVERVIEW</b></div><div class="header-right"><button class="theme-switch" data-action="theme" aria-label="Toggle dark theme">◐</button><span class="storage-status">${i("HardDrive")} Saved on this device</span><span class="header-line"></span><span class="member">CLUB MEMBER <b>001</b></span></div></header><div id="content"></div><footer><span><span class="live-dot"></span> ALL SYSTEMS GO</span><span>BUILT FOR THE LOVE OF THE RACE.</span><button class="footer-settings" data-page="settings">Settings & controls ↗</button></footer></main><div id="toast" role="status"></div><div id="modal-root"></div>`;
 const sceneEl = document.createElement("div");
 sceneEl.id = "scene";
 try {
   world = new World(sceneEl);
-  world.lowDetail =
-    profile.settings.quality === "low" ||
-    (profile.settings.quality === "auto" && innerWidth < 800);
+  world.lowDetail = profile.settings.quality !== "high";
   world.build(track());
   world.setCars(car(), cars[4]);
 } catch (err) {
@@ -197,7 +253,7 @@ function heading(kicker, title, desc, action = "") {
   return `<div class="page-heading"><div><div class="eyebrow">${kicker}</div><h1>${title}</h1><p>${desc}</p></div>${action}</div>`;
 }
 function home() {
-  return `${heading("WELCOME TO THE CLUB", "Small cars. <em>Big racing.</em>", "Build your circuit. Find your limit. Make every lap count.", `<button class="outline-btn" data-action="help">${i("CircleHelp")} How to play</button>`)}<section class="hero"><div id="scene-mount"></div><div class="hero-top"><span class="dark-pill"><span class="live-dot"></span> LIVE CIRCUIT PREVIEW</span><span class="hero-scale">1:32 <span>SCALE / FULL THROTTLE</span></span></div><div class="hero-copy"><div class="eyebrow">YOUR NEXT STARTING LINE</div><h2>${escape(track().name)}</h2><p>${escape(track().description)}</p><div class="hero-meta"><span>${i("Route")} ${world ? Math.round(world.length) : 90}m circuit</span><span>${i("Layers")} 2 lanes</span><span>${i("Gauge")} ${escape(track().difficulty)}</span></div><button class="orange-btn" data-page="race">Let's race ${i("ArrowUpRight")}</button></div><div class="hero-stamp">BUILT TO<br><strong>RACE.</strong></div><div class="hero-index"><b>0${selectedTrack + 1}</b><span> / ${String(allTracks().length).padStart(2, "0")}</span><button data-action="next-track" aria-label="Next circuit">${i("ArrowRight")}</button></div></section><section class="quick-grid"><button class="quick-card" data-page="builder"><span class="card-icon orange">${i("Spline")}</span><span><h3>Your track. Your rules.</h3><p>Create something worth racing.</p><b>OPEN TRACK STUDIO ${i("ArrowUpRight")}</b></span><div class="quick-map">${trackSvg(presets[2])}</div></button><button class="quick-card" data-page="shop"><span class="card-icon green">${i("CarFront")}</span><span><h3>Meet your next obsession.</h3><p>Iconic cars. Zero price tags.</p><b>EXPLORE THE COLLECTION ${i("ArrowUpRight")}</b></span><span class="free-circle">ALL<br><strong>FREE</strong></span></button></section><section class="lower-grid"><div><div class="section-heading"><h2>Pick your playground<span>0${allTracks().length}</span></h2><button class="text-btn" data-page="tracks">View all tracks ${i("ArrowRight")}</button></div><div class="preset-grid">${allTracks()
+  return `${heading("WELCOME TO THE CLUB", "Small cars. <em>Big racing.</em>", "Build your circuit. Find your limit. Make every lap count.", `<button class="outline-btn" data-action="help">${i("CircleHelp")} How to play</button>`)}<section class="hero"><div id="scene-mount"></div><div class="hero-top"><span class="dark-pill"><span class="live-dot"></span> LIVE CIRCUIT PREVIEW</span><span class="hero-scale">1:32 <span>SCALE / FULL THROTTLE</span></span></div><div class="hero-copy"><div class="eyebrow">YOUR NEXT STARTING LINE</div><h2>${escape(track().name)}</h2><p>${escape(track().description)}</p><div class="hero-meta"><span>${i("Route")} ${world ? Math.round(world.length) : 90}m circuit</span><span>${i("Layers")} 2 lanes</span><span>${i("Gauge")} ${escape(track().difficulty)}</span></div><button class="orange-btn" data-action="quick-start">Quick race ${i("ArrowUpRight")}</button><button class="hero-configure" data-page="race">Configure race →</button></div><div class="hero-stamp">BUILT TO<br><strong>RACE.</strong></div><div class="hero-index"><b>0${selectedTrack + 1}</b><span> / ${String(allTracks().length).padStart(2, "0")}</span><button data-action="next-track" aria-label="Next circuit">${i("ArrowRight")}</button></div></section><section class="quick-grid"><button class="quick-card" data-page="builder"><span class="card-icon orange">${i("Spline")}</span><span><h3>Your track. Your rules.</h3><p>Create something worth racing.</p><b>OPEN TRACK STUDIO ${i("ArrowUpRight")}</b></span><div class="quick-map">${trackSvg(presets[2])}</div></button><button class="quick-card" data-page="shop"><span class="card-icon green">${i("CarFront")}</span><span><h3>Meet your next obsession.</h3><p>Iconic cars. A garage of possibilities.</p><b>EXPLORE THE COLLECTION ${i("ArrowUpRight")}</b></span><span class="free-circle">CARS<br><strong>${cars.length}</strong></span></button></section><section class="lower-grid"><div><div class="section-heading"><h2>Pick your playground<span>0${allTracks().length}</span></h2><button class="text-btn" data-page="tracks">View all tracks ${i("ArrowRight")}</button></div><div class="preset-grid">${allTracks()
     .slice(0, 3)
     .map(
       (t, j) =>
@@ -208,7 +264,7 @@ function home() {
     )}</div></div><div class="garage-peek"><div class="section-heading"><h2>In your garage</h2><button class="icon-btn" data-page="garage" aria-label="Open garage">${i("ArrowUpRight")}</button></div><div class="garage-feature"><span class="tiny">${car().type}</span><span class="garage-number">${car().number}</span>${carArt(car())}<h3>${car().name}</h3><div class="garage-caption"><span>${car().year} <span class="dot-divider">/</span> 1:32 SCALE</span><span class="ready"><span class="live-dot"></span> RACE READY</span></div></div></div></section>`;
 }
 function setup() {
-  return `${heading("LIGHTS OUT. HEART RATE UP.", "Find your <em>racing line.</em>", "Choose your circuit, settle into your car, and squeeze the trigger.")}<div class="setup-grid"><div class="setup-preview"><div id="scene-mount"></div><div class="preview-caption"><span class="dark-pill">${escape(track().difficulty)}</span><h2>${escape(track().name)}</h2><p>${escape(car().name)} · ${Math.round(world?.length || 0)}m</p><p>PERSONAL BEST · ${formatTime(profile.records[track().name + "|" + car().id])}</p></div></div><div class="setup-panel"><h3>01 <span>The experience</span></h3><div class="mode-options"><button data-mode="slot" class="mode-btn ${mode === "slot" ? "selected" : ""}">${i("Gamepad2")}<strong>Classic slot</strong><small>Follow the car. Master the trigger.</small></button><button data-mode="driver" class="mode-btn ${mode === "driver" ? "selected" : ""}">${i("Gauge")}<strong>In the driver's seat</strong><small>Chase, cockpit & bumper cameras.</small></button></div><h3>02 <span>The challenge</span></h3><div class="segmented">${[
+  return `${heading("LIGHTS OUT. HEART RATE UP.", "Find your <em>racing line.</em>", "Choose your circuit, settle into your car, and squeeze the trigger.")}<div class="race-ticket"><div class="ticket-car">${carArt(car())}</div><div><span class="eyebrow">YOUR GRID IS READY</span><h2>${escape(car().name)}</h2><p>${escape(track().name)} · ${raceType === "practice" ? "Unlimited laps" : lapTarget + " laps"} · ${mode === "slot" ? "Classic slot" : "Driver view"}</p></div><button class="orange-btn" data-action="start">To the starting grid ${i("ArrowRight")}</button></div><div class="setup-grid"><div class="setup-preview"><div id="scene-mount"></div><div class="preview-caption"><span class="dark-pill">${escape(track().difficulty)}</span><h2>${escape(track().name)}</h2><p>${escape(car().name)} · ${Math.round(world?.length || 0)}m</p><p>PERSONAL BEST · ${formatTime(profile.records[track().name + "|" + car().id])}</p></div></div><div class="setup-panel"><h3>01 <span>The experience</span></h3><div class="mode-options"><button data-mode="slot" class="mode-btn ${mode === "slot" ? "selected" : ""}">${i("Gamepad2")}<strong>Classic slot</strong><small>Follow the car. Master the trigger.</small></button><button data-mode="driver" class="mode-btn ${mode === "driver" ? "selected" : ""}">${i("Gauge")}<strong>In the driver's seat</strong><small>Chase, cockpit & bumper cameras.</small></button></div><h3>02 <span>The challenge</span></h3><div class="segmented">${[
     ["race", "Grand Prix"],
     ["time", "Time trial"],
     ["practice", "Free run"],
@@ -234,29 +290,22 @@ function setup() {
     )
     .join(
       "",
-    )}</select></label><div class="tip">${i("Lightbulb")}<span>Speed wins straights. Patience wins corners. Ease off before a bend to keep your car in its slot.</span></div><button class="orange-btn wide" data-action="start">To the starting grid ${i("ArrowRight")}</button></div></div>`;
+    )}</select></label><div class="tip">${i("Lightbulb")}<span>Speed wins straights. Patience wins corners. Ease off before a bend to keep your car in its slot.</span></div><p class="setup-footer tiny">CHANGES SAVE AUTOMATICALLY · READY WHEN YOU ARE</p></div></div>`;
 }
 function collection(shop) {
-  return `${heading(shop ? "THE COLLECTION" : "YOUR PERSONAL PIT LANE", shop ? "Icons. <em>Ready to race.</em>" : "A garage with <em>good taste.</em>", shop ? "Real-world legends, reimagined as miniature racers. Every car is free to collect." : `${profile.owned.length} cars collected. Choose your next race partner.`)}<div class="collection-banner"><span>${i(shop ? "Gift" : "Warehouse")} ${shop ? "THE ENTIRE COLLECTION IS ON THE HOUSE." : "YOUR COLLECTION IS SAVED ON THIS DEVICE."}</span><b>${shop ? "£0.00 / EVERY CAR" : `${profile.races} RACES COMPLETED`}</b></div><div class="cars-grid">${cars
-    .filter((c) => shop || profile.owned.includes(c.id))
-    .map(
-      (c) =>
-        `<article class="car-card"><div class="car-card-top"><span class="tiny">${c.type}</span><span class="tiny">${c.year}</span></div><div class="car-stage" style="--car-color:${c.color}"><span class="car-bg-number">${c.number}</span>${carArt(c)}</div><h2>${c.name}</h2><p class="tiny muted">DETAILED 3D MODEL • 1:32 SCALE</p><div class="car-stats">${[
-          ["SPEED", c.speed / 26],
-          ["GRIP", c.grip / 29],
-          ["ACCEL.", c.accel / 12],
-        ]
-          .map(
-            ([l, v]) =>
-              `<div><span>${l}</span><div class="stat-bar"><b style="width:${v * 100}%"></b></div></div>`,
-          )
-          .join(
-            "",
-          )}</div><button class="${car().id === c.id ? "chosen-btn" : "outline-btn"} wide" data-car="${c.id}">${car().id === c.id ? `${i("Check")} Selected for racing` : profile.owned.includes(c.id) ? "Select car" : `Add to garage <b>FREE ${i("Plus")}</b>`}</button></article>`,
-    )
-    .join(
-      "",
-    )}</div><p class="legal-note">Detailed community-made car models. <a href="/credits.html" target="_blank" rel="noopener">Model artists & licences ↗</a> · Independent fan project.</p>`;
+  return garageView(profile, cars, shop, garageFilter, {
+    heading,
+    i,
+    escape,
+    carArt,
+  });
+}
+function updateGarage() {
+  const list = garageList(profile, cars, page === "shop", garageFilter);
+  $(".cars-grid").innerHTML = garageCards(profile, list, { i, carArt, escape });
+  $(".garage-pagination").innerHTML = garagePagination(list, garageFilter);
+  $("#car-count").textContent = `${list.total} cars`;
+  iconify();
 }
 function tracksPage() {
   return `${heading("FROM THE CLUB. FROM YOUR IMAGINATION.", "A world of <em>possibilities.</em>", "Choose a preset or race a circuit you built yourself.", `<button class="orange-btn" data-page="builder">${i("Plus")} Build a track</button>`)}<div class="tracks-grid">${allTracks()
@@ -267,7 +316,7 @@ function tracksPage() {
     .join("")}</div>`;
 }
 function settings() {
-  return `${heading("MAKE YOURSELF AT HOME", "Your club. <em>Your setup.</em>", "Display preferences, local saves, and everything you need to get racing.")}<div class="settings-grid"><section class="settings-card"><h2>Game settings</h2><label>Graphics quality<select id="quality-select">${[
+  return `${heading("MAKE YOURSELF AT HOME", "Your club. <em>Your setup.</em>", "Display preferences, local saves, and everything you need to get racing.")}<div class="settings-grid"><section class="settings-card"><h2>Game settings</h2><label>Appearance<select id="theme-select">${["dark", "light", "system"].map((v) => `<option value="${v}" ${profile.settings.theme === v ? "selected" : ""}>${{ dark: "Night paddock", light: "Classic cream", system: "Follow device" }[v]}</option>`).join("")}</select></label><label>Graphics quality<select id="quality-select">${[
     ["auto", "Adaptive (recommended)"],
     ["high", "High · full resolution"],
     ["low", "Performance · reduced shadows"],
@@ -345,25 +394,28 @@ function render() {
     shop: "Car shop",
     settings: "Settings",
     tracks: "Circuits",
+    stats: "Driver stats",
     playing: "Race live",
   }[page].toUpperCase();
   document
     .querySelectorAll(".nav-item[data-page]")
     .forEach((n) => n.classList.toggle("active", n.dataset.page === page));
   content.innerHTML =
-    page === "home"
-      ? home()
-      : page === "race"
-        ? setup()
-        : page === "builder"
-          ? editorPage()
-          : page === "garage" || page === "shop"
-            ? collection(page === "shop")
-            : page === "tracks"
-              ? tracksPage()
-              : page === "settings"
-                ? settings()
-                : raceUI();
+    page === "stats"
+      ? statsView(profile, allTracks(), cars, { heading, escape, formatTime })
+      : page === "home"
+        ? home()
+        : page === "race"
+          ? setup()
+          : page === "builder"
+            ? editorPage()
+            : page === "garage" || page === "shop"
+              ? collection(page === "shop")
+              : page === "tracks"
+                ? tracksPage()
+                : page === "settings"
+                  ? settings()
+                  : raceUI();
   $("#scene-mount")?.append(sceneEl);
   iconify();
   if (page === "builder") drawEditor();
@@ -374,13 +426,21 @@ function render() {
   window.scrollTo(0, 0);
 }
 function navigate(p) {
+  if (state.starting) {
+    state.starting = false;
+    $("#loading-grid")?.remove();
+  }
   if (state.racing) {
+    recordSession(profile.stats, statContext, state, "Exited");
+    persist();
     state.racing = false;
     held = false;
     manualThrottle = 0;
     stopAudio();
   }
   page = p;
+  if (p === "home" || p === "race")
+    world?.setCars(car(), cars[car().id === "aston" ? 0 : 4]);
   paused = false;
   $("#modal-root").innerHTML = "";
   render();
@@ -423,7 +483,12 @@ function stopAudio() {
 }
 async function start() {
   if (state.starting) return;
+  const request = Symbol();
+  state.startRequest = request;
   state.starting = true;
+  $("#modal-root").innerHTML =
+    `<div class="modal-backdrop" id="loading-grid"><section class="loading-card" role="dialog" aria-modal="true" aria-label="Preparing race"><span class="brand-mark">s<span>c</span></span><span class="eyebrow">RACE CONTROL / PREPARING GRID</span><h2>Almost lights out.</h2><p>${escape(car().name)}<br>${escape(track().name)}</p><div class="loading-line"></div><small role="status">Loading car detail & warming up graphics…</small><button class="text-btn" data-page="race">Back to race setup</button></section></div>`;
+  $("#loading-grid button")?.focus();
   const startButton = document.querySelector('[data-action="start"]');
   if (startButton) {
     startButton.disabled = true;
@@ -431,9 +496,31 @@ async function start() {
   }
   startAudio();
   try {
-    await world?.carReady;
+    if (!world) throw new Error("WebGL unavailable");
+    await world.setCars(car(), cars[car().id === "aston" ? 0 : 4]);
+    await new Promise((resolve) =>
+      requestAnimationFrame(() => requestAnimationFrame(resolve)),
+    );
+    await world.prepare();
+    if (state.startRequest !== request || !state.starting) return;
+    world.draw(
+      {
+        ...state,
+        racing: true,
+        progress: 0,
+        ai: 0,
+        off: 0,
+        cam: mode === "slot" ? "Tabletop" : "Chase",
+        opponent: raceType === "race",
+      },
+      0,
+      0,
+    );
+    await new Promise((resolve) => requestAnimationFrame(resolve));
   } catch {
+    if (state.startRequest !== request || !state.starting) return;
     state.starting = false;
+    $("#loading-grid")?.remove();
     if (startButton) {
       startButton.disabled = false;
       startButton.textContent = "Retry starting grid";
@@ -443,7 +530,9 @@ async function start() {
     );
     return;
   }
+  if (state.startRequest !== request || !state.starting) return;
   state.starting = false;
+  $("#loading-grid")?.remove();
   if (page !== "race" && page !== "playing") return;
   profile.racePrefs = { mode, type: raceType, laps: lapTarget };
   persist();
@@ -454,6 +543,8 @@ async function start() {
   state = {
     ...state,
     racing: true,
+    logged: false,
+    lapCrashes: 0,
     opponent: raceType === "race",
     progress: 0,
     ai: 0,
@@ -475,12 +566,25 @@ async function start() {
   manualThrottle = 0;
   brake = false;
   paused = false;
+  lastStatSave = 0;
+  statContext = {
+    trackId: circuitKey(track()),
+    track: track().name,
+    car: car().id,
+    mode: raceType,
+  };
+  addStats(profile.stats, statContext, { starts: 1 });
+  persist();
   page = "playing";
   render();
   startAudio();
 }
 function resetCar() {
   if (!state.racing || state.finished) return;
+  if (state.off) {
+    addStats(profile.stats, statContext, { reslots: 1 });
+    queueSave();
+  }
   resetHandling(state);
   held = false;
   brake = false;
@@ -518,6 +622,13 @@ function pause() {
   }
 }
 function finish(aiWon = false) {
+  if (state.finished) return;
+  recordSession(
+    profile.stats,
+    statContext,
+    state,
+    raceType === "race" ? (aiWon ? "Runner-up" : "Won") : "Completed",
+  );
   state.finished = true;
   held = false;
   manualThrottle = 0;
@@ -597,6 +708,24 @@ document.addEventListener("click", (e) => {
   }
   let el = e.target.closest("button");
   if (!el) return;
+  if (el.dataset.action === "theme") {
+    profile.settings.theme =
+      document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+    applyTheme();
+    persist();
+    return;
+  }
+  if (el.dataset.action === "quick-start") {
+    navigate("race");
+    start();
+    return;
+  }
+  if (el.dataset.garageStep) {
+    garageFilter.page += +el.dataset.garageStep;
+    updateGarage();
+    $(".garage-tools").scrollIntoView({ block: "start" });
+    return;
+  }
   if (el.dataset.page) {
     navigate(el.dataset.page);
     return;
@@ -613,24 +742,32 @@ document.addEventListener("click", (e) => {
   }
   if (el.dataset.mode) {
     mode = el.dataset.mode;
+    profile.racePrefs.mode = mode;
+    persist();
     render();
     return;
   }
   if (el.dataset.raceType) {
     raceType = el.dataset.raceType;
+    profile.racePrefs.type = raceType;
+    persist();
     render();
     return;
   }
   if (el.dataset.car) {
     let c = cars.find((c) => c.id === el.dataset.car);
-    if (!profile.owned.includes(c.id)) {
-      profile.owned.push(c.id);
-      toast(`${c.name} added to your garage.`);
+    const result = purchaseCar(profile, c);
+    if (!result.ok) {
+      toast("Not enough club credits for this car.");
+      return;
     }
-    profile.selected = c.id;
+    if (result.purchased)
+      toast(`${c.name} added to your garage · ${c.price.toLocaleString()} CR.`);
     persist();
-    world?.setCars(c, cars[c.id === "aston" ? 0 : 4]);
+    // Collection pages use thumbnails; fetch geometry only when a 3D view needs it.
+    const previousScroll = scrollY;
     render();
+    window.scrollTo(0, previousScroll);
     return;
   }
   if (el.dataset.piece) {
@@ -750,6 +887,9 @@ document.addEventListener("change", async (e) => {
       break;
     case "lap-select":
       lapTarget = +el.value;
+      profile.racePrefs.laps = lapTarget;
+      persist();
+      render();
       break;
     case "car-select":
       profile.selected = el.value;
@@ -777,6 +917,26 @@ document.addEventListener("change", async (e) => {
       editor[el.id === "border-toggle" ? "borders" : "bridge"] = el.checked;
       drawEditor();
       break;
+    case "car-era":
+      garageFilter.era = el.value;
+      garageFilter.page = 0;
+      updateGarage();
+      break;
+    case "car-tier":
+      garageFilter.tier = el.value;
+      garageFilter.page = 0;
+      updateGarage();
+      break;
+    case "car-sort":
+      garageFilter.sort = el.value;
+      garageFilter.page = 0;
+      updateGarage();
+      break;
+    case "theme-select":
+      profile.settings.theme = el.value;
+      applyTheme();
+      persist();
+      break;
     case "quality-select":
       profile.settings.quality = el.value;
       persist();
@@ -799,6 +959,7 @@ document.addEventListener("change", async (e) => {
         )
           throw Error();
         profile = normalize(p);
+        applyTheme();
         mode = profile.racePrefs.mode;
         raceType = profile.racePrefs.type;
         lapTarget = profile.racePrefs.laps;
@@ -816,6 +977,11 @@ document.addEventListener("change", async (e) => {
   }
 });
 document.addEventListener("input", (e) => {
+  if (e.target.id === "car-search") {
+    garageFilter.query = e.target.value;
+    garageFilter.page = 0;
+    updateGarage();
+  }
   if (e.target.id === "throttle") manualThrottle = +e.target.value / 100;
 });
 let drag = null;
@@ -860,6 +1026,14 @@ function release() {
 document.addEventListener("pointerup", release);
 document.addEventListener("pointercancel", release);
 document.addEventListener("keydown", (e) => {
+  if (state.starting) {
+    if (e.key === "Escape") navigate("race");
+    if (e.key === "Tab") {
+      e.preventDefault();
+      $("#loading-grid button")?.focus();
+    }
+    return;
+  }
   if (e.target.matches("input:not([type=range]),select,textarea")) return;
   if (!state.racing) return;
   let key = e.key.toLowerCase();
@@ -884,27 +1058,33 @@ window.addEventListener("blur", () => {
   manualThrottle = 0;
   if (state.racing && !paused && !state.finished) pause();
 });
+window.addEventListener("pagehide", () => {
+  if (state.racing && statContext)
+    recordSession(profile.stats, statContext, state, "Exited");
+  persist();
+});
 document.addEventListener("visibilitychange", () => {
   if (document.hidden) {
     release();
     if (state.racing && !paused && !state.finished) pause();
+    persist();
   }
   last = performance.now();
 });
 function applyQuality() {
   if (!world) return;
-  const low =
-    profile.settings.quality === "low" ||
-    (profile.settings.quality === "auto" &&
-      (innerWidth < 800 || navigator.hardwareConcurrency <= 4));
+  const low = profile.settings.quality !== "high";
   const detailChanged = world.lowDetail !== low;
   world.lowDetail = low;
   if (detailChanged) world.setCars(car(), cars[car().id === "aston" ? 0 : 4]);
-  world.renderer.setPixelRatio(low ? 1 : Math.min(devicePixelRatio, 1.75));
-  world.renderer.shadowMap.enabled = !low;
-  world.scene.traverse((o) => {
-    if (o.material) o.material.needsUpdate = true;
-  });
+  world.renderer.setPixelRatio(
+    profile.settings.quality === "high"
+      ? Math.min(devicePixelRatio, 1.5)
+      : Math.min(devicePixelRatio, 1.25),
+  );
+  world.renderer.shadowMap.enabled = profile.settings.quality !== "low";
+  world.renderer.shadowMap.needsUpdate = true;
+
   world.resize();
 }
 let last = performance.now(),
@@ -918,6 +1098,15 @@ function advanceSimulation(dt) {
     else {
       state.time += dt;
       state.lapTime += dt;
+      addStats(profile.stats, statContext, {
+        seconds: dt,
+        throttleSeconds: !state.off && (held || manualThrottle > 0) ? dt : 0,
+        brakeSeconds: brake ? dt : 0,
+      });
+      if (state.time - lastStatSave > 15) {
+        lastStatSave = state.time;
+        queueSave();
+      }
       const throttle = held ? 1 : manualThrottle;
       if (state.off > 0) {
         state.off += dt;
@@ -930,10 +1119,13 @@ function advanceSimulation(dt) {
         state.recovery = Math.max(0, state.recovery - dt);
         state.slip =
           state.recovery > 0 ? 0 : stepGrip(state.load, state.slip, dt);
-        if (state.slip > 0.22 && state.speed > 8) {
+        if (state.slip > car().stability && state.speed > 8) {
           state.off = 0.01;
           state.fly.copy(world.curve.getTangentAt(u));
           state.crashes++;
+          state.lapCrashes++;
+          addStats(profile.stats, statContext, { crashes: 1 });
+          queueSave();
           held = false;
           brake = false;
           manualThrottle = 0;
@@ -941,7 +1133,19 @@ function advanceSimulation(dt) {
         } else {
           let prev = Math.floor(state.progress);
           state.progress += (state.speed * dt) / world.length;
+          addStats(profile.stats, statContext, {
+            distance: state.speed * dt,
+            topSpeed: state.speed,
+          });
           if (Math.floor(state.progress) > prev) {
+            recordLap(
+              profile.stats,
+              statContext,
+              state.lapTime,
+              state.lapCrashes === 0,
+            );
+            state.lapCrashes = 0;
+            queueSave();
             state.best = Math.min(state.best, state.lapTime);
             const recordKey = track().name + "|" + car().id;
             if (
@@ -949,7 +1153,7 @@ function advanceSimulation(dt) {
               state.best < profile.records[recordKey]
             ) {
               profile.records[recordKey] = state.best;
-              persist();
+              queueSave();
             }
             state.lapTime = 0;
             if (
@@ -1047,13 +1251,10 @@ function frame(now) {
     profile.settings.quality === "auto" &&
     !qualityReduced &&
     time > 6 &&
-    frameAverage > 30
+    frameAverage > 24
   ) {
     world.renderer.setPixelRatio(1);
-    if (!world.lowDetail) {
-      world.lowDetail = true;
-      world.setCars(car(), cars[car().id === "aston" ? 0 : 4]);
-    }
+    // Reduce fill rate without downloading or compiling another model mid-race.
     world.renderer.shadowMap.enabled = false;
     world.resize();
     qualityReduced = true;

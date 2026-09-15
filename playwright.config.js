@@ -5,13 +5,15 @@ export default defineConfig({
   timeout: 120000,
   workers: 1,
   use: {
-    baseURL: "http://127.0.0.1:5173",
+    baseURL: process.env.PLAYWRIGHT_BASE_URL || "http://127.0.0.1:5173",
     headless: true,
     viewport: { width: 1365, height: 900 },
   },
-  webServer: {
-    command: "npm run dev -- --host 127.0.0.1",
-    url: "http://127.0.0.1:5173",
-    reuseExistingServer: true,
-  },
+  webServer: process.env.PLAYWRIGHT_BASE_URL
+    ? undefined
+    : {
+        command: "npm run dev -- --host 127.0.0.1",
+        url: "http://127.0.0.1:5173",
+        reuseExistingServer: true,
+      },
 });

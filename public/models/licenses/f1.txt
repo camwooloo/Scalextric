@@ -1,0 +1,8 @@
+{
+  "id": "f1",
+  "title": "McLaren F1 GTR Longtail | www.vecarz.com",
+  "author": "vecarz (https://sketchfab.com/heynic)",
+  "source": "https://sketchfab.com/3d-models/mclaren-f1-gtr-longtail-wwwvecarzcom-a6dbc062d2e843828c392bbd07727ead",
+  "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+  "modifications": "Browser-optimised geometry, mesh/material merging, WebP texture resizing where supported and Meshopt compression. Source KTX2 textures retain their source resolution. Normalised game scale/orientation."
+}
